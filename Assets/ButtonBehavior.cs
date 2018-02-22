@@ -59,4 +59,12 @@ public class ButtonBehavior : MonoBehaviour {
 
 		Debug.Log ("asset reloaded: " + assetJson);
 	}
+
+	public void StatusUpdated(string status) {
+		Debug.Log ("UNITY status updated: " + status);
+	}
+
+	public void PlacementStored(string stored) {
+		Debug.Log ("UNITY placement stored: " + stored);
+	}
 }

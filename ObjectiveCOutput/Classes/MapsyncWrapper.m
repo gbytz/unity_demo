@@ -99,12 +99,12 @@ static NSString* storePlacementCallback = @"";
             
         } statusCallback:^(enum MapStatus mapStatus) {
             NSLog(@"mapStatus: %li", mapStatus);
-            UnitySendMessage([unityCallbackGameObject cStringUsingEncoding:NSASCIIStringEncoding], [statusUpdatedCallback cStringUsingEncoding:NSASCIIStringEncoding], mapStatus);
+            UnitySendMessage([unityCallbackGameObject cStringUsingEncoding:NSASCIIStringEncoding], [statusUpdatedCallback cStringUsingEncoding:NSASCIIStringEncoding], [[NSString stringWithFormat:@"%ld", (long)mapStatus] cStringUsingEncoding:NSASCIIStringEncoding]);
 
         }];
     }
     
-    return self;
+     return self;
 }
 
 - (void)uploadAssetWithID:(NSString *)assetID position:(SCNVector3)position orientation:(CGFloat)orientation
@@ -119,7 +119,7 @@ static NSString* storePlacementCallback = @"";
      BOOL result = [self.mapSession storePlacementWithAssets:@[asset] callback:^(BOOL stored)
       {
           NSLog(@"model stored: %i", stored);
-          UnitySendMessage([unityCallbackGameObject cStringUsingEncoding:NSASCIIStringEncoding], [storePlacementCallback cStringUsingEncoding:NSASCIIStringEncoding], stored);
+          UnitySendMessage([unityCallbackGameObject cStringUsingEncoding:NSASCIIStringEncoding], [storePlacementCallback cStringUsingEncoding:NSASCIIStringEncoding], [[NSString stringWithFormat:@"%d", stored] cStringUsingEncoding:NSASCIIStringEncoding]);
       }];
 }
 

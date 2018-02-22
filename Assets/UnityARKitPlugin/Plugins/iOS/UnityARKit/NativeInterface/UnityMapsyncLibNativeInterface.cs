@@ -18,14 +18,15 @@ namespace UnityEngine.XR.iOS {
 		private static extern void _SaveAsset(string assetJson);
 
 		[DllImport("__Internal")]
-		private static extern void _RegisterUnityCallbacks(string callbackGameObject, string assetReloadedCallback, string statusUpdatedCallback);
+		private static extern void _RegisterUnityCallbacks(string callbackGameObject, string assetReloadedCallback, string statusUpdatedCallback, string storePlacementCallback);
 
 		private UnityMapsyncLibNativeInterface(IntPtr arSession) 
 		{
 			string unityCallbackGameObject = "Canvas";
 			string unityAssetLoadedCallbackFunction = "AssetReloaded";
 			string unityStatusUpdatedCallback = "StatusUpdated";
-			_RegisterUnityCallbacks (unityCallbackGameObject, unityAssetLoadedCallbackFunction, unityStatusUpdatedCallback);
+			string unityStorePlacementCallback = "PlacementStored";
+			_RegisterUnityCallbacks (unityCallbackGameObject, unityAssetLoadedCallbackFunction, unityStatusUpdatedCallback, unityStorePlacementCallback);
 
 			Debug.Log ("UnityMapsyncLibNativeInterface()");
 			this.isMappingMode = PlayerPrefs.GetInt ("IsMappingMode") == 1;
