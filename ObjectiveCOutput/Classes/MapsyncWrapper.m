@@ -8,7 +8,6 @@
 @property (nonatomic, strong) MapSession *mapSession;
 @property (nonatomic, strong) ARSession *session;
 @property (nonatomic) Mode mode;
-@property (nonatomic, strong) NSString *appId;
 @property (nonatomic, strong) NSString *userId;
 @property (nonatomic, strong) NSString *mapId;
 
@@ -38,12 +37,12 @@ static NSString* storePlacementCallback = @"";
     storePlacementCallback = functionName;
 }
 
-+ (instancetype)sharedInstanceWithARSession:(ARSession *)session mapMode:(Mode)mode appId:(NSString*) appId mapId: (NSString*) mapId userId:(NSString*) userId developerKey: (NSString*) developerKey;
++ (instancetype)sharedInstanceWithARSession:(ARSession *)session mapMode:(Mode)mode mapId: (NSString*) mapId userId:(NSString*) userId developerKey: (NSString*) developerKey;
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^(void)
                   {
-                      instance = [[self alloc] initWithARSession:session mapMode:mode appId:appId mapId:mapId userId:userId developerKey:developerKey];
+                      instance = [[self alloc] initWithARSession:session mapMode:mode mapId:mapId userId:userId developerKey:developerKey];
                   });
     
     return instance;
@@ -58,19 +57,18 @@ static NSString* storePlacementCallback = @"";
     return instance;
 }
 
-- (instancetype)initWithARSession:(ARSession *)session appId:(NSString*) appId mapId: (NSString*) mapId userId:(NSString*) userId developerKey: (NSString*) developerKey;
+- (instancetype)initWithARSession:(ARSession *)session mapId: (NSString*) mapId userId:(NSString*) userId developerKey: (NSString*) developerKey;
 {
-    return [self initWithARSession:session mapMode:ModeMapping appId:appId mapId:mapId userId:userId developerKey:developerKey];
+    return [self initWithARSession:session mapMode:ModeMapping mapId:mapId userId:userId developerKey:developerKey];
 }
 
-- (instancetype)initWithARSession:(ARSession *)session mapMode:(Mode)mode appId:(NSString*) appId mapId: (NSString*) mapId userId:(NSString*) userId developerKey: (NSString*) developerKey;
+- (instancetype)initWithARSession:(ARSession *)session mapMode:(Mode)mode mapId: (NSString*) mapId userId:(NSString*) userId developerKey: (NSString*) developerKey;
 {
     self = [super init];
     if (self)
     {
         self.session = session;
         self.mode = mode;
-        self.appId = appId;
         self.mapId = mapId;
         self.userId = userId;
     

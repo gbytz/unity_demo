@@ -10,20 +10,36 @@ public class ButtonBehavior : MonoBehaviour {
 	public GameObject placeAssetButton;
 	public GameObject saveAssetButton;
 
+	private MapsyncLib mapsyncLib;
+
 	private Vector3 assetPosition;
 
 	void Start(){
+		bool isMappingMode = PlayerPrefs.GetInt ("IsMappingMode") == 1;
+		string mapId = PlayerPrefs.GetString ("MapId");
+		string userId = PlayerPrefs.GetString ("UserId");
+		string developerKey = @"AKIAIQPSF4LP4V3IV55QxwU2T3GuaWFuneWqSqDIUuQe770dRqVAqUrV8/1u";
+		GameObject mapsyncGO = GameObject.Find("MapsyncLib");
+		MapsyncLib mapsync = mapsyncGO.GetComponent<MapsyncLib> ();
+		mapsync.Init (isMappingMode ? MapMode.MapModeMapping : MapMode.MapModeLocalization, userId, mapId, developerKey, 
+			mapAsset => {
+				asset.SetActive (true);
+				asset.transform.position = new Vector3 (mapAsset.X, mapAsset.Y, mapAsset.Z);
+				asset.transform.Rotate (Vector3.up * mapAsset.Orientation);
+		}, mapStatus => {
+				Debug.Log ("status updated: " + mapStatus);
+		});
+
 		asset.SetActive (false);
 		saveAssetButton.SetActive (false);
-		UnityMapsyncLibNativeInterface instance = UnityMapsyncLibNativeInterface.GetInstance ();
-		if (!instance.IsMappingMode ()) {
+
+		if (mapsync.MapMode == MapMode.MapModeLocalization) {
 			placeAssetButton.SetActive (false);
 		} 
 	}
 
 	// Use this for initialization
 	public void PlaceAsset() {
-		UnityMapsyncLibNativeInterface instance = UnityMapsyncLibNativeInterface.GetInstance ();
 		GameObject focusSquareGO = GameObject.Find("FocusSquare");
 		FocusSquare focusSquare = focusSquareGO.GetComponent<FocusSquare> ();
 		if (focusSquare.SquareState != FocusSquare.FocusState.Found) {
@@ -42,29 +58,11 @@ public class ButtonBehavior : MonoBehaviour {
 	public void SaveAsset() {
 		saveAssetButton.SetActive (false);
 
-		UnityMapsyncLibNativeInterface instance = UnityMapsyncLibNativeInterface.GetInstance ();
-		if (instance.IsMappingMode()) {
-			instance.SaveAsset (this.assetPosition, "phonebooth", 180);
-		}
-	}
-
-	public void AssetReloaded(string assetJson) {
-		AssetModel assetModel = AssetModel.FromJson (assetJson);
-
-		asset.SetActive (true);
-
-		asset.transform.position = new Vector3 (assetModel.X, assetModel.Y, assetModel.Z);
-
-		asset.transform.Rotate (Vector3.up * assetModel.Orientation);
-
-		Debug.Log ("asset reloaded: " + assetJson);
-	}
-
-	public void StatusUpdated(string status) {
-		Debug.Log ("UNITY status updated: " + status);
-	}
-
-	public void PlacementStored(string stored) {
-		Debug.Log ("UNITY placement stored: " + stored);
+		GameObject mapsyncGO = GameObject.Find("MapsyncLib");
+		MapsyncLib mapsync = mapsyncGO.GetComponent<MapsyncLib> ();
+		MapAsset asset = new MapAsset ("phonebooth", 180, this.assetPosition);
+		mapsync.StorePlacement (asset, stored => {
+			
+		});
 	}
 }

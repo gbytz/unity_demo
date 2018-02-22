@@ -1132,12 +1132,12 @@ extern "C" void GetBlendShapesInfo(void* ptrDictionary, void (*visitorFn)(const 
 #endif
 }
 
-extern "C" void* _CreateMapsyncSession(void* nativeSession, char* mapId, char* appId, char* userId, char* developerKey, BOOL isMappingMode)
+extern "C" void* _CreateMapsyncSession(void* nativeSession, char* mapId, char* userId, char* developerKey, BOOL isMappingMode)
 {
     Mode mode = isMappingMode ? ModeMapping : ModeLocalization;
     UnityARSession* session = (__bridge UnityARSession*)nativeSession;
     
-    [MapsyncWrapper sharedInstanceWithARSession:session->_session mapMode:mode appId:[NSString stringWithUTF8String:appId] mapId:[NSString stringWithUTF8String:mapId] userId:[NSString stringWithUTF8String:userId] developerKey:[NSString stringWithUTF8String:developerKey]];
+    [MapsyncWrapper sharedInstanceWithARSession:session->_session mapMode:mode mapId:[NSString stringWithUTF8String:mapId] userId:[NSString stringWithUTF8String:userId] developerKey:[NSString stringWithUTF8String:developerKey]];
     
     return (__bridge_retained void*) [MapsyncWrapper sharedInstance];
 }

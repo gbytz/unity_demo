@@ -12,7 +12,6 @@ public class LogInScript : MonoBehaviour {
 
 	private const string UserIdKey = "UserId";
 	private const string MapIdKey = "MapId";
-	private const string AppIdKey = "AppId";
 
 	void Start() {
 		if (PlayerPrefs.HasKey (UserIdKey)) {
@@ -46,7 +45,6 @@ public class LogInScript : MonoBehaviour {
 		PlayerPrefs.SetInt ("IsMappingMode", IsMappingMode ? 1 : 0);
 		PlayerPrefs.SetString (MapIdKey, MapId.text);
 		PlayerPrefs.SetString (UserIdKey, UserId.text);
-		PlayerPrefs.SetString (AppIdKey, "UnityTestApp");
 
 		SceneManager.LoadScene ("FocusSquareScene");
 	}
