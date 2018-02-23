@@ -1159,7 +1159,7 @@ extern "C" void _SaveAssets(char* json)
     
     NSMutableArray* assets = [[NSMutableArray alloc] init];
     
-    for (id object in objects) {
+    for (id object in objects[@"Assets"]) {
         NSString *assetId = object[@"AssetId"];
         SCNVector3 position = SCNVector3Make([object[@"X"] floatValue], [object[@"Y"] floatValue], [object[@"Z"] floatValue]);
         CGFloat orientation = [object[@"Orientation"] floatValue];
@@ -1178,3 +1178,4 @@ extern "C" void _RegisterUnityCallbacks(char* callbackGameObject, char* assetLoa
     [MapsyncWrapper setStatusUpdatedCallbackFunction:[NSString stringWithUTF8String:statusUpdatedCallback]];
     [MapsyncWrapper setStorePlacementCallbackFunction:[NSString stringWithUTF8String:storePlacementCallback]];
 }
+

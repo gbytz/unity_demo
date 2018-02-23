@@ -66,6 +66,6 @@ public class ButtonBehavior : MonoBehaviour {
 		GameObject mapGameObject = GameObject.Find("MapSession");
 		MapSession map = mapGameObject.GetComponent<MapSession> ();
 		MapAsset asset = new MapAsset ("phonebooth", 0, this.assetPosition);
-		map.StorePlacement (asset);
+		map.StorePlacements (new List<MapAsset> { asset });
 	}
 }
