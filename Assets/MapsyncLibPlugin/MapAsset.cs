@@ -32,12 +32,4 @@ public class MapAsset
 
 	public MapAsset(string assetId, float orientation, Vector3 position) : this(assetId, orientation, position.x, position.y, position.z) {
 	}
-//
-//	public string ToJson() {
-//		return JsonUtility.ToJson (this);
-//	}
-//
-//	public static MapAsset FromJson(string json) {
-//		return JsonUtility.FromJson<MapAsset> (json);
-//	}
 }
