@@ -17,28 +17,28 @@ public class ButtonBehavior : MonoBehaviour {
 		string mapId = PlayerPrefs.GetString ("MapId");
 		string userId = PlayerPrefs.GetString ("UserId");
 		string developerKey = @"AKIAIQPSF4LP4V3IV55QxwU2T3GuaWFuneWqSqDIUuQe770dRqVAqUrV8/1u";
-		GameObject mapsyncGO = GameObject.Find("MapsyncSession");
-		MapsyncSession mapsync = mapsyncGO.GetComponent<MapsyncSession> ();
-		mapsync.Init (isMappingMode ? MapMode.MapModeMapping : MapMode.MapModeLocalization, userId, mapId, developerKey);
+		GameObject mapGameObject = GameObject.Find("MapSession");
+		MapSession map = mapGameObject.GetComponent<MapSession> ();
+		map.Init (isMappingMode ? MapMode.MapModeMapping : MapMode.MapModeLocalization, userId, mapId, developerKey);
 
-		mapsync.assetLoadedEvent += mapAsset => {
+		map.AssetLoadedEvent += mapAsset => {
 			asset.SetActive (true);
 			asset.transform.position = new Vector3 (mapAsset.X, mapAsset.Y, mapAsset.Z);
 			asset.transform.Rotate (Vector3.up * mapAsset.Orientation);
 		};
 
-		mapsync.statusChangedEvent += mapStatus => {
+		map.StatusChangedEvent += mapStatus => {
 			Debug.Log ("status updated: " + mapStatus);
 		};
 
-		mapsync.assetStoredEvent += stored => {
+		map.AssetStoredEvent += stored => {
 			Debug.Log ("Asset stored: " + stored);
 		};
 
 		asset.SetActive (false);
 		saveAssetButton.SetActive (false);
 
-		if (mapsync.Mode == MapMode.MapModeLocalization) {
+		if (map.Mode == MapMode.MapModeLocalization) {
 			placeAssetButton.SetActive (false);
 		} 
 	}
@@ -63,9 +63,9 @@ public class ButtonBehavior : MonoBehaviour {
 	public void SaveAsset() {
 		saveAssetButton.SetActive (false);
 
-		GameObject mapsyncGO = GameObject.Find("MapsyncSession");
-		MapsyncSession mapsync = mapsyncGO.GetComponent<MapsyncSession> ();
+		GameObject mapGameObject = GameObject.Find("MapSession");
+		MapSession map = mapGameObject.GetComponent<MapSession> ();
 		MapAsset asset = new MapAsset ("phonebooth", 0, this.assetPosition);
-		mapsync.StorePlacement (asset);
+		map.StorePlacement (asset);
 	}
 }
