@@ -17,7 +17,7 @@ public class ButtonBehavior : MonoBehaviour {
 		string mapId = PlayerPrefs.GetString ("MapId");
 		string userId = PlayerPrefs.GetString ("UserId");
 		string developerKey = @"AKIAIQPSF4LP4V3IV55QxwU2T3GuaWFuneWqSqDIUuQe770dRqVAqUrV8/1u";
-		GameObject mapsyncGO = GameObject.Find("MapsyncLib");
+		GameObject mapsyncGO = GameObject.Find("MapsyncSession");
 		MapsyncSession mapsync = mapsyncGO.GetComponent<MapsyncSession> ();
 		mapsync.Init (isMappingMode ? MapMode.MapModeMapping : MapMode.MapModeLocalization, userId, mapId, developerKey);
 
@@ -63,9 +63,9 @@ public class ButtonBehavior : MonoBehaviour {
 	public void SaveAsset() {
 		saveAssetButton.SetActive (false);
 
-		GameObject mapsyncGO = GameObject.Find("MapsyncLib");
+		GameObject mapsyncGO = GameObject.Find("MapsyncSession");
 		MapsyncSession mapsync = mapsyncGO.GetComponent<MapsyncSession> ();
-		MapAsset asset = new MapAsset ("phonebooth", 180, this.assetPosition);
+		MapAsset asset = new MapAsset ("phonebooth", 0, this.assetPosition);
 		mapsync.StorePlacement (asset);
 	}
 }

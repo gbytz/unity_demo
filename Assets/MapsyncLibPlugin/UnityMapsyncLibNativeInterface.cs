@@ -29,7 +29,7 @@ namespace UnityEngine.XR.iOS {
 
 			_CreateMapsyncSession(arSession, mapId, userId, developerKey, isMappingMode);
 
-			string unityCallbackGameObject = "MapsyncLib";
+			string unityCallbackGameObject = "MapsyncSession";
 			string unityAssetLoadedCallbackFunction = "AssetReloaded";
 			string unityStatusUpdatedCallback = "StatusUpdated";
 			string unityStorePlacementCallback = "PlacementStored";
