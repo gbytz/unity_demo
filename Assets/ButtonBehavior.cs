@@ -10,8 +10,6 @@ public class ButtonBehavior : MonoBehaviour {
 	public GameObject placeAssetButton;
 	public GameObject saveAssetButton;
 
-	private MapsyncLib mapsyncLib;
-
 	private Vector3 assetPosition;
 
 	void Start(){
@@ -20,20 +18,27 @@ public class ButtonBehavior : MonoBehaviour {
 		string userId = PlayerPrefs.GetString ("UserId");
 		string developerKey = @"AKIAIQPSF4LP4V3IV55QxwU2T3GuaWFuneWqSqDIUuQe770dRqVAqUrV8/1u";
 		GameObject mapsyncGO = GameObject.Find("MapsyncLib");
-		MapsyncLib mapsync = mapsyncGO.GetComponent<MapsyncLib> ();
-		mapsync.Init (isMappingMode ? MapMode.MapModeMapping : MapMode.MapModeLocalization, userId, mapId, developerKey, 
-			mapAsset => {
-				asset.SetActive (true);
-				asset.transform.position = new Vector3 (mapAsset.X, mapAsset.Y, mapAsset.Z);
-				asset.transform.Rotate (Vector3.up * mapAsset.Orientation);
-		}, mapStatus => {
-				Debug.Log ("status updated: " + mapStatus);
-		});
+		MapsyncSession mapsync = mapsyncGO.GetComponent<MapsyncSession> ();
+		mapsync.Init (isMappingMode ? MapMode.MapModeMapping : MapMode.MapModeLocalization, userId, mapId, developerKey);
+
+		mapsync.assetLoadedEvent += mapAsset => {
+			asset.SetActive (true);
+			asset.transform.position = new Vector3 (mapAsset.X, mapAsset.Y, mapAsset.Z);
+			asset.transform.Rotate (Vector3.up * mapAsset.Orientation);
+		};
+
+		mapsync.statusChangedEvent += mapStatus => {
+			Debug.Log ("status updated: " + mapStatus);
+		};
+
+		mapsync.assetStoredEvent += stored => {
+			Debug.Log ("Asset stored: " + stored);
+		};
 
 		asset.SetActive (false);
 		saveAssetButton.SetActive (false);
 
-		if (mapsync.MapMode == MapMode.MapModeLocalization) {
+		if (mapsync.Mode == MapMode.MapModeLocalization) {
 			placeAssetButton.SetActive (false);
 		} 
 	}
@@ -59,10 +64,8 @@ public class ButtonBehavior : MonoBehaviour {
 		saveAssetButton.SetActive (false);
 
 		GameObject mapsyncGO = GameObject.Find("MapsyncLib");
-		MapsyncLib mapsync = mapsyncGO.GetComponent<MapsyncLib> ();
+		MapsyncSession mapsync = mapsyncGO.GetComponent<MapsyncSession> ();
 		MapAsset asset = new MapAsset ("phonebooth", 180, this.assetPosition);
-		mapsync.StorePlacement (asset, stored => {
-			
-		});
+		mapsync.StorePlacement (asset);
 	}
 }

@@ -1142,26 +1142,33 @@ extern "C" void* _CreateMapsyncSession(void* nativeSession, char* mapId, char* u
     return (__bridge_retained void*) [MapsyncWrapper sharedInstance];
 }
 
-extern "C" void _SaveAsset(char* json)
+extern "C" void _SaveAssets(char* json)
 {
     NSError *error = nil;
     
     NSData* data = [[NSString stringWithUTF8String:json] dataUsingEncoding:NSUTF8StringEncoding];
-    id object = [NSJSONSerialization
-                 JSONObjectWithData:data
-                 options:0
-                 error:&error];
+    id objects = [NSJSONSerialization
+                  JSONObjectWithData:data
+                  options:0
+                  error:&error];
     
     if(error)
     {
         return;
     }
     
-    NSString *assetId = object[@"assetId"];
-    NSDictionary *positionVals = object[@"position"];
-    SCNVector3 position = SCNVector3Make([positionVals[@"x"] floatValue], [positionVals[@"y"] floatValue], [positionVals[@"z"] floatValue]);
-    CGFloat orientation = [object[@"orientation"] floatValue];
-    [[MapsyncWrapper sharedInstance] uploadAssetWithID:assetId position:position orientation:orientation];
+    NSMutableArray* assets = [[NSMutableArray alloc] init];
+    
+    for (id object in objects) {
+        NSString *assetId = object[@"AssetId"];
+        SCNVector3 position = SCNVector3Make([object[@"X"] floatValue], [object[@"Y"] floatValue], [object[@"Z"] floatValue]);
+        CGFloat orientation = [object[@"Orientation"] floatValue];
+        
+        MapAsset* asset = [[MapAsset alloc] init:assetId :position :orientation];
+        [assets addObject:asset];
+    }
+    
+    [[MapsyncWrapper sharedInstance] uploadAssets:assets];
 }
 
 extern "C" void _RegisterUnityCallbacks(char* callbackGameObject, char* assetLoadedCallback, char* statusUpdatedCallback, char* storePlacementCallback)
