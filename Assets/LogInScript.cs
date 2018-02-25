@@ -6,25 +6,25 @@ using UnityEngine.UI;
 
 public class LogInScript : MonoBehaviour {
 
-	public InputField MapId;
-	public InputField UserId;
+	public InputField MapID;
+	public InputField UserID;
 	public bool IsMappingMode;
 
-	private const string UserIdKey = "UserId";
-	private const string MapIdKey = "MapId";
+	private const string UserIDKey = "UserID";
+	private const string MapIDKey = "MapID";
 
 	void Start() {
-		if (PlayerPrefs.HasKey (UserIdKey)) {
-			UserId.text = PlayerPrefs.GetString (UserIdKey);
+		if (PlayerPrefs.HasKey (UserIDKey)) {
+			UserID.text = PlayerPrefs.GetString (UserIDKey);
 		}
 
-		if (PlayerPrefs.HasKey (MapIdKey)) {
-			MapId.text = PlayerPrefs.GetString (MapIdKey);
+		if (PlayerPrefs.HasKey (MapIDKey)) {
+			MapID.text = PlayerPrefs.GetString (MapIDKey);
 		}
 	}
 
 	public void StartNew() {
-		if (string.IsNullOrEmpty (MapId.text) || string.IsNullOrEmpty (UserId.text)) {
+		if (string.IsNullOrEmpty (MapID.text) || string.IsNullOrEmpty (UserID.text)) {
 			return;
 		}
 
@@ -33,7 +33,7 @@ public class LogInScript : MonoBehaviour {
 	}
 
 	public void Reload() {
-		if (string.IsNullOrEmpty (MapId.text) || string.IsNullOrEmpty (UserId.text)) {
+		if (string.IsNullOrEmpty (MapID.text) || string.IsNullOrEmpty (UserID.text)) {
 			return;
 		}
 
@@ -43,8 +43,8 @@ public class LogInScript : MonoBehaviour {
 
 	private void LoadNextScene() {
 		PlayerPrefs.SetInt ("IsMappingMode", IsMappingMode ? 1 : 0);
-		PlayerPrefs.SetString (MapIdKey, MapId.text);
-		PlayerPrefs.SetString (UserIdKey, UserId.text);
+		PlayerPrefs.SetString (MapIDKey, MapID.text);
+		PlayerPrefs.SetString (UserIDKey, UserID.text);
 
 		SceneManager.LoadScene ("FocusSquareScene");
 	}

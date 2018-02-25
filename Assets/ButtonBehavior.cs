@@ -10,8 +10,6 @@ public class ButtonBehavior : MonoBehaviour {
 	public GameObject placeAssetButton;
 	public GameObject saveAssetButton;
 
-	private Vector3 assetPosition;
-
 	void Start(){
 		bool isMappingMode = PlayerPrefs.GetInt ("IsMappingMode") == 1;
 		string mapId = PlayerPrefs.GetString ("MapId");
@@ -52,9 +50,8 @@ public class ButtonBehavior : MonoBehaviour {
 			return;
 		}
 
-		this.assetPosition = focusSquare.foundSquare.transform.position;
 		asset.SetActive (true);
-		asset.transform.position = this.assetPosition;
+		asset.transform.position = focusSquare.foundSquare.transform.position;
 
 		placeAssetButton.SetActive (false);
 		saveAssetButton.SetActive (true);
@@ -65,7 +62,8 @@ public class ButtonBehavior : MonoBehaviour {
 
 		GameObject mapGameObject = GameObject.Find("MapSession");
 		MapSession map = mapGameObject.GetComponent<MapSession> ();
-		MapAsset asset = new MapAsset ("phonebooth", 0, this.assetPosition);
-		map.StorePlacement (asset);
+		List<MapAsset> assets = new List<MapAsset> ();
+		assets.Add(new MapAsset ("phonebooth", 0, asset.transform.position));
+		map.StorePlacements (assets);
 	}
 }

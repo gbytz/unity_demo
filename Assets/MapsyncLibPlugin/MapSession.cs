@@ -28,9 +28,9 @@ public class MapSession : MonoBehaviour {
 		mapsyncInterface = new UnityMapsyncLibNativeInterface(mapId, userId, developerKey, mapMode == MapMode.MapModeMapping);
 	}
 
-	public void StorePlacement(MapAsset asset) {
+	public void StorePlacements(List<MapAsset> assets) {
 		if (Mode == MapMode.MapModeMapping) {
-			mapsyncInterface.SaveAsset (asset.Position, asset.AssetId, asset.Orientation);
+			mapsyncInterface.SaveAssets (assets);
 		}
 	}
 
