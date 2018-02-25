@@ -36,7 +36,6 @@ public class MapSession : MonoBehaviour {
 
 	private void AssetReloaded(string assetJson) {
 		MapAssets assets = JsonUtility.FromJson<MapAssets> (assetJson);
-//		MapAsset mapAsset = MapAsset.FromJson (assetJson);
 		foreach (MapAsset asset in assets.Assets) {
 			AssetLoadedEvent (asset);
 		}
