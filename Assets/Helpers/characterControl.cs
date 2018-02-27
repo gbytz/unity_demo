@@ -13,14 +13,13 @@ public class characterControl : MonoBehaviour {
 		private Vector3 lastLocation;
 		private float lastY = 0;
 		private bool initialized = false;
-
-	// Use this for initialization
+		 
 	void Start () {
 			character.gameObject.SetActive (false);
 			focusSquare = GetComponent<FocusSquare> ();
 	}
 	
-	// Update is called once per frame
+	// Simple script to have character follow the focus square
 	void Update () {
 			Vector3 thisLocation = focusSquare.foundSquare.transform.position;
 		

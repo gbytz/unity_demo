@@ -10,96 +10,118 @@ public class ButtonBehavior : MonoBehaviour {
 
 	public List<GameObject> prefabs;
 	public List<GameObject> assetToSave;
+
+	//UI
 	public GameObject saveAssetButton;
 	public Text notification;
+	public GameObject placeAssetButtons;
+	private bool initialized = false;
+
+	//References
+	private GameObject mapSessionGO;
+	private MapSession mapSession;
+	private GameObject focusSquareGO;
+	private FocusSquare focusSquare;
 
 	void Start(){
-		bool isMappingMode = PlayerPrefs.GetInt ("IsMappingMode") == 1;
-		string mapId = PlayerPrefs.GetString ("MapID");
-		string userId = PlayerPrefs.GetString ("UserID");
-		string developerKey = @"AKIAIQPSF4LP4V3IV55QxwU2T3GuaWFuneWqSqDIUuQe770dRqVAqUrV8/1u";
-		GameObject mapGameObject = GameObject.Find("MapSession");
-		MapSession map = mapGameObject.GetComponent<MapSession> ();
-		map.Init (isMappingMode ? MapMode.MapModeMapping : MapMode.MapModeLocalization, userId, mapId, developerKey);
 
-		map.AssetLoadedEvent += mapAsset => {
+		//Set up references
+		mapSessionGO = GameObject.Find("MapSession");
+		mapSession = mapSessionGO.GetComponent<MapSession> ();
+		focusSquareGO = GameObject.Find("FocusSquare");
+		focusSquare = focusSquareGO.GetComponent<FocusSquare> ();
+
+		//Mapsession initialization
+		bool isMappingMode = PlayerPrefs.GetInt ("IsMappingMode") == 1;
+		string mapID = PlayerPrefs.GetString ("MapID");
+		string userID = PlayerPrefs.GetString ("UserID");
+		string developerKey = @"AKIAIQPSF4LP4V3IV55QxwU2T3GuaWFuneWqSqDIUuQe770dRqVAqUrV8/1u";
+
+		mapSession.Init (isMappingMode ? MapMode.MapModeMapping : MapMode.MapModeLocalization, userID, mapID, developerKey);
+
+		//Set callback to handly MapStatus updates
+		mapSession.StatusChangedEvent += mapStatus => {
+			Debug.Log ("status updated: " + mapStatus);
+		};
+			
+		//Set callback that confirms when assets are stored
+		mapSession.AssetStoredEvent += stored => {
+			Debug.Log ("Assets stored: " + stored);
+			Toast("Your bear's garden has been planted!", 1.0f);
+		};
+
+		//Set Callback for when assets are reloaded
+		mapSession.AssetLoadedEvent += mapAsset => {
 			Vector3 position = new Vector3 (mapAsset.X, mapAsset.Y, mapAsset.Z);
 			Quaternion orientation = Quaternion.Euler(0, mapAsset.Orientation, 0);
-			Toast(mapAsset.AssetId + " found at: " + position.ToString());
 			Debug.Log(mapAsset.AssetId + " found at: " + position.ToString());
 			Instantiate(GetPrefab(mapAsset.AssetId), position, orientation);
+
+			Toast("Your bear's garden has been found!", 1.0f);
+
 		};
 
-		map.StatusChangedEvent += mapStatus => {
-			Debug.Log ("status updated: " + mapStatus);
-			Toast("status updated: " + mapStatus);
-		};
-
-		map.AssetStoredEvent += stored => {
-			Debug.Log ("Assets stored: " + stored);
-			Toast("Assets stored: " + stored);
-		};
-
+		//Set up the UI of the scene
 		saveAssetButton.SetActive (false);
 
-		if (map.Mode == MapMode.MapModeLocalization) {
-			//placeAssetButton.SetActive (false);
+		if (mapSession.Mode == MapMode.MapModeLocalization) {
+			placeAssetButtons.SetActive (false);
 		} 
+
+		Toast ("First scan around your area to start!", 10.0f);
+
 	}
 
-	// Use this for initialization
-	public void PlaceAsset(String assetName) {
-		GameObject focusSquareGO = GameObject.Find("FocusSquare");
-		FocusSquare focusSquare = focusSquareGO.GetComponent<FocusSquare> ();
+	void Update(){
+		if (!initialized && focusSquare.SquareState == FocusSquare.FocusState.Found) {
+			if (mapSession.Mode == MapMode.MapModeMapping) {
+				Toast ("Great job! Now you can plant a nice garden for your bear!", 2.0f);
+			} else {
+				Toast ("Now keep scanning the area until your bear's garden reloads", 20.0f);
+			}
+
+			initialized = true;
+		}
+	}
+
+	// Placing new assets in the scene
+	public void PlaceAsset(String assetName) { 
+
+		//Only place asset if focused on a plane
 		if (focusSquare.SquareState != FocusSquare.FocusState.Found) {
 			Debug.Log ("Focus square hasn't been found yet");
-			Toast ("Focus square hasn't been found yet");
+			Toast ("Point to a surface to place plants.", 1.0f);
 			return;
 		}
 
+		//Instantiate prefab on focus square
 		Vector3 position = focusSquare.foundSquare.transform.position;
 		Quaternion orientation = Quaternion.identity;
 		orientation.y =  -focusSquare.foundSquare.transform.rotation.y;
 		GameObject asset = Instantiate(GetPrefab(assetName), position, orientation);
-		assetToSave.Add (asset);
+		assetToSave.Add (asset); //Store for saving
 
-		//placeAssetButton.SetActive (false);
 		saveAssetButton.SetActive (true);
 	}
 
+	//Saving assets using the MapSession
 	public void SaveAsset() {
 		saveAssetButton.SetActive (false);
-		List<MapAsset> mapAssetsToSave = new List<MapAsset> ();
 
-		GameObject mapGameObject = GameObject.Find("MapSession");
-		MapSession map = mapGameObject.GetComponent<MapSession> ();
+		List<MapAsset> mapAssetsToSave = new List<MapAsset> ();
 
 		foreach (GameObject asset in assetToSave) {
 			MapAsset mapAsset = new MapAsset (asset.name, asset.transform.rotation.y, asset.transform.position);
 			mapAssetsToSave.Add (mapAsset);
 			Debug.Log ("Asset stored at: " + asset.transform.position.ToString ());
-			Toast ("Asset stored at: " + asset.transform.position.ToString ());
 		}
 
-		map.StorePlacements (mapAssetsToSave);
+		mapSession.StorePlacements (mapAssetsToSave);
+
+		Toast ("Please wait while your bear's garden is planted.", 10.0f);
 
 
-	}
 
-	public void Back() {
-		Application.LoadLevel("LoginScene");
-		//SceneManager.LoadScene ("LoginScene", LoadSceneMode.Single);
-	}
-
-
-	private void Toast(String message) {
-		notification.text = message;
-		notification.gameObject.SetActive (true);
-		Invoke ("ToastOff", 1.0f);
-	}
-
-	public void ToastOff(){
-		notification.gameObject.SetActive (false);
 	}
 
 	private GameObject GetPrefab(string name) {
@@ -116,8 +138,16 @@ public class ButtonBehavior : MonoBehaviour {
 			
 	}
 
-	void OnDisable(){
-		Destroy (GameObject.Find("MapSession").GetComponent<MapSession> ());
+
+	private void Toast(String message, float time) {
+		notification.text = message;
+		notification.gameObject.SetActive (true);
+		CancelInvoke ();
+		Invoke ("ToastOff", time);
+	}
+
+	private void ToastOff(){
+		notification.gameObject.SetActive (false);
 	}
 
 }
