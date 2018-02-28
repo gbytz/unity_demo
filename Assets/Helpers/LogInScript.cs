@@ -51,12 +51,6 @@ public class LogInScript : MonoBehaviour {
 		PlayerPrefs.SetString (MapIDKey, MapID.text);
 		PlayerPrefs.SetString (UserIDKey, UserID.text);
 
-		if (IsMappingMode) {
-			Application.LoadLevel ("SaveScene");
-		} else {
-				Application.LoadLevel("ReloadScene");
-			}
-
-		//SceneManager.LoadScene ("FocusSquareScene", LoadSceneMode.Single);
+		SceneManager.LoadSceneAsync ("ARScene");
 	}
 }

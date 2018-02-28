@@ -50,4 +50,5 @@ Test1/
 ObjectiveCOutput/
 !ObjectiveCOutput/Classes/MapsyncWrapper.h
 !ObjectiveCOutput/Classes/MapsyncWrapper.m
-UnityJido
+UnityJido/
+Library/

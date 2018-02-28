@@ -22,7 +22,6 @@ public class ButtonBehavior : MonoBehaviour {
 	private MapSession mapSession;
 	private GameObject focusSquareGO;
 	private FocusSquare focusSquare;
-	public Transform cameraTransform;
 
 	void Start(){
 
@@ -48,7 +47,7 @@ public class ButtonBehavior : MonoBehaviour {
 		//Set callback that confirms when assets are stored
 		mapSession.AssetStoredEvent += stored => {
 			Debug.Log ("Assets stored: " + stored);
-			Toast("Your bear's garden has been planted!", 1.0f);
+			Toast("Your bear's garden has been planted!", 2.0f);
 		};
 
 		//Set Callback for when assets are reloaded
@@ -58,27 +57,28 @@ public class ButtonBehavior : MonoBehaviour {
 			Debug.Log(mapAsset.AssetId + " found at: " + position.ToString());
 			Instantiate(GetPrefab(mapAsset.AssetId), position, orientation);
 
-			Toast("Your bear's garden has been found!", 1.0f);
+			Toast("Your bear's garden has been found!", 2.0f);
 
 		};
 
 		//Set up the UI of the scene
 		saveAssetButton.SetActive (false);
+		placeAssetButtons.SetActive (false);
 
 		if (mapSession.Mode == MapMode.MapModeLocalization) {
 			placeAssetButtons.SetActive (false);
 		} 
 
 		Toast ("First scan around your area to start!", 10.0f);
-
 	}
 
 	void Update(){
 		if (!initialized && focusSquare.SquareState == FocusSquare.FocusState.Found) {
 			if (mapSession.Mode == MapMode.MapModeMapping) {
-				Toast ("Great job! Now you can plant a nice garden for your bear!", 2.0f);
+				Toast ("Great job! Now if you were a bear, wouldn't you want a friendly garden? Get planting!", 2.0f);
+				placeAssetButtons.SetActive (true);
 			} else {
-				Toast ("Now keep scanning the area until your bear's garden reloads", 20.0f);
+				Toast ("Keep scanning the area until your bear's friendly garden reloads", 20.0f);
 			}
 
 			initialized = true;
@@ -91,19 +91,13 @@ public class ButtonBehavior : MonoBehaviour {
 		//Only place asset if focused on a plane
 		if (focusSquare.SquareState != FocusSquare.FocusState.Found) {
 			Debug.Log ("Focus square hasn't been found yet");
-			Toast ("Point to a surface to place plants.", 1.0f);
+			Toast ("Point to a surface to place plants.", 2.0f);
 			return;
 		}
 
-		//Instantiate prefab on focus square facing camera
+		//Instantiate prefab on focus square
 		Vector3 position = focusSquare.foundSquare.transform.position;
 		GameObject asset = Instantiate(GetPrefab(assetName), position, Quaternion.identity);
-		Vector3 target = cameraTransform.position - position;
-
-		Debug.Log ("Target before: " + target.ToString());
-		target.y = 0;
-		Debug.Log("Target after: " + target.ToString());
-		asset.transform.LookAt (target);
 		assetsToSave.Add (asset); //Store for saving
 
 		saveAssetButton.SetActive (true);
@@ -127,6 +121,10 @@ public class ButtonBehavior : MonoBehaviour {
 
 
 
+	}
+
+	public void Back(){
+		SceneManager.LoadSceneAsync ("LoginScene");
 	}
 
 	private GameObject GetPrefab(string name) {
