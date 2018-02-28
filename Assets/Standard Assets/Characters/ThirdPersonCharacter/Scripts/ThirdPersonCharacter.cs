@@ -190,8 +190,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			// this allows us to modify the positional speed before it's applied.
 			if (m_IsGrounded && Time.deltaTime > 0)
 			{
-				//Vector3 moveForward = transform.forward * m_Animator.GetFloat ("motionZ") * Time.deltaTime;
-				Vector3 v = ((m_Animator.deltaPosition) * m_MoveSpeedMultiplier) / Time.deltaTime;
+
+				Vector3 forwardMotion = transform.forward * m_Animator.GetFloat ("motionZ") * Time.deltaTime;
+				Vector3 v = (((m_Animator.deltaPosition)+forwardMotion) * m_MoveSpeedMultiplier) / Time.deltaTime;
 
 				// we preserve the existing y part of the current velocity.
 				v.y = m_Rigidbody.velocity.y;

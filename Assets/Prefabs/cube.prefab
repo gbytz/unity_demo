@@ -2156,6 +2156,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4054320474056658}
   - component: {fileID: 95583428541142258}
+  - component: {fileID: 136368434036569028}
   m_Layer: 0
   m_Name: bamboo (cute)
   m_TagString: Untagged
@@ -3744,7 +3745,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1361735389838946}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.05, z: 0}
   m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children:
   - {fileID: 4396913865972274}
@@ -4931,6 +4932,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!136 &136368434036569028
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1858014230951760}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1
+  m_Height: 3
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.5, z: 0.00000017881393}
 --- !u!212 &212000040680601150
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class ButtonBehavior : MonoBehaviour {
 
 	public List<GameObject> prefabs;
-	public List<GameObject> assetToSave;
+	public List<GameObject> assetsToSave;
 
 	//UI
 	public GameObject saveAssetButton;
@@ -22,6 +22,7 @@ public class ButtonBehavior : MonoBehaviour {
 	private MapSession mapSession;
 	private GameObject focusSquareGO;
 	private FocusSquare focusSquare;
+	public Transform cameraTransform;
 
 	void Start(){
 
@@ -94,12 +95,16 @@ public class ButtonBehavior : MonoBehaviour {
 			return;
 		}
 
-		//Instantiate prefab on focus square
+		//Instantiate prefab on focus square facing camera
 		Vector3 position = focusSquare.foundSquare.transform.position;
-		Quaternion orientation = Quaternion.identity;
-		orientation.y =  -focusSquare.foundSquare.transform.rotation.y;
-		GameObject asset = Instantiate(GetPrefab(assetName), position, orientation);
-		assetToSave.Add (asset); //Store for saving
+		GameObject asset = Instantiate(GetPrefab(assetName), position, Quaternion.identity);
+		Vector3 target = cameraTransform.position - position;
+
+		Debug.Log ("Target before: " + target.ToString());
+		target.y = 0;
+		Debug.Log("Target after: " + target.ToString());
+		asset.transform.LookAt (target);
+		assetsToSave.Add (asset); //Store for saving
 
 		saveAssetButton.SetActive (true);
 	}
@@ -110,7 +115,7 @@ public class ButtonBehavior : MonoBehaviour {
 
 		List<MapAsset> mapAssetsToSave = new List<MapAsset> ();
 
-		foreach (GameObject asset in assetToSave) {
+		foreach (GameObject asset in assetsToSave) {
 			MapAsset mapAsset = new MapAsset (asset.name, asset.transform.rotation.y, asset.transform.position);
 			mapAssetsToSave.Add (mapAsset);
 			Debug.Log ("Asset stored at: " + asset.transform.position.ToString ());

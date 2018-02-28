@@ -8,7 +8,7 @@ public class characterControl : MonoBehaviour {
 
 		public ThirdPersonCharacter character;
 		private FocusSquare focusSquare;
-		private float walkThresh = 0.2f;
+		private float walkThresh = 0.1f;
 		private float yThresh = 0.2f;
 		private Vector3 lastLocation;
 		private float lastY = 0;
@@ -32,7 +32,7 @@ public class characterControl : MonoBehaviour {
 				lastY = thisY;
 					
 			} else {
-				thisLocation = lastLocation;
+			//	thisLocation = lastLocation;
 			}
 
 			Vector3 direction = thisLocation  - character.transform.position;
