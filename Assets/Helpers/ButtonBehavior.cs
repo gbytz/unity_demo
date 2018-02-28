@@ -35,7 +35,7 @@ public class ButtonBehavior : MonoBehaviour {
 		bool isMappingMode = PlayerPrefs.GetInt ("IsMappingMode") == 1;
 		string mapID = PlayerPrefs.GetString ("MapID");
 		string userID = PlayerPrefs.GetString ("UserID");
-		string developerKey = @"AKIAIQPSF4LP4V3IV55QxwU2T3GuaWFuneWqSqDIUuQe770dRqVAqUrV8/1u";
+		string developerKey = @"PUT DEV KEY HERE";
 
 		mapSession.Init (isMappingMode ? MapMode.MapModeMapping : MapMode.MapModeLocalization, userID, mapID, developerKey);
 
