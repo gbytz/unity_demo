@@ -4,8 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>
+/// The LoginScene UI script.
+/// </summary>
 public class LogInScript : MonoBehaviour {
-
 	public InputField MapID;
 	public InputField UserID;
 	public bool IsMappingMode;
@@ -21,11 +23,6 @@ public class LogInScript : MonoBehaviour {
 		if (PlayerPrefs.HasKey (MapIDKey)) {
 			MapID.text = PlayerPrefs.GetString (MapIDKey);
 		}
-
-		//if (SceneManager.GetSceneByName ("FocusSquareScene").isLoaded) {
-			//Debug.Log ("Unloading Scene");
-			//SceneManager.UnloadSceneAsync ("FocusSquareScene");
-		//}
 	}
 
 	public void StartNew() {

@@ -39,12 +39,9 @@ static NSString* storePlacementCallback = @"";
 
 + (instancetype)sharedInstanceWithARSession:(ARSession *)session mapMode:(Mode)mode mapId: (NSString*) mapId userId:(NSString*) userId developerKey: (NSString*) developerKey;
 {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^(void)
-                  {
-                      instance = [[self alloc] initWithARSession:session mapMode:mode mapId:mapId userId:userId developerKey:developerKey];
-                  });
-    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        instance = [[self alloc] initWithARSession:session mapMode:mode mapId:mapId userId:userId developerKey:developerKey];
+    });
     return instance;
 }
 

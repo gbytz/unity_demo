@@ -6,30 +6,25 @@ using System;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class ButtonBehavior : MonoBehaviour {
-
+/// <summary>
+/// The ARScene UI script with button callbacks. Also, initializes MapSession when the scene loads.
+/// </summary>
+public class SceneControl : MonoBehaviour {
 	public List<GameObject> prefabs;
 	public List<GameObject> assetsToSave;
 
-	//UI
 	public GameObject saveAssetButton;
 	public Text notification;
 	public GameObject placeAssetButtons;
 	private bool initialized = false;
 
-	//References
-	private GameObject mapSessionGO;
 	private MapSession mapSession;
-	private GameObject focusSquareGO;
 	private FocusSquare focusSquare;
 
 	void Start(){
-
 		//Set up references
-		mapSessionGO = GameObject.Find("MapSession");
-		mapSession = mapSessionGO.GetComponent<MapSession> ();
-		focusSquareGO = GameObject.Find("FocusSquare");
-		focusSquare = focusSquareGO.GetComponent<FocusSquare> ();
+		mapSession = GameObject.Find("MapSession").GetComponent<MapSession> ();
+		focusSquare = GameObject.Find("FocusSquare").GetComponent<FocusSquare> ();
 
 		//Mapsession initialization
 		bool isMappingMode = PlayerPrefs.GetInt ("IsMappingMode") == 1;
@@ -58,7 +53,6 @@ public class ButtonBehavior : MonoBehaviour {
 			Instantiate(GetPrefab(mapAsset.AssetId), position, orientation);
 
 			Toast("Your bear's garden has been found!", 2.0f);
-
 		};
 
 		//Set up the UI of the scene
@@ -87,7 +81,6 @@ public class ButtonBehavior : MonoBehaviour {
 
 	// Placing new assets in the scene
 	public void PlaceAsset(String assetName) { 
-
 		//Only place asset if focused on a plane
 		if (focusSquare.SquareState != FocusSquare.FocusState.Found) {
 			Debug.Log ("Focus square hasn't been found yet");
@@ -98,7 +91,7 @@ public class ButtonBehavior : MonoBehaviour {
 		//Instantiate prefab on focus square
 		Vector3 position = focusSquare.foundSquare.transform.position;
 		GameObject asset = Instantiate(GetPrefab(assetName), position, Quaternion.identity);
-		assetsToSave.Add (asset); //Store for saving
+		assetsToSave.Add (asset);
 
 		saveAssetButton.SetActive (true);
 	}
@@ -118,9 +111,6 @@ public class ButtonBehavior : MonoBehaviour {
 		mapSession.StorePlacements (mapAssetsToSave);
 
 		Toast ("Please wait while your bear's garden is planted.", 10.0f);
-
-
-
 	}
 
 	public void Back(){
@@ -136,11 +126,10 @@ public class ButtonBehavior : MonoBehaviour {
 				return prefab;
 			}
 		}
+
 		Debug.Log ("Could not find correct prefab");
 		return prefabs [0];
-			
 	}
-
 
 	private void Toast(String message, float time) {
 		notification.text = message;
@@ -152,5 +141,4 @@ public class ButtonBehavior : MonoBehaviour {
 	private void ToastOff(){
 		notification.gameObject.SetActive (false);
 	}
-
 }
