@@ -53,6 +53,9 @@ public class SceneControl : MonoBehaviour {
 			Instantiate(GetPrefab(mapAsset.AssetId), position, orientation);
 
 			Toast("Your bear's garden has been found!", 2.0f);
+
+			placeAssetButtons.SetActive(true);
+			saveAssetButton.SetActive (true);
 		};
 
 		//Set up the UI of the scene

@@ -29,9 +29,7 @@ public class MapSession : MonoBehaviour {
 	}
 
 	public void StorePlacements(List<MapAsset> assets) {
-		if (Mode == MapMode.MapModeMapping) {
-			mapsyncInterface.SaveAssets (assets);
-		}
+		mapsyncInterface.SaveAssets (assets);
 	}
 
 	private void AssetReloaded(string assetJson) {
