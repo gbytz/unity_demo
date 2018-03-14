@@ -20,6 +20,7 @@ public class SceneControl : MonoBehaviour {
 
 	private MapSession mapSession;
 	private FocusSquare focusSquare;
+	private List<string> loadedAssets = new List<string>();
 
 	void Start(){
 		//Set up references
@@ -47,6 +48,11 @@ public class SceneControl : MonoBehaviour {
 
 		//Set Callback for when assets are reloaded
 		mapSession.AssetLoadedEvent += mapAsset => {
+			if(loadedAssets.Contains(mapAsset.AssetId)) {
+				Debug.Log(mapAsset.AssetId + " already loaded");
+				return;
+			}
+
 			Vector3 position = new Vector3 (mapAsset.X, mapAsset.Y, mapAsset.Z);
 			Quaternion orientation = Quaternion.Euler(0, mapAsset.Orientation, 0);
 			Debug.Log(mapAsset.AssetId + " found at: " + position.ToString());
@@ -56,6 +62,7 @@ public class SceneControl : MonoBehaviour {
 
 			placeAssetButtons.SetActive(true);
 			saveAssetButton.SetActive (true);
+			loadedAssets.Add(mapAsset.AssetId);
 		};
 
 		//Set up the UI of the scene
