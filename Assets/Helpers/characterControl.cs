@@ -7,7 +7,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 	/// <summary>
 	/// Controls the main character avatar.
 	/// </summary>
-	public class CharacterControl : MonoBehaviour {
+	public class characterControl : MonoBehaviour {
 		public ThirdPersonCharacter character;
 		private FocusSquare focusSquare;
 		private float walkThresh = 0.1f;

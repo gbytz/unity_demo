@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DropButton : MonoBehaviour {
+public class dropButton : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
