@@ -20,7 +20,7 @@ public class SceneControl : MonoBehaviour {
 
 	private MapSession mapSession;
 	private FocusSquare focusSquare;
-	private List<string> loadedAssets = new List<string>();
+	private List<MapAsset> loadedAssets = new List<MapAsset>();
 
 	void Start(){
 		//Set up references
@@ -48,7 +48,7 @@ public class SceneControl : MonoBehaviour {
 
 		//Set Callback for when assets are reloaded
 		mapSession.AssetLoadedEvent += mapAsset => {
-			if(loadedAssets.Contains(mapAsset.AssetId)) {
+			if(IsThisALoadedAsset(mapAsset)) {
 				Debug.Log(mapAsset.AssetId + " already loaded");
 				return;
 			}
@@ -62,7 +62,7 @@ public class SceneControl : MonoBehaviour {
 
 			placeAssetButtons.SetActive(true);
 			saveAssetButton.SetActive (true);
-			loadedAssets.Add(mapAsset.AssetId);
+			loadedAssets.Add(mapAsset);
 		};
 
 		//Set up the UI of the scene
@@ -74,6 +74,16 @@ public class SceneControl : MonoBehaviour {
 		} 
 
 		Toast ("First scan around your area to start!", 10.0f);
+	}
+
+	private bool IsThisALoadedAsset(MapAsset asset){
+		foreach(var loaded in loadedAssets) {
+			if (asset.AssetId == loaded.AssetId && (asset.Position - loaded.Position).magnitude < 1e-4) {
+				return true;
+			}
+		}
+			
+		return false;
 	}
 
 	void Update(){
