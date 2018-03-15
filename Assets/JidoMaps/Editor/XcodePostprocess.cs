@@ -17,6 +17,12 @@ public class XcodePostprocess
 		}
 	}
 
+	static string OpenPodsFileName {
+		get {
+			return "open_pods.command";
+		}
+	}
+
 	internal static void CopyAndReplaceFile (string srcPath, string dstPath)
 	{
 		if (File.Exists (dstPath))
@@ -29,7 +35,9 @@ public class XcodePostprocess
 		get {
 			return new [] {
 				Path.Combine (PodFolderPath, "Podfile"),
-				Path.Combine (PodFolderPath, "MapsyncLib.podspec")
+				Path.Combine (PodFolderPath, "MapsyncLib.podspec"),
+				Path.Combine (PodFolderPath, "pods.command"),
+				Path.Combine (PodFolderPath, OpenPodsFileName)
 			};
 		}
 	}
@@ -51,7 +59,7 @@ public class XcodePostprocess
 
 	static string XCodeFilesFolderPath {
 		get {
-			return Path.Combine (UnityProjectRootFolder, "Assets/MapsyncLibPlugin/XCodeFiles/");
+			return Path.Combine (UnityProjectRootFolder, "Assets/JidoMaps/XCodeFiles/");
 		}
 	}
 
