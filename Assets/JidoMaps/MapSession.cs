@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.XR.iOS;
 
 public class MapSession : MonoBehaviour {
+	public string DeveloperKey;
+
 	private UnityMapsyncLibNativeInterface mapsyncInterface = null;
 	public MapMode Mode;
 
@@ -17,7 +19,7 @@ public class MapSession : MonoBehaviour {
 	public delegate void BoolDelegate(bool value);
 	public BoolDelegate AssetStoredEvent;
 
-	public void Init(MapMode mapMode, string userId, string mapId, string developerKey) {
+	public void Init(MapMode mapMode, string userId, string mapId) {
 		if (mapsyncInterface != null) {
 			Debug.Log ("Warning: Mapsync has already been initialized and cannot be initialized again.");
 			return;
@@ -25,7 +27,11 @@ public class MapSession : MonoBehaviour {
 
 		this.Mode = mapMode;
 
-		mapsyncInterface = new UnityMapsyncLibNativeInterface(mapId, userId, developerKey, mapMode == MapMode.MapModeMapping);
+		if (string.IsNullOrEmpty (DeveloperKey)) {
+			throw new ArgumentException ("Developer Key Required");
+		}
+
+		mapsyncInterface = new UnityMapsyncLibNativeInterface(mapId, userId, DeveloperKey, mapMode == MapMode.MapModeMapping);
 	}
 
 	public void StorePlacements(List<MapAsset> assets) {

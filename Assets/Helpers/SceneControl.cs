@@ -31,9 +31,8 @@ public class SceneControl : MonoBehaviour {
 		bool isMappingMode = PlayerPrefs.GetInt ("IsMappingMode") == 1;
 		string mapID = PlayerPrefs.GetString ("MapID");
 		string userID = PlayerPrefs.GetString ("UserID");
-		string developerKey = @"PUT DEV KEY HERE";
 
-		mapSession.Init (isMappingMode ? MapMode.MapModeMapping : MapMode.MapModeLocalization, userID, mapID, developerKey);
+		mapSession.Init (isMappingMode ? MapMode.MapModeMapping : MapMode.MapModeLocalization, userID, mapID);
 
 		//Set callback to handly MapStatus updates
 		mapSession.StatusChangedEvent += mapStatus => {
