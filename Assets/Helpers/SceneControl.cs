@@ -21,6 +21,8 @@ public class SceneControl : MonoBehaviour {
 	private MapSession mapSession;
 	private FocusSquare focusSquare;
 	private List<MapAsset> loadedAssets = new List<MapAsset>();
+	private List<GameObject> instantiatedAssets = new List<GameObject>();
+
 
 	void Start(){
 		//Set up references
@@ -31,6 +33,10 @@ public class SceneControl : MonoBehaviour {
 		bool isMappingMode = PlayerPrefs.GetInt ("IsMappingMode") == 1;
 		string mapID = PlayerPrefs.GetString ("MapID");
 		string userID = PlayerPrefs.GetString ("UserID");
+
+		foreach (var asset in instantiatedAssets) {
+			asset.SetActive (false);
+		}
 
 		mapSession.Init (isMappingMode ? MapMode.MapModeMapping : MapMode.MapModeLocalization, userID, mapID);
 
@@ -55,7 +61,8 @@ public class SceneControl : MonoBehaviour {
 			Vector3 position = new Vector3 (mapAsset.X, mapAsset.Y, mapAsset.Z);
 			Quaternion orientation = Quaternion.Euler(0, mapAsset.Orientation, 0);
 			Debug.Log(mapAsset.AssetId + " found at: " + position.ToString());
-			Instantiate(GetPrefab(mapAsset.AssetId), position, orientation);
+			GameObject instantiatedAsset = Instantiate(GetPrefab(mapAsset.AssetId), position, orientation);
+			instantiatedAssets.Add(instantiatedAsset);
 
 			Toast("Your bear's garden has been found!", 2.0f);
 
