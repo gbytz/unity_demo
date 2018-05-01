@@ -15,6 +15,9 @@ namespace UnityEngine.XR.iOS {
 		[DllImport("__Internal")]
 		private static extern void _RegisterUnityCallbacks(string callbackGameObject, string assetReloadedCallback, string statusUpdatedCallback, string storePlacementCallback);
 
+		[DllImport("__Internal")]
+		private static extern void _RegisterObjectDetectionCallback(string objectDetectionCallback, float screenHeight, float screenWidth);
+
 		/// <summary>
 		/// This should only be called once from MapsyncLb.cs
 		/// </summary>
@@ -34,6 +37,7 @@ namespace UnityEngine.XR.iOS {
 			string unityStatusUpdatedCallback = "StatusUpdated";
 			string unityStorePlacementCallback = "PlacementStored";
 			_RegisterUnityCallbacks (unityCallbackGameObject, unityAssetLoadedCallbackFunction, unityStatusUpdatedCallback, unityStorePlacementCallback);
+			RegisterObjectDetectionCallback ();
 		}
 
 		public void SaveAssets(List<MapAsset> assets) {
@@ -46,6 +50,9 @@ namespace UnityEngine.XR.iOS {
 			Debug.Log ("Asset json: " + assetJson);
 			_SaveAssets(assetJson);
 		}
-	}
 
+		public void RegisterObjectDetectionCallback() {
+			_RegisterObjectDetectionCallback ("ObjectDetected", (float)Screen.height, (float)Screen.width);
+		}
+	}
 }

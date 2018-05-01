@@ -22,11 +22,13 @@ typedef NS_ENUM(NSInteger, Mode)
 + (void)setStatusUpdatedCallbackFunction:(NSString*)functionName;
 + (void)setStorePlacementCallbackFunction:(NSString*)functionName;
 
+
 - (instancetype)initWithARSession:(ARSession *)session mapId: (NSString*) mapId userId:(NSString*) userId developerKey: (NSString*) developerKey;
 
 - (void)uploadAssets:(NSArray*)array;
 
 - (void)updateWithFrame:(ARFrame*)frame;
 
-@end
+- (void)registerObjectDetectionCallback:(NSString*)objectDetectionCallbackName screenHeight: (float)screenHeight screenWidth: (float)screenWidth;
 
+@end

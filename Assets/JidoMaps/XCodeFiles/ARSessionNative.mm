@@ -1179,3 +1179,7 @@ extern "C" void _RegisterUnityCallbacks(char* callbackGameObject, char* assetLoa
     [MapsyncWrapper setStorePlacementCallbackFunction:[NSString stringWithUTF8String:storePlacementCallback]];
 }
 
+extern "C" void _RegisterObjectDetectionCallback(char* objectDetectionCallback, float screenHeight, float screenWidth)
+{
+    [[MapsyncWrapper sharedInstance] registerObjectDetectionCallback:[NSString stringWithUTF8String:objectDetectionCallback] screenHeight:screenHeight screenWidth:screenWidth];
+}
