@@ -71,6 +71,10 @@ public class SceneControl : MonoBehaviour {
 			loadedAssets.Add(mapAsset);
 		};
 
+		mapSession.ObjectDetectedEvent += detectedObject => {
+
+		};
+
 		//Set up the UI of the scene
 		saveAssetButton.SetActive (false);
 		placeAssetButtons.SetActive (false);
