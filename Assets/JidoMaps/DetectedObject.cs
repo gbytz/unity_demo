@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 [Serializable]
 public class DetectedObjects {
@@ -20,6 +21,12 @@ public class DetectedObject
 	public float Orientation;
 	public int SeenCount;
 	public int Id;
+
+	public Vector3 Position {
+		get {
+			return new Vector3 (X, Y, -Z);
+		}
+	}
 
 	public DetectedObject (string name, float centerX, float centerY, float centerZ, float confidence, float width, float height, float depth, float orientation, int seenCount, int id)
 	{
