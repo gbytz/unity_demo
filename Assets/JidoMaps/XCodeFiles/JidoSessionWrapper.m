@@ -164,8 +164,7 @@ int signum(float n) { return (n < 0) ? -1 : (n > 0) ? +1 : 0; }
     return node;
 }
 
-- (void) updateWithFrame:(ARFrame*)frame
-{
+- (void) updateWithFrame:(ARFrame*)frame {
     [self.mapSession updateWithFrame:frame];
 }
 
@@ -179,6 +178,10 @@ int signum(float n) { return (n < 0) ? -1 : (n > 0) ? +1 : 0; }
 
 - (void) planeUpdated:(ARAnchor*) anchor {
     [self.mapSession planeUpdatedWithNode:[self getSCNNode:anchor] anchor:anchor];
+}
+
+- (void)dispose {
+    [self.mapSession dispose];
 }
 
 @end

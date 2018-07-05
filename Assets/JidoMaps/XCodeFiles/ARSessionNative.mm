@@ -1410,3 +1410,7 @@ extern "C" void _RegisterUnityCallbacks(char* callbackGameObject, char* assetLoa
     [JidoSessionWrapper setStorePlacementCallbackFunction:[NSString stringWithUTF8String:storePlacementCallback]];
     [JidoSessionWrapper setProgressCallbackFunction:[NSString stringWithUTF8String:storePlacementCallback]];
 }
+
+extern "C" void _Dispose() {
+    [[JidoSessionWrapper sharedInstance] dispose];
+}

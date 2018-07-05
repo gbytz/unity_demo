@@ -15,6 +15,9 @@ namespace UnityEngine.XR.iOS {
 		[DllImport("__Internal")]
 		private static extern void _RegisterUnityCallbacks(string callbackGameObject, string assetReloadedCallback, string statusUpdatedCallback, string storePlacementCallback, string progressCallback);
 
+        [DllImport("__Internal")]
+        private static extern void _Dispose();
+
 		/// <summary>
 		/// This should only be called once from MapsyncLb.cs
 		/// </summary>
@@ -36,6 +39,10 @@ namespace UnityEngine.XR.iOS {
             string unityProgressCallback = "ProgressIncremented";
             _RegisterUnityCallbacks (unityCallbackGameObject, unityAssetLoadedCallbackFunction, unityStatusUpdatedCallback, unityStorePlacementCallback, unityProgressCallback);
 		}
+
+        public void Dispose() {
+            _Dispose();
+        }
 
 		public void SaveAssets(List<MapAsset> assets) {
 			MapAssets mapAssets = new MapAssets () {

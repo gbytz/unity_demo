@@ -29,10 +29,12 @@ typedef NS_ENUM(NSInteger, Mode)
 
 - (void)updateWithFrame:(ARFrame*)frame;
 
-- (void) planeDetected:(ARAnchor*) anchor;
+- (void)planeDetected:(ARAnchor*) anchor;
 
-- (void) planeRemoved:(ARAnchor*) anchor;
+- (void)planeRemoved:(ARAnchor*) anchor;
 
-- (void) planeUpdated:(ARAnchor*) anchor;
+- (void)planeUpdated:(ARAnchor*) anchor;
+
+- (void)dispose;
 
 @end
