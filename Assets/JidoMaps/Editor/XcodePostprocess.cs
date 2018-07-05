@@ -45,8 +45,8 @@ public class XcodePostprocess
 	static string[] AppControllerFilePaths {
 		get {
 			return new [] {
-				Path.Combine (XCodeFilesFolderPath, "MapsyncWrapper.h"),
-				Path.Combine (XCodeFilesFolderPath, "MapsyncWrapper.m")
+				Path.Combine (XCodeFilesFolderPath, "JidoSessionWrapper.h"),
+                Path.Combine (XCodeFilesFolderPath, "JidoSessionWrapper.m")
 			};
 		}
 	}
