@@ -35,7 +35,7 @@ public class XcodePostprocess
 		get {
 			return new [] {
 				Path.Combine (PodFolderPath, "Podfile"),
-				Path.Combine (PodFolderPath, "MapsyncLib.podspec"),
+				Path.Combine (PodFolderPath, "JidoMaps.podspec"),
 				Path.Combine (PodFolderPath, "pods.command"),
 				Path.Combine (PodFolderPath, OpenPodsFileName)
 			};

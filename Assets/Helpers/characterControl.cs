@@ -22,7 +22,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		void Update () {
 			Vector3 thisLocation = focusSquare.foundSquare.transform.position;
 		
-			if (focusSquare.squareState == FocusSquare.FocusState.Found) {
+			if (focusSquare.SquareState == FocusSquare.FocusState.Found) {
 				float thisY = thisLocation.y;
 				if (Mathf.Abs(thisY - lastY) > yThresh) {
 					character.gameObject.SetActive (true);
