@@ -10,7 +10,8 @@ using UnityEngine.SceneManagement;
 /// The ARScene UI script with button callbacks. Also, initializes MapSession when the scene loads.
 /// </summary>
 public class SceneControl : MonoBehaviour {
-	public List<GameObject> prefabs;
+
+    public List<GameObject> prefabs;
 	public List<GameObject> assetsToSave;
 
 	public GameObject saveAssetButton;
@@ -22,6 +23,9 @@ public class SceneControl : MonoBehaviour {
 	private FocusSquare focusSquare;
 	private List<MapAsset> loadedAssets = new List<MapAsset>();
 	private List<GameObject> instantiatedAssets = new List<GameObject>();
+
+    public GameObject progressPanel;
+    private int progress = 0;
 
 
 	void Start(){
@@ -72,8 +76,15 @@ public class SceneControl : MonoBehaviour {
 		};
 
 		mapSession.ObjectDetectedEvent += detectedObject => {
-
+            Debug.Log("Detected " + detectedObject.Name);
 		};
+
+        mapSession.ProgressIncrementedEvent += ProgressIncrement;
+
+        mapSession.ProgressIncrementedEvent += progress =>
+        {
+            Debug.Log("In Progress " + progress);
+        };
 
 		//Set up the UI of the scene
 		saveAssetButton.SetActive (false);
@@ -123,12 +134,12 @@ public class SceneControl : MonoBehaviour {
 		GameObject asset = Instantiate(GetPrefab(assetName), position, Quaternion.identity);
 		assetsToSave.Add (asset);
 
-		saveAssetButton.SetActive (true);
+        SaveAsset();
+
 	}
 
 	//Saving assets using the MapSession
 	public void SaveAsset() {
-		saveAssetButton.SetActive (false);
 
 		List<MapAsset> mapAssetsToSave = new List<MapAsset> ();
 
@@ -161,7 +172,17 @@ public class SceneControl : MonoBehaviour {
 		return prefabs [0];
 	}
 
-	private void Toast(String message, float time) {
+    private void ProgressIncrement(string progressString){
+        Toast(progressString, 0.5f);
+        progress++;
+        if (progress > 5){
+            progressPanel.SetActive(false);
+            return;
+        }
+        progressPanel.GetComponent<ProgressBar>().AddProgress(progress);
+    }
+
+	private void Toast(string message, float time) {
 		notification.text = message;
 		notification.gameObject.SetActive (true);
 		CancelInvoke ();
