@@ -84,9 +84,10 @@ public class MapSession : MonoBehaviour
     {
         int p;
         if (int.TryParse(progress, out p)) {
-            ProgressIncrementedEvent(p);    
+            if (ProgressIncrementedEvent != null)
+            {
+                ProgressIncrementedEvent(p);
+            }
         }
-
-        Debug.Log(progress);
     }
 }

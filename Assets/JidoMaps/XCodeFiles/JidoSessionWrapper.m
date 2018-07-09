@@ -114,34 +114,34 @@ static NSString* objectDetectedCallback = @"";
             UnitySendMessage([unityCallbackGameObject cStringUsingEncoding:NSASCIIStringEncoding], [statusUpdatedCallback cStringUsingEncoding:NSASCIIStringEncoding], [[NSString stringWithFormat:@"%ld", (long)mapStatus] cStringUsingEncoding:NSASCIIStringEncoding]);
         } objectDetectedCallback:^(NSArray<DetectedObject *> * detectedObjects) {
             NSLog(@"object detected");
-                    NSMutableArray *detectedObjectData = [[NSMutableArray alloc] init];
-                    for (DetectedObject *detectedObject in detectedObjects)
-                        {
-                                NSDictionary* dict = [NSMutableDictionary dictionary];
-                                [dict setValue:detectedObject.name forKey:@"Name"];
-                                [dict setValue:@(detectedObject.center.x) forKey:@"X"];
-                                [dict setValue:@(detectedObject.center.y) forKey:@"Y"];
-                                [dict setValue:@(detectedObject.center.z) forKey:@"Z"];
-                                [dict setValue:@(detectedObject.width) forKey:@"Width"];
-                                [dict setValue:@(detectedObject.height) forKey:@"Height"];
-                                [dict setValue:@(detectedObject.depth) forKey:@"Depth"];
-                                [dict setValue:@(detectedObject.orientation) forKey:@"Orientation"];
-                                [dict setValue:@(detectedObject.seenCount) forKey:@"SeenCount"];
-                                [dict setValue:@(detectedObject.id) forKey:@"Id"];
-                                [dict setValue:@(detectedObject.confidence) forKey:@"Confidence"];
-                                [detectedObjectData addObject:dict];
-                            }
+            NSMutableArray *detectedObjectData = [[NSMutableArray alloc] init];
+            for (DetectedObject *detectedObject in detectedObjects)
+            {
+                NSDictionary* dict = [NSMutableDictionary dictionary];
+                [dict setValue:detectedObject.name forKey:@"Name"];
+                [dict setValue:@(detectedObject.center.x) forKey:@"X"];
+                [dict setValue:@(detectedObject.center.y) forKey:@"Y"];
+                [dict setValue:@(detectedObject.center.z) forKey:@"Z"];
+                [dict setValue:@(detectedObject.width) forKey:@"Width"];
+                [dict setValue:@(detectedObject.height) forKey:@"Height"];
+                [dict setValue:@(detectedObject.depth) forKey:@"Depth"];
+                [dict setValue:@(detectedObject.orientation) forKey:@"Orientation"];
+                [dict setValue:@(detectedObject.seenCount) forKey:@"SeenCount"];
+                [dict setValue:@(detectedObject.id) forKey:@"Id"];
+                [dict setValue:@(detectedObject.confidence) forKey:@"Confidence"];
+                [detectedObjectData addObject:dict];
+            }
             
-                    if([detectedObjectData count] == 0) {
-                            return;
-                        }
+            if([detectedObjectData count] == 0) {
+                return;
+            }
             
-                    NSDictionary* objectsDict = [NSMutableDictionary dictionary];
-                    [objectsDict setValue:detectedObjectData forKey:@"Objects"];
+            NSDictionary* objectsDict = [NSMutableDictionary dictionary];
+            [objectsDict setValue:detectedObjectData forKey:@"Objects"];
             
-                    NSError* error;
-                    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:objectsDict options:NSJSONWritingPrettyPrinted error:&error];
-                    NSString* json = [[NSString alloc] initWithData:jsonData encoding:NSASCIIStringEncoding];
+            NSError* error;
+            NSData* jsonData = [NSJSONSerialization dataWithJSONObject:objectsDict options:NSJSONWritingPrettyPrinted error:&error];
+            NSString* json = [[NSString alloc] initWithData:jsonData encoding:NSASCIIStringEncoding];
             
             UnitySendMessage([unityCallbackGameObject cStringUsingEncoding:NSASCIIStringEncoding], [objectDetectedCallback cStringUsingEncoding:NSASCIIStringEncoding], [json cStringUsingEncoding:NSASCIIStringEncoding]);
         }];
@@ -159,8 +159,23 @@ static NSString* objectDetectedCallback = @"";
                    }];
 }
 
-- (void)dispose
-{
+- (void)update:(ARFrame*) frame {
+    [self.jidoSession updateWithFrame:frame];
+}
+
+- (void) planeDetected:(ARAnchor*) anchor {
+    [self.jidoSession planeDetectedWithAnchor:anchor];
+}
+
+- (void) planeRemoved:(ARAnchor*) anchor {
+    [self.jidoSession planeRemovedWithAnchor:anchor];
+}
+
+- (void) planeUpdated:(ARAnchor*) anchor {
+    [self.jidoSession planeUpdatedWithAnchor:anchor];
+}
+
+- (void)dispose {
     [self.jidoSession dispose];
 }
 
