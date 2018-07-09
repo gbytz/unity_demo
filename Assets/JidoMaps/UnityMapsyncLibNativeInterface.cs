@@ -13,7 +13,7 @@ namespace UnityEngine.XR.iOS {
 		private static extern void _SaveAssets(string assetJson);
 
 		[DllImport("__Internal")]
-		private static extern void _RegisterUnityCallbacks(string callbackGameObject, string assetReloadedCallback, string statusUpdatedCallback, string storePlacementCallback, string progressCallback);
+		private static extern void _RegisterUnityCallbacks(string callbackGameObject, string assetReloadedCallback, string statusUpdatedCallback, string storePlacementCallback, string progressCallback, string objectDetectedCallback);
 
         [DllImport("__Internal")]
         private static extern void _Dispose();
@@ -37,7 +37,8 @@ namespace UnityEngine.XR.iOS {
 			string unityStatusUpdatedCallback = "StatusUpdated";
 			string unityStorePlacementCallback = "PlacementStored";
             string unityProgressCallback = "ProgressIncremented";
-            _RegisterUnityCallbacks (unityCallbackGameObject, unityAssetLoadedCallbackFunction, unityStatusUpdatedCallback, unityStorePlacementCallback, unityProgressCallback);
+            string unityObjectDetectedCallback = "ObjectDetected";
+            _RegisterUnityCallbacks (unityCallbackGameObject, unityAssetLoadedCallbackFunction, unityStatusUpdatedCallback, unityStorePlacementCallback, unityProgressCallback, unityObjectDetectedCallback);
 		}
 
         public void Dispose() {

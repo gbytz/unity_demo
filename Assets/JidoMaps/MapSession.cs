@@ -20,11 +20,11 @@ public class MapSession : MonoBehaviour
     public delegate void BoolDelegate(bool value);
     public BoolDelegate AssetStoredEvent;
 
+    public delegate void IntDelegate(int value);
+    public IntDelegate ProgressIncrementedEvent;
+
     public delegate void DetectedObjectDelegate(DetectedObject value);
     public DetectedObjectDelegate ObjectDetectedEvent;
-
-    public delegate void ProgressIncrementedDelegate(string progress);
-    public ProgressIncrementedDelegate ProgressIncrementedEvent;
 
     public void Init(MapMode mapMode, string userId, string mapId)
     {
@@ -44,8 +44,6 @@ public class MapSession : MonoBehaviour
         }
 
         mapsyncInterface = new UnityMapsyncLibNativeInterface(mapId, userId, DeveloperKey, mapMode == MapMode.MapModeMapping);
-
-
     }
 
     public void StorePlacements(List<MapAsset> assets)
@@ -65,8 +63,6 @@ public class MapSession : MonoBehaviour
     private void ObjectDetected(string objectJson)
     {
         DetectedObjects detectedObjects = JsonUtility.FromJson<DetectedObjects>(objectJson);
-
-        Debug.Log("detected");
         foreach (DetectedObject obj in detectedObjects.Objects)
         {
             ObjectDetectedEvent(obj);
@@ -86,7 +82,11 @@ public class MapSession : MonoBehaviour
 
     private void ProgressIncremented(string progress)
     {
-        Debug.Log("Made " + progress);
-        ProgressIncrementedEvent(progress);
+        int p;
+        if (int.TryParse(progress, out p)) {
+            ProgressIncrementedEvent(p);    
+        }
+
+        Debug.Log(progress);
     }
 }

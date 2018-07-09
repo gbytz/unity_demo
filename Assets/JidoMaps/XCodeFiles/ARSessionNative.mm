@@ -557,8 +557,6 @@ inline void UnityLightDataFromARFrame(UnityLightData& lightData, ARFrame *arFram
     UnityARAnchorData data;
     UnityARAnchorDataFromARAnchorPtr(data, (ARPlaneAnchor*)anchor);
     _anchorAddedCallback(data);
-    
-    [[JidoSessionWrapper sharedInstance] planeDetected:anchor];
 }
 
 -(void)sendAnchorRemovedEvent:(ARAnchor*)anchor
@@ -566,8 +564,6 @@ inline void UnityLightDataFromARFrame(UnityLightData& lightData, ARFrame *arFram
     UnityARAnchorData data;
     UnityARAnchorDataFromARAnchorPtr(data, (ARPlaneAnchor*)anchor);
     _anchorRemovedCallback(data);
-
-    [[JidoSessionWrapper sharedInstance] planeRemoved:anchor];
 }
 
 -(void)sendAnchorUpdatedEvent:(ARAnchor*)anchor
@@ -575,8 +571,6 @@ inline void UnityLightDataFromARFrame(UnityLightData& lightData, ARFrame *arFram
     UnityARAnchorData data;
     UnityARAnchorDataFromARAnchorPtr(data, (ARPlaneAnchor*)anchor);
     _anchorUpdatedCallback(data);
-    
-    [[JidoSessionWrapper sharedInstance] planeUpdated:anchor];
 }
 
 @end
@@ -823,8 +817,6 @@ static CGAffineTransform s_CurAffineTransform;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             _frameCallback(unityARCamera);
         });
-        
-        [[JidoSessionWrapper sharedInstance] updateWithFrame:frame];
     }
     
     
@@ -1402,13 +1394,14 @@ extern "C" void _SaveAssets(char* json)
     [[JidoSessionWrapper sharedInstance] uploadAssets:assets];
 }
 
-extern "C" void _RegisterUnityCallbacks(char* callbackGameObject, char* assetLoadedCallback, char* statusUpdatedCallback, char* storePlacementCallback, char* progressCallback)
+extern "C" void _RegisterUnityCallbacks(char* callbackGameObject, char* assetLoadedCallback, char* statusUpdatedCallback, char* storePlacementCallback, char* progressCallback, char* objectDetectedCallback)
 {
     [JidoSessionWrapper setUnityCallbackGameObject:[NSString stringWithUTF8String:callbackGameObject]];
     [JidoSessionWrapper setAssetLoadedCallbackFunction:[NSString stringWithUTF8String:assetLoadedCallback]];
     [JidoSessionWrapper setStatusUpdatedCallbackFunction:[NSString stringWithUTF8String:statusUpdatedCallback]];
     [JidoSessionWrapper setStorePlacementCallbackFunction:[NSString stringWithUTF8String:storePlacementCallback]];
-    [JidoSessionWrapper setProgressCallbackFunction:[NSString stringWithUTF8String:storePlacementCallback]];
+    [JidoSessionWrapper setProgressCallbackFunction:[NSString stringWithUTF8String:progressCallback]];
+    [JidoSessionWrapper setObjectDetectedCallbackFunction:[NSString stringWithUTF8String:objectDetectedCallback]];
 }
 
 extern "C" void _Dispose() {

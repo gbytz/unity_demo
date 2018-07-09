@@ -23,63 +23,66 @@ public class SceneControl : MonoBehaviour {
 	private FocusSquare focusSquare;
 
     public GameObject progressPanel;
-    private int progress = 0;
-
 
 	void Start(){
-        
-		//Set up references
-		mapSession = GameObject.Find("MapSession").GetComponent<MapSession> ();
-		focusSquare = GameObject.Find("FocusSquare").GetComponent<FocusSquare> ();
+        Invoke("InitJido", 4f);
+	}
 
-		//Mapsession initialization
-		bool isMappingMode = PlayerPrefs.GetInt ("IsMappingMode") == 1;
-		string mapID = PlayerPrefs.GetString ("MapID");
-		string userID = PlayerPrefs.GetString ("UserID");
+    private void InitJido(){
 
-		mapSession.Init (isMappingMode ? MapMode.MapModeMapping : MapMode.MapModeLocalization, userID, mapID);
+        //Set up references
+        mapSession = GameObject.Find("MapSession").GetComponent<MapSession>();
+        focusSquare = GameObject.Find("FocusSquare").GetComponent<FocusSquare>();
 
-		//Set callback to handly MapStatus updates
-		mapSession.StatusChangedEvent += mapStatus => {
-			Debug.Log ("status updated: " + mapStatus);
-		};
-			
-		//Set callback that confirms when assets are stored
-		mapSession.AssetStoredEvent += stored => {
-			Debug.Log ("Assets stored: " + stored);
-		};
+        //Mapsession initialization
+        bool isMappingMode = PlayerPrefs.GetInt("IsMappingMode") == 1;
+        string mapID = PlayerPrefs.GetString("MapID");
+        string userID = PlayerPrefs.GetString("UserID");
+
+        mapSession.Init(isMappingMode ? MapMode.MapModeMapping : MapMode.MapModeLocalization, userID, mapID);
+
+        //Set callback to handly MapStatus updates
+        mapSession.StatusChangedEvent += mapStatus => {
+            Debug.Log("status updated: " + mapStatus);
+        };
+
+        //Set callback that confirms when assets are stored
+        mapSession.AssetStoredEvent += stored => {
+            Debug.Log("Assets stored: " + stored);
+        };
 
         //Set Callback for when assets are reloaded
         mapSession.AssetLoadedEvent += LoadAsset;
 
-		mapSession.ObjectDetectedEvent += detectedObject => {
+        mapSession.ObjectDetectedEvent += detectedObject => {
             Debug.Log("Detected " + detectedObject.Name);
-		};
+        };
 
         mapSession.ProgressIncrementedEvent += ProgressIncrement;
 
-		//Set up the UI of the scene
-		saveAssetButton.SetActive (false);
-		placeAssetButtons.SetActive (false);
+        //Set up the UI of the scene
+        saveAssetButton.SetActive(false);
+        placeAssetButtons.SetActive(false);
 
-		if (mapSession.Mode == MapMode.MapModeLocalization) {
-			placeAssetButtons.SetActive (false);
-		} 
+        if (mapSession.Mode == MapMode.MapModeLocalization)
+        {
+            placeAssetButtons.SetActive(false);
+        }
 
-		Toast ("First scan around your area to start!", 10.0f);
-	}
+        Toast("First scan around your area to start!", 10.0f);
+    }
 
 	void Update(){
-		if (!initialized && focusSquare.SquareState == FocusSquare.FocusState.Found) {
-			if (mapSession.Mode == MapMode.MapModeMapping) {
-				Toast ("Great job! Now if you were a bear, wouldn't you want a friendly garden? Get planting!", 2.0f);
-				placeAssetButtons.SetActive (true);
-			} else {
-				Toast ("Keep scanning the area until your bear's friendly garden reloads", 20.0f);
-			}
+		//if (!initialized && focusSquare.SquareState == FocusSquare.FocusState.Found) {
+		//	if (mapSession.Mode == MapMode.MapModeMapping) {
+		//		Toast ("Great job! Now if you were a bear, wouldn't you want a friendly garden? Get planting!", 2.0f);
+		//		placeAssetButtons.SetActive (true);
+		//	} else {
+		//		Toast ("Keep scanning the area until your bear's friendly garden reloads", 20.0f);
+		//	}
 
-			initialized = true;
-		}
+		//	initialized = true;
+		//}
 	}
 
 	// Placing new assets in the scene
@@ -137,9 +140,8 @@ public class SceneControl : MonoBehaviour {
 
 
     //TODO: shut off in at 5. move to 5 on reload.
-    private void ProgressIncrement(string progressString){
-        Toast(progressString, 0.5f);
-        progress++;
+    private void ProgressIncrement(int progress){
+        Toast("Progress now: " + progress.ToString(), 0.5f);
         if (progress > 5){
             progressPanel.SetActive(false);
             return;
@@ -172,7 +174,7 @@ public class SceneControl : MonoBehaviour {
     {
         foreach (var sceneAsset in sceneAssets)
         {
-            if (asset.AssetId == sceneAsset.name && (asset.Position - sceneAsset.Position).magnitude < 1e-4)
+            if (asset.AssetId == sceneAsset.name)
             {
                 return sceneAsset;
             }
