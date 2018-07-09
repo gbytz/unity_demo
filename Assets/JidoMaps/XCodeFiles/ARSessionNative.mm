@@ -557,6 +557,8 @@ inline void UnityLightDataFromARFrame(UnityLightData& lightData, ARFrame *arFram
     UnityARAnchorData data;
     UnityARAnchorDataFromARAnchorPtr(data, (ARPlaneAnchor*)anchor);
     _anchorAddedCallback(data);
+    
+    [[JidoSessionWrapper sharedInstance] planeDetected:anchor];
 }
 
 -(void)sendAnchorRemovedEvent:(ARAnchor*)anchor
@@ -564,6 +566,8 @@ inline void UnityLightDataFromARFrame(UnityLightData& lightData, ARFrame *arFram
     UnityARAnchorData data;
     UnityARAnchorDataFromARAnchorPtr(data, (ARPlaneAnchor*)anchor);
     _anchorRemovedCallback(data);
+    
+    [[JidoSessionWrapper sharedInstance] planeRemoved:anchor];
 }
 
 -(void)sendAnchorUpdatedEvent:(ARAnchor*)anchor
@@ -571,6 +575,8 @@ inline void UnityLightDataFromARFrame(UnityLightData& lightData, ARFrame *arFram
     UnityARAnchorData data;
     UnityARAnchorDataFromARAnchorPtr(data, (ARPlaneAnchor*)anchor);
     _anchorUpdatedCallback(data);
+    
+    [[JidoSessionWrapper sharedInstance] planeUpdated:anchor];
 }
 
 @end
@@ -817,6 +823,8 @@ static CGAffineTransform s_CurAffineTransform;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             _frameCallback(unityARCamera);
         });
+        
+        [[JidoSessionWrapper sharedInstance] update:frame];
     }
     
     

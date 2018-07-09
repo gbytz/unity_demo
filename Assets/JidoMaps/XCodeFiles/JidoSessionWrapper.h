@@ -28,6 +28,14 @@ typedef NS_ENUM(NSInteger, Mode)
 
 - (void)uploadAssets:(NSArray*)array;
 
+- (void)update:(ARFrame*) frame;
+
+- (void)planeDetected:(ARAnchor*) anchor;
+
+- (void)planeRemoved:(ARAnchor*) anchor;
+
+- (void)planeUpdated:(ARAnchor*) anchor;
+
 - (void)dispose;
 
 @end
