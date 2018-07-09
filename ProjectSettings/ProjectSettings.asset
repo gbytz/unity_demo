@@ -364,7 +364,7 @@ PlayerSettings:
   logObjCUncaughtExceptions: 1
   enableCrashReportAPI: 1
   cameraUsageDescription: AR BABY
-  locationUsageDescription: 
+  locationUsageDescription: Registration to map
   microphoneUsageDescription: 
   switchNetLibKey: 
   switchSocketMemoryPoolSize: 6144

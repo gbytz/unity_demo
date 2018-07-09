@@ -1,11 +1,11 @@
+#import <ARKit/ARKit.h>
 #import "JidoSessionWrapper.h"
 #import <JidoMaps/JidoMaps-Swift.h>
 #import <SceneKit/SceneKit.h>
-#import <ARKit/ARKit.h>
 
 @interface JidoSessionWrapper()
 
-@property (nonatomic, strong) JidoSession *mapSession;
+@property (nonatomic, strong) JidoSession *jidoSession;
 @property (nonatomic, strong) ARSession *session;
 @property (nonatomic) Mode mode;
 @property (nonatomic, strong) NSString *userId;
@@ -21,6 +21,7 @@ static NSString* assetLoadedCallback = @"";
 static NSString* statusUpdatedCallback = @"";
 static NSString* storePlacementCallback = @"";
 static NSString* progressCallback = @"";
+static NSString* objectDetectedCallback = @"";
 
 + (void)setUnityCallbackGameObject:(NSString *)objectName {
     unityCallbackGameObject = objectName;
@@ -40,6 +41,10 @@ static NSString* progressCallback = @"";
 
 + (void)setProgressCallbackFunction:(NSString*)functionName {
     progressCallback = functionName;
+}
+
++ (void)setObjectDetectedCallbackFunction:(NSString*)functionName {
+    objectDetectedCallback = functionName;
 }
 
 + (instancetype)sharedInstanceWithARSession:(ARSession *)session mapMode:(Mode)mode mapId: (NSString*) mapId userId:(NSString*) userId developerKey: (NSString*) developerKey screenHeight: (float)screenHeight screenWidth: (float)screenWidth;
@@ -74,7 +79,7 @@ static NSString* progressCallback = @"";
         self.mapId = mapId;
         self.userId = userId;
         
-        self.mapSession = [[JidoSession alloc] initWithArSession:self.session mapMode:mode userID:self.userId mapID:self.mapId developerKey:developerKey screenHeight:screenHeight screenWidth:screenWidth assetsFoundCallback:^(NSArray<MapAsset *> * assets) {
+        self.jidoSession = [[JidoSession alloc] initWithArSession:self.session mapMode:mode userID:self.userId mapID:self.mapId developerKey:developerKey screenHeight:screenHeight screenWidth:screenWidth assetsFoundCallback:^(NSArray<MapAsset *> * assets) {
             
             NSMutableArray *assetData = [[NSMutableArray alloc] init];
             for (MapAsset *asset in assets)
@@ -107,7 +112,38 @@ static NSString* progressCallback = @"";
         } statusCallback:^(enum MapStatus mapStatus) {
             NSLog(@"mapStatus: %li", mapStatus);
             UnitySendMessage([unityCallbackGameObject cStringUsingEncoding:NSASCIIStringEncoding], [statusUpdatedCallback cStringUsingEncoding:NSASCIIStringEncoding], [[NSString stringWithFormat:@"%ld", (long)mapStatus] cStringUsingEncoding:NSASCIIStringEncoding]);
+        } objectDetectedCallback:^(NSArray<DetectedObject *> * detectedObjects) {
+            NSLog(@"object detected");
+                    NSMutableArray *detectedObjectData = [[NSMutableArray alloc] init];
+                    for (DetectedObject *detectedObject in detectedObjects)
+                        {
+                                NSDictionary* dict = [NSMutableDictionary dictionary];
+                                [dict setValue:detectedObject.name forKey:@"Name"];
+                                [dict setValue:@(detectedObject.center.x) forKey:@"X"];
+                                [dict setValue:@(detectedObject.center.y) forKey:@"Y"];
+                                [dict setValue:@(detectedObject.center.z) forKey:@"Z"];
+                                [dict setValue:@(detectedObject.width) forKey:@"Width"];
+                                [dict setValue:@(detectedObject.height) forKey:@"Height"];
+                                [dict setValue:@(detectedObject.depth) forKey:@"Depth"];
+                                [dict setValue:@(detectedObject.orientation) forKey:@"Orientation"];
+                                [dict setValue:@(detectedObject.seenCount) forKey:@"SeenCount"];
+                                [dict setValue:@(detectedObject.id) forKey:@"Id"];
+                                [dict setValue:@(detectedObject.confidence) forKey:@"Confidence"];
+                                [detectedObjectData addObject:dict];
+                            }
             
+                    if([detectedObjectData count] == 0) {
+                            return;
+                        }
+            
+                    NSDictionary* objectsDict = [NSMutableDictionary dictionary];
+                    [objectsDict setValue:detectedObjectData forKey:@"Objects"];
+            
+                    NSError* error;
+                    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:objectsDict options:NSJSONWritingPrettyPrinted error:&error];
+                    NSString* json = [[NSString alloc] initWithData:jsonData encoding:NSASCIIStringEncoding];
+            
+            UnitySendMessage([unityCallbackGameObject cStringUsingEncoding:NSASCIIStringEncoding], [objectDetectedCallback cStringUsingEncoding:NSASCIIStringEncoding], [json cStringUsingEncoding:NSASCIIStringEncoding]);
         }];
     }
     
@@ -116,72 +152,16 @@ static NSString* progressCallback = @"";
 
 - (void)uploadAssets:(NSArray*)array {
     
-    BOOL result = [self.mapSession storePlacementWithAssets:array callback:^(BOOL stored)
+    BOOL result = [self.jidoSession storePlacementWithAssets:array callback:^(BOOL stored)
                    {
                        NSLog(@"model stored: %i", stored);
                        UnitySendMessage([unityCallbackGameObject cStringUsingEncoding:NSASCIIStringEncoding], [storePlacementCallback cStringUsingEncoding:NSASCIIStringEncoding], [[NSString stringWithFormat:@"%d", stored] cStringUsingEncoding:NSASCIIStringEncoding]);
                    }];
 }
 
-int signum(float n) { return (n < 0) ? -1 : (n > 0) ? +1 : 0; }
-
--(SCNVector4)matrixToQuarternion:(matrix_float4x4)m
+- (void)dispose
 {
-    simd_float4 col0 = m.columns[0];
-    simd_float4 col1 = m.columns[1];
-    simd_float4 col2 = m.columns[2];
-    float w = sqrt(MAX(0, 1 + col0[0] + col1[1] + col2[2])) / 2;
-    float x = sqrt(MAX(0, 1 + col0[0] - col1[1] - col2[2])) / 2;
-    float y = sqrt(MAX(0, 1 - col0[0] + col1[1] - col2[2])) / 2;
-    float z = sqrt(MAX(0, 1 - col0[0] - col1[1] + col2[2])) / 2;
-    
-    x *= signum(col2[1] - col1[2]);
-    y *= signum(col0[2] - col2[0]);
-    z *= signum(col1[0] - col0[1]);
-    
-    x = x / sqrt(1-w*w);
-    y = y / sqrt(1-w*w);
-    z = z / sqrt(1-w*w);
-    w = 2 * acos(w);
-    
-    return SCNVector4Make(x * -1, y * -1, z * -1, w);
-}
-
--(SCNNode*)getSCNNode:(ARAnchor*)anchor
-{
-    ARPlaneAnchor* planeAnchor = (ARPlaneAnchor*)anchor;
-    SCNNode *node = [[SCNNode alloc] init];
-    SCNNode *planeNode = [[SCNNode alloc] init];
-    SCNBox *planeGeometry = [[SCNBox alloc] init];
-    [planeGeometry setWidth:planeAnchor.extent.x];
-    [planeGeometry setHeight:0];
-    [planeGeometry setLength:planeAnchor.extent.z];
-    [planeNode setGeometry:planeGeometry];
-    [planeNode setPosition:SCNVector3Make(planeAnchor.center.x, planeAnchor.center.y, planeAnchor.center.z)];
-    [node addChildNode:planeNode];
-    [node setRotation:[self matrixToQuarternion:planeAnchor.transform]];
-    
-    return node;
-}
-
-- (void) updateWithFrame:(ARFrame*)frame {
-    [self.mapSession updateWithFrame:frame];
-}
-
-- (void) planeDetected:(ARAnchor*) anchor {
-    [self.mapSession planeDetectedWithNode:[self getSCNNode:anchor] anchor:anchor];
-}
-
-- (void) planeRemoved:(ARAnchor*) anchor {
-    [self.mapSession planeRemovedWithNode:[self getSCNNode:anchor] anchor:anchor];
-}
-
-- (void) planeUpdated:(ARAnchor*) anchor {
-    [self.mapSession planeUpdatedWithNode:[self getSCNNode:anchor] anchor:anchor];
-}
-
-- (void)dispose {
-    [self.mapSession dispose];
+    [self.jidoSession dispose];
 }
 
 @end
