@@ -908,7 +908,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9cc10b4974c74751aff4ba98b6d2473, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeveloperKey: 
+  DeveloperKey: AKIAJJD7BIQNQGOPCS4AJU1wpxw8ehMpbZw8rKLCJTV7j2DMT1scPr5FRjaw
   Mode: 0
 --- !u!4 &383602615
 Transform:
