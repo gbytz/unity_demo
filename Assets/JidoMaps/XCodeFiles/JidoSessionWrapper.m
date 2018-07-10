@@ -177,6 +177,7 @@ static NSString* objectDetectedCallback = @"";
 
 - (void)dispose {
     [self.jidoSession dispose];
+    self.jidoSession = nil;
 }
 
 @end
