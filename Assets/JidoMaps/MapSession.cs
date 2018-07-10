@@ -46,6 +46,10 @@ public class MapSession : MonoBehaviour
         mapsyncInterface = new UnityMapsyncLibNativeInterface(mapId, userId, DeveloperKey, mapMode == MapMode.MapModeMapping);
     }
 
+	public void Dispose() {
+		mapsyncInterface.Dispose ();
+	}
+
     public void StorePlacements(List<MapAsset> assets)
     {
         mapsyncInterface.SaveAssets(assets);

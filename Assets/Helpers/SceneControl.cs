@@ -17,15 +17,16 @@ public class SceneControl : MonoBehaviour {
 	public GameObject saveAssetButton;
 	public Text notification;
 	public GameObject placeAssetButtons;
-	private bool initialized = false;
 
 	private MapSession mapSession;
 	private FocusSquare focusSquare;
 
     public GameObject progressPanel;
 
+	private bool initialized = false;
+
 	void Start(){
-        Invoke("InitJido", 4f);
+		InitJido();
 	}
 
     private void InitJido(){
@@ -73,16 +74,17 @@ public class SceneControl : MonoBehaviour {
     }
 
 	void Update(){
-		//if (!initialized && focusSquare.SquareState == FocusSquare.FocusState.Found) {
-		//	if (mapSession.Mode == MapMode.MapModeMapping) {
-		//		Toast ("Great job! Now if you were a bear, wouldn't you want a friendly garden? Get planting!", 2.0f);
-		//		placeAssetButtons.SetActive (true);
-		//	} else {
-		//		Toast ("Keep scanning the area until your bear's friendly garden reloads", 20.0f);
-		//	}
+		if (!initialized && focusSquare.SquareState == FocusSquare.FocusState.Found) {
+			if (mapSession.Mode == MapMode.MapModeMapping) {
+				Toast ("Great job! Now if you were a bear, wouldn't you want some friends?", 2.0f);
+				placeAssetButtons.SetActive (true);
+			} else {
+				Toast ("Keep scanning the area until your bear's friends appear", 20.0f);
+			}
 
-		//	initialized = true;
-		//}
+
+			initialized = true;
+		}
 	}
 
 	// Placing new assets in the scene
@@ -96,7 +98,7 @@ public class SceneControl : MonoBehaviour {
 		//Instantiate prefab on focus square
 		Vector3 position = focusSquare.foundSquare.transform.position;
 		GameObject asset = Instantiate(GetPrefab(assetName), position, Quaternion.identity);
-        asset.name = assetName + "," + UnityEngine.Random.Range(0, 10000).ToString();
+        asset.name = assetName + "(" + UnityEngine.Random.Range(0, 10000).ToString();
         sceneAssets.Add(asset);
 
         SaveAssets();
@@ -130,14 +132,12 @@ public class SceneControl : MonoBehaviour {
         instantiatedAsset.name = mapAsset.AssetId;
         sceneAssets.Add(instantiatedAsset);
 
-        Toast("Your bear's garden has been found!", 2.0f);
+        Toast("Your bear's friends have been found!", 2.0f);
 
         placeAssetButtons.SetActive(true);
         saveAssetButton.SetActive(true);
 
     }
-
-
 
     //TODO: shut off in at 5. move to 5 on reload.
     private void ProgressIncrement(int progress){
@@ -151,6 +151,7 @@ public class SceneControl : MonoBehaviour {
 
     public void Back()
     {
+		mapSession.Dispose ();
         SceneManager.LoadSceneAsync("LoginScene");
     }
 
