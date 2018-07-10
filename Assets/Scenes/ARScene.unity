@@ -534,15 +534,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 66819654}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7c1c71d8ad5da9438de3b2e5990763f, type: 3}
+  m_Script: {fileID: 11500000, guid: bbb097c07812299498915a0a3e793843, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   IgnoreStartedOverGui: 1
-  IgnoreIsOverGui: 0
-  RequiredTapCount: 0
-  RequiredTapInterval: 0
   RequiredSelectable: {fileID: 0}
-  OnTap:
+  OnDown:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 267857032}
@@ -556,7 +553,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Lean.Touch.LeanFingerTap+LeanFingerEvent, Assembly-CSharp, Version=0.0.0.0,
+    m_TypeName: Lean.Touch.LeanFingerDown+LeanFingerEvent, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!4 &66819656
 Transform:
@@ -866,7 +863,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967291
   Camera: {fileID: 0}
-  MaxSelectables: 2
+  MaxSelectables: 1
   Search: 1
   Reselect: 0
   AutoDeselect: 1
