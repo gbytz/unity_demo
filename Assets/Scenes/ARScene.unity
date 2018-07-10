@@ -396,19 +396,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 66819654}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7c1c71d8ad5da9438de3b2e5990763f, type: 3}
+  m_Script: {fileID: 11500000, guid: 00ae97f110c81c740b4d095da37274f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   IgnoreStartedOverGui: 1
   IgnoreIsOverGui: 0
-  RequiredTapCount: 0
-  RequiredTapInterval: 0
+  IgnoreIfStatic: 0
   RequiredSelectable: {fileID: 0}
-  OnTap:
+  DeltaCoordinates: 0
+  OnSet:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 267857032}
-        m_MethodName: SelectScreenPosition
+        m_MethodName: SelectStartScreenPosition
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -418,7 +418,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Lean.Touch.LeanFingerTap+LeanFingerEvent, Assembly-CSharp, Version=0.0.0.0,
+    m_TypeName: Lean.Touch.LeanFingerSet+LeanFingerEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  OnSetDelta:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 267857031}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: Lean.Touch.LeanFingerSet+Vector2Event, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!4 &66819656
 Transform:
