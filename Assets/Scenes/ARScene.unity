@@ -728,7 +728,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967291
   Camera: {fileID: 0}
-  MaxSelectables: 2
+  MaxSelectables: 1
   Search: 1
   Reselect: 0
   AutoDeselect: 1

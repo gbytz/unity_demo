@@ -1824,7 +1824,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HideWithFinger: 0
-  DeselectOnUp: 1
+  DeselectOnUp: 0
   OnSelect:
     m_PersistentCalls:
       m_Calls: []
