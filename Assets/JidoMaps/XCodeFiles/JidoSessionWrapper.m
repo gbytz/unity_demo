@@ -88,7 +88,7 @@ static NSString* objectDetectedCallback = @"";
                 [dict setValue:asset.assetID forKey:@"AssetId"];
                 [dict setValue:@(asset.position.x) forKey:@"X"];
                 [dict setValue:@(asset.position.y) forKey:@"Y"];
-                [dict setValue:@(asset.position.z) forKey:@"Z"];
+                [dict setValue:@(asset.position.z* -1) forKey:@"Z"];
                 [dict setValue:@(asset.orientation) forKey:@"Orientation"];
                 
                 [assetData addObject:dict];

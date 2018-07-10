@@ -27,7 +27,7 @@ public class MapAsset
 		this.Orientation = orientation;
 		this.X = x;
 		this.Y = y;
-		this.Z = z;
+		this.Z = -z;
 	}
 
 	public MapAsset(string assetId, float orientation, Vector3 position) : this(assetId, orientation, position.x, position.y, position.z) {
