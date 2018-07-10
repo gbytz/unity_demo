@@ -23,6 +23,7 @@ public class SceneControl : MonoBehaviour {
     public GameObject progressPanel;
 
 	private bool initialized = false;
+    private bool found = false;
 
 	void Start(){
 		InitJido();
@@ -68,16 +69,17 @@ public class SceneControl : MonoBehaviour {
             addButton.SetActive(false);
         }
 
-        Toast("First scan around your area to start!", 10.0f);
+        Toast("Point to the floor to start!", 10.0f);
     }
 
 	void Update(){
 		if (!initialized && focusSquare.SquareState == FocusSquare.FocusState.Found) {
 			if (mapSession.Mode == MapMode.MapModeMapping) {
-				Toast ("Great job! Now if you were a bear, wouldn't you want some friends?", 2.0f);
+                Toast ("Great job! Now place some animals in your scene.", 2.0f);
+                Invoke("ScanNotification", 4.0f);
 				addButton.SetActive (true);
 			} else {
-				Toast ("Keep scanning the area until your bear's friends appear", 20.0f);
+				Toast ("Scan around your space until the scene is found...", 20.0f);
 			}
 
 
@@ -85,19 +87,27 @@ public class SceneControl : MonoBehaviour {
 		}
 	}
 
+    void ScanNotification(){
+        Toast("Make sure to move your space to turn the bar green...", 5.0f);
+    }
+
 	// Placing new assets in the scene
 	public void PlaceAsset(String assetName) { 
 		//Only place asset if focused on a plane
 		if (focusSquare.SquareState != FocusSquare.FocusState.Found) {
-			Toast ("Point to a surface to place plants.", 2.0f);
+			Toast ("Point to a surface to place animals.", 2.0f);
 			return;
 		}
 
 		//Instantiate prefab on focus square
 		Vector3 position = focusSquare.foundSquare.transform.position;
+        Vector3 targetPos = GameObject.Find("Main Camera").transform.position;
 		GameObject asset = Instantiate(GetPrefab(assetName), position, Quaternion.identity);
+        targetPos.y = asset.transform.position.y;
+        asset.transform.LookAt(targetPos);
         asset.name = assetName + "(" + UnityEngine.Random.Range(0, 10000).ToString();
         sceneAssets.Add(asset);
+        Animate(asset, "Failure");
 
         SaveAssets();
 
@@ -109,6 +119,8 @@ public class SceneControl : MonoBehaviour {
         foreach(GameObject asset in sceneAssets){
             MapAsset mapAsset = new MapAsset(asset.name, asset.transform.rotation.y, asset.transform.position);
             mapAssets.Add(mapAsset);
+            Toast("Your scene was updated!", 2.0f);
+
         }
 
         mapSession.StorePlacements (mapAssets);
@@ -130,7 +142,12 @@ public class SceneControl : MonoBehaviour {
         instantiatedAsset.name = mapAsset.AssetId;
         sceneAssets.Add(instantiatedAsset);
 
-        Toast("Your bear's friends have been found!", 2.0f);
+        Animate(instantiatedAsset, "Success");
+
+        if(!found){
+            found = true;
+            Toast("You found the scene!", 2.0f);
+        }
 
         addButton.SetActive(true);
 
@@ -138,11 +155,16 @@ public class SceneControl : MonoBehaviour {
 
     //TODO: shut off in at 5. move to 5 on reload.
     private void ProgressIncrement(int progress){
-        Toast("Progress now: " + progress.ToString(), 0.5f);
         if (progress > 5){
             progressPanel.SetActive(false);
+            Toast("Great Job!", 2.0f);
             return;
         }
+
+        if(progress > 4 && mapSession.Mode == MapMode.MapModeLocalization && !found){
+            progress = 4;
+        }
+
         progressPanel.GetComponent<ProgressBar>().AddProgress(progress);
     }
 
@@ -179,6 +201,12 @@ public class SceneControl : MonoBehaviour {
         }
 
         return null;
+    }
+
+    private void Animate(GameObject character, string triggerName)
+    {
+        print(triggerName);
+        character.GetComponentInChildren<Animator>().SetTrigger(triggerName);
     }
 
 	private void Toast(string message, float time) {
