@@ -14,9 +14,8 @@ public class SceneControl : MonoBehaviour {
     public List<GameObject> prefabs;
     private List<GameObject> sceneAssets = new List<GameObject>();
 
-	public GameObject saveAssetButton;
 	public Text notification;
-	public GameObject placeAssetButtons;
+    public GameObject addButton;
 
 	private MapSession mapSession;
 	private FocusSquare focusSquare;
@@ -62,12 +61,11 @@ public class SceneControl : MonoBehaviour {
         mapSession.ProgressIncrementedEvent += ProgressIncrement;
 
         //Set up the UI of the scene
-        saveAssetButton.SetActive(false);
-        placeAssetButtons.SetActive(false);
+        addButton.SetActive(false);
 
         if (mapSession.Mode == MapMode.MapModeLocalization)
         {
-            placeAssetButtons.SetActive(false);
+            addButton.SetActive(false);
         }
 
         Toast("First scan around your area to start!", 10.0f);
@@ -77,7 +75,7 @@ public class SceneControl : MonoBehaviour {
 		if (!initialized && focusSquare.SquareState == FocusSquare.FocusState.Found) {
 			if (mapSession.Mode == MapMode.MapModeMapping) {
 				Toast ("Great job! Now if you were a bear, wouldn't you want some friends?", 2.0f);
-				placeAssetButtons.SetActive (true);
+				addButton.SetActive (true);
 			} else {
 				Toast ("Keep scanning the area until your bear's friends appear", 20.0f);
 			}
@@ -138,8 +136,7 @@ public class SceneControl : MonoBehaviour {
 
         Toast("Your bear's friends have been found!", 2.0f);
 
-        placeAssetButtons.SetActive(true);
-        saveAssetButton.SetActive(true);
+        addButton.SetActive(true);
 
     }
 

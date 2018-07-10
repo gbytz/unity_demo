@@ -9,15 +9,15 @@ using UnityEngine.UI;
 /// </summary>
 public class LogInScript : MonoBehaviour {
 	public InputField MapID;
-	public InputField UserID;
 	public bool IsMappingMode;
 
 	private const string UserIDKey = "UserID";
 	private const string MapIDKey = "MapID";
+    private string defaultUserID = "demoUser";
 
 	void Start() {
 		if (PlayerPrefs.HasKey (UserIDKey)) {
-			UserID.text = PlayerPrefs.GetString (UserIDKey);
+            defaultUserID = PlayerPrefs.GetString (UserIDKey);
 		}
 
 		if (PlayerPrefs.HasKey (MapIDKey)) {
@@ -26,7 +26,7 @@ public class LogInScript : MonoBehaviour {
 	}
 
 	public void StartNew() {
-		if (string.IsNullOrEmpty (MapID.text) || string.IsNullOrEmpty (UserID.text)) {
+		if (string.IsNullOrEmpty (MapID.text)) {
 			return;
 		}
 
@@ -35,7 +35,7 @@ public class LogInScript : MonoBehaviour {
 	}
 
 	public void Reload() {
-		if (string.IsNullOrEmpty (MapID.text) || string.IsNullOrEmpty (UserID.text)) {
+		if (string.IsNullOrEmpty (MapID.text) || string.IsNullOrEmpty (defaultUserID)) {
 			return;
 		}
 
@@ -46,7 +46,7 @@ public class LogInScript : MonoBehaviour {
 	private void LoadNextScene() {
 		PlayerPrefs.SetInt ("IsMappingMode", IsMappingMode ? 1 : 0);
 		PlayerPrefs.SetString (MapIDKey, MapID.text);
-		PlayerPrefs.SetString (UserIDKey, UserID.text);
+        PlayerPrefs.SetString (UserIDKey, defaultUserID);
 
 		SceneManager.LoadSceneAsync ("ARScene");
 	}
