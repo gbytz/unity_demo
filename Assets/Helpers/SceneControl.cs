@@ -109,7 +109,7 @@ public class SceneControl : MonoBehaviour {
     public void SaveAssets() {
         List<MapAsset> mapAssets = new List<MapAsset>();
         foreach(GameObject asset in sceneAssets){
-            MapAsset mapAsset = new MapAsset(asset.name, asset.transform.rotation.y, asset.transform.position);
+			MapAsset mapAsset = new MapAsset(asset.name, asset.transform.rotation.eulerAngles.y, asset.transform.position);
             mapAssets.Add(mapAsset);
         }
 
@@ -119,18 +119,22 @@ public class SceneControl : MonoBehaviour {
 
     public void LoadAsset(MapAsset mapAsset){
         GameObject isLoaded = IsThisALoadedAsset(mapAsset);
+		
         if (isLoaded != null)
         {
             isLoaded.transform.position = mapAsset.Position;
-            isLoaded.transform.rotation = Quaternion.Euler(0, mapAsset.Orientation, 0);
+			isLoaded.transform.rotation = Quaternion.Euler(0, mapAsset.OrientationInDegrees, 0);
             return;
         }
 
         Vector3 position = new Vector3(mapAsset.X, mapAsset.Y, mapAsset.Z);
-        Quaternion orientation = Quaternion.Euler(0, mapAsset.Orientation, 0);
+		Quaternion orientation = Quaternion.Euler(0, mapAsset.OrientationInDegrees, 0);
+		Debug.Log (orientation.eulerAngles);
+		Debug.Log ("Asset loaded: " + mapAsset.OrientationInDegrees);
         GameObject instantiatedAsset = Instantiate(GetPrefab(mapAsset.AssetId), position, orientation);
         instantiatedAsset.name = mapAsset.AssetId;
         sceneAssets.Add(instantiatedAsset);
+		Debug.Log ("Asset instantiated: " + instantiatedAsset.transform.rotation.eulerAngles);
 
         Toast("Your bear's friends have been found!", 2.0f);
 

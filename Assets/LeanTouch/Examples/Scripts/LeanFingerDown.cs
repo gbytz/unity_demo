@@ -32,6 +32,11 @@ namespace Lean.Touch
 			}
 		}
 
+		public void Test3() {
+
+			Debug.Log ("Test3");
+		}
+
 		protected virtual void OnEnable()
 		{
 			// Hook events

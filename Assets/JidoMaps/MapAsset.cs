@@ -10,6 +10,9 @@ public class MapAssets {
 [Serializable]
 public class MapAsset
 {
+	/// <summary>
+	/// Stored in Radians
+	/// </summary>
 	public float Orientation;
 	public float X;
 	public float Y;
@@ -19,6 +22,13 @@ public class MapAsset
 	public Vector3 Position {
 		get {
 			return new Vector3 (X, Y, Z);
+		}
+	}
+
+	public float OrientationInDegrees {
+		get {
+//			return Mathf.Rad2Deg * Orientation;
+			return Orientation;
 		}
 	}
 
