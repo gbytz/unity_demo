@@ -69,7 +69,7 @@ public class SceneControl : MonoBehaviour {
             addButton.SetActive(false);
         }
 
-        Toast("Point to the floor to start!", 10.0f);
+        Toast("Look around to start!", 5.0f);
     }
 
 	void Update(){
@@ -79,7 +79,7 @@ public class SceneControl : MonoBehaviour {
                 Invoke("ScanNotification", 4.0f);
 				addButton.SetActive (true);
 			} else {
-				Toast ("Scan around your space until the scene is found...", 20.0f);
+				Toast ("Look around your space until the scene is found...", 20.0f);
 			}
 
 
@@ -88,14 +88,14 @@ public class SceneControl : MonoBehaviour {
 	}
 
     void ScanNotification(){
-        Toast("Make sure to move your space to turn the bar green...", 5.0f);
+        Toast("Look around your space to turn the bar green...", 5.0f);
     }
 
 	// Placing new assets in the scene
 	public void PlaceAsset(String assetName) { 
 		//Only place asset if focused on a plane
 		if (focusSquare.SquareState != FocusSquare.FocusState.Found) {
-			Toast ("Point to a surface to place animals.", 2.0f);
+			Toast ("Find a surface to place animals.", 2.0f);
 			return;
 		}
 
@@ -119,8 +119,6 @@ public class SceneControl : MonoBehaviour {
         foreach(GameObject asset in sceneAssets){
 			MapAsset mapAsset = new MapAsset(asset.name, asset.transform.rotation.eulerAngles.y, asset.transform.position);
             mapAssets.Add(mapAsset);
-            Toast("Your scene was updated!", 2.0f);
-
         }
 
         mapSession.StorePlacements (mapAssets);
@@ -133,14 +131,14 @@ public class SceneControl : MonoBehaviour {
         if (isLoaded != null)
         {
             isLoaded.transform.position = mapAsset.Position;
-			isLoaded.transform.rotation = Quaternion.Euler(0, mapAsset.OrientationInDegrees, 0);
+			isLoaded.transform.rotation = Quaternion.Euler(0, mapAsset.Orientation, 0);
             return;
         }
 
         Vector3 position = new Vector3(mapAsset.X, mapAsset.Y, mapAsset.Z);
-		Quaternion orientation = Quaternion.Euler(0, mapAsset.OrientationInDegrees, 0);
+		Quaternion orientation = Quaternion.Euler(0, mapAsset.Orientation, 0);
 		Debug.Log (orientation.eulerAngles);
-		Debug.Log ("Asset loaded: " + mapAsset.OrientationInDegrees);
+		Debug.Log ("Asset loaded: " + mapAsset.Orientation);
         GameObject instantiatedAsset = Instantiate(GetPrefab(mapAsset.AssetId), position, orientation);
         instantiatedAsset.name = mapAsset.AssetId;
         sceneAssets.Add(instantiatedAsset);
@@ -151,6 +149,7 @@ public class SceneControl : MonoBehaviour {
         if(!found){
             found = true;
             Toast("You found the scene!", 2.0f);
+            progressPanel.SetActive(false);
         }
 
         addButton.SetActive(true);
@@ -160,8 +159,6 @@ public class SceneControl : MonoBehaviour {
     //TODO: shut off in at 5. move to 5 on reload.
     private void ProgressIncrement(int progress){
         if (progress > 5){
-            progressPanel.SetActive(false);
-            Toast("Great Job!", 2.0f);
             return;
         }
 

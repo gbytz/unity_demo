@@ -25,13 +25,6 @@ public class MapAsset
 		}
 	}
 
-	public float OrientationInDegrees {
-		get {
-//			return Mathf.Rad2Deg * Orientation;
-			return Orientation;
-		}
-	}
-
 	public MapAsset(string assetId, float orientation, float x, float y, float z) {
 		this.AssetId = assetId;
 		this.Orientation = orientation;
