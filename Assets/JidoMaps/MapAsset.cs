@@ -10,6 +10,9 @@ public class MapAssets {
 [Serializable]
 public class MapAsset
 {
+	/// <summary>
+	/// Stored in Radians
+	/// </summary>
 	public float Orientation;
 	public float X;
 	public float Y;

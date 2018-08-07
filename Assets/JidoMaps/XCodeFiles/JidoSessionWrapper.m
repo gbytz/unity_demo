@@ -3,6 +3,8 @@
 #import <JidoMaps/JidoMaps-Swift.h>
 #import <SceneKit/SceneKit.h>
 
+#define RADIANS_TO_DEGREES(radians) ((radians) * (180.0 / M_PI))
+
 @interface JidoSessionWrapper()
 
 @property (nonatomic, strong) JidoSession *jidoSession;
@@ -84,12 +86,14 @@ static NSString* objectDetectedCallback = @"";
             NSMutableArray *assetData = [[NSMutableArray alloc] init];
             for (MapAsset *asset in assets)
             {
+                NSArray *parts = [asset.matrix componentsSeparatedByString:@","];
+                float theta = RADIANS_TO_DEGREES([parts[3] floatValue]);
                 NSDictionary* dict = [NSMutableDictionary dictionary];
                 [dict setValue:asset.assetID forKey:@"AssetId"];
                 [dict setValue:@(asset.position.x) forKey:@"X"];
                 [dict setValue:@(asset.position.y) forKey:@"Y"];
                 [dict setValue:@(asset.position.z* -1) forKey:@"Z"];
-                [dict setValue:@(asset.orientation) forKey:@"Orientation"];
+                [dict setValue:@(asset.orientation - theta) forKey:@"Orientation"];
                 
                 [assetData addObject:dict];
             }
@@ -126,7 +130,7 @@ static NSString* objectDetectedCallback = @"";
                 [dict setValue:@(detectedObject.height) forKey:@"Height"];
                 [dict setValue:@(detectedObject.depth) forKey:@"Depth"];
                 [dict setValue:@(detectedObject.orientation) forKey:@"Orientation"];
-                [dict setValue:@(detectedObject.seenCount) forKey:@"SeenCount"];
+//                [dict setValue:@(detectedObject.seenCount) forKey:@"SeenCount"];
                 [dict setValue:@(detectedObject.id) forKey:@"Id"];
                 [dict setValue:@(detectedObject.confidence) forKey:@"Confidence"];
                 [detectedObjectData addObject:dict];
