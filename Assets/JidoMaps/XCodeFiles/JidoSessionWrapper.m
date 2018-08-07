@@ -130,7 +130,7 @@ static NSString* objectDetectedCallback = @"";
                 [dict setValue:@(detectedObject.height) forKey:@"Height"];
                 [dict setValue:@(detectedObject.depth) forKey:@"Depth"];
                 [dict setValue:@(detectedObject.orientation) forKey:@"Orientation"];
-                [dict setValue:@(detectedObject.seenCount) forKey:@"SeenCount"];
+//                [dict setValue:@(detectedObject.seenCount) forKey:@"SeenCount"];
                 [dict setValue:@(detectedObject.id) forKey:@"Id"];
                 [dict setValue:@(detectedObject.confidence) forKey:@"Confidence"];
                 [detectedObjectData addObject:dict];
