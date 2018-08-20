@@ -94,4 +94,11 @@ public class MapSession : MonoBehaviour
             }
         }
     }
+
+    //private void OnDisable()
+    //{
+    //    Destroy(this);
+    //    print("destroy mapsession");
+
+    //}
 }

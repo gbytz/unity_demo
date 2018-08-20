@@ -220,4 +220,13 @@ public class SceneControl : MonoBehaviour {
 	private void ToastOff(){
 		notification.gameObject.SetActive (false);
 	}
+
+    //private void OnDisable()
+    //{
+    //    mapSession.Dispose();
+
+    //    Destroy(this);
+    //    print("destroy scenecontrol");
+    //    mapSession.Dispose();
+    //}
 }
