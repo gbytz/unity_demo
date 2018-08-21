@@ -13,18 +13,24 @@ public class Timer : MonoBehaviour {
             return timeElapsed;
         }
     }
-    private bool timerOn;
+    private bool timerOn = false;
 
     private bool alarmSet = false;
     private float alarmTime = 0;
     private bool repeatTimer = false;
 
+    void Start (){
+        timerOn = true;
+    }
+
 	// Update is called once per frame
 	void Update () {
+        print(timeElapsed.ToString());
         if(timerOn){
             timeElapsed += Time.deltaTime;
             if(alarmSet && timeElapsed > alarmTime){
                 alarm();
+                print("Alarm");
                 if(repeatTimer){
                     timeElapsed = 0;
                 } else {
@@ -39,5 +45,14 @@ public class Timer : MonoBehaviour {
         this.alarmTime = alarmTime;
         this.repeatTimer = repeatTimer;
         return alarm;
+    }
+
+    public void TimerOn(bool timerOn){
+        this.timerOn = timerOn;
+    }
+
+    public void ResetTimer(){
+        timeElapsed = 0;
+        timerOn = true;
     }
 }

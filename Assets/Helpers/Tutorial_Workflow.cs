@@ -1,46 +1,69 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Tutorial_Workflow : MonoBehaviour
 {
     public GameObject tutorialPanel;
     public GameObject[] imagePanels;
     public GameObject surfaceTipPanel;
-    public int currentPanel = 0;
+    public GameObject reloadTutorialPanel;
+    public GameObject addButton;
 
     private FocusSquare focusSquare;
+    private UX_Workflow ux_workflow;
 
+    private int currentPanel = 0;
     public bool foundSurface = false;
-    public bool placedObject = false;
+    private bool placedObject = false;
+    public bool placedObjectFlag = false;
     public int progress = 0;
 
-    private enum Step {FindSurfacePanel, FindingSurface, PlaceObjectPanel, PlacingObject, CompleteScanPanel};
-    private Step currentStep = Step.FindSurfacePanel;
+    public enum Step {FindSurfacePanel, FindingSurface, PlaceObjectPanel, PlacingObject, CompleteScanPanel, CompletedTutorial};
+    public Step currentStep = Step.FindSurfacePanel;
 
     void Start(){
         focusSquare = GameObject.Find("FocusSquare").GetComponent<FocusSquare>();
+        ux_workflow = FindObjectOfType<UX_Workflow>();
     }
 
-    private void Update()
+    void Update()
     {
-        print(currentStep.ToString());
-
         switch(currentStep){
             case Step.FindingSurface:
-                if (focusSquare.SquareState == FocusSquare.FocusState.Found){
+                 if (!foundSurface && focusSquare.SquareState == FocusSquare.FocusState.Found){
                     foundSurface = true;
-                    NextStep();
+                    Invoke("NextStep", 2f);
                 }
                 break;
 
             case Step.PlacingObject:
-                if(placedObject){
-                    NextStep();
+                if(!placedObject && placedObjectFlag){
+                    placedObject = true;
+                    Invoke("NextStep", 2f);
                 }
                 break;
         }
 
+    }
+
+    public void StartTutorial(MapMode mapMode){
+        switch(mapMode){
+            case MapMode.MapModeMapping:
+                currentStep = Step.FindSurfacePanel;
+                tutorialPanel.SetActive(true);
+                imagePanels[currentPanel].SetActive(true);
+                break;
+
+            case MapMode.MapModeLocalization:
+                currentStep = Step.CompleteScanPanel;
+                tutorialPanel.SetActive(true);
+                reloadTutorialPanel.SetActive(true);
+                break;
+
+        }
+        
     }
 
     public void NextStep()
@@ -51,27 +74,28 @@ public class Tutorial_Workflow : MonoBehaviour
         switch(currentStep){
             case Step.FindingSurface:
                 imagePanels[currentPanel].SetActive(false);
-                tutorialPanel.SetActive(false);
                 Invoke("ShowSurfaceTip", 8.0f);
                 break;
 
             case Step.PlaceObjectPanel:
-                tutorialPanel.SetActive(true);
-                imagePanels[currentPanel++].SetActive(true);
+                imagePanels[++currentPanel].SetActive(true);
+                addButton.SetActive(true);
+                addButton.GetComponent<Button>().enabled = false;
                 break;
 
             case Step.PlacingObject:
-                tutorialPanel.SetActive(false);
                 imagePanels[currentPanel].SetActive(false);
+                addButton.GetComponent<Button>().enabled = true;
                 break;
 
             case Step.CompleteScanPanel:
-                tutorialPanel.SetActive(true);
-                imagePanels[currentPanel++].SetActive(true);
+                imagePanels[++currentPanel].SetActive(true);
                 break;
 
-            default:
-                CompletedSteps();
+            case Step.CompletedTutorial:
+                imagePanels[currentPanel].SetActive(false);
+                reloadTutorialPanel.SetActive(false);
+                ux_workflow.CompleteTutorial();
                 break;
                 
         }
@@ -82,7 +106,6 @@ public class Tutorial_Workflow : MonoBehaviour
         if(foundSurface){
             return;
         }
-        tutorialPanel.SetActive(true);
         surfaceTipPanel.SetActive(true);
         Invoke("HideSurfaceTip", 4.0f);
 
@@ -92,12 +115,5 @@ public class Tutorial_Workflow : MonoBehaviour
     public void HideSurfaceTip(){
         surfaceTipPanel.SetActive(false);
     }
-    private void CompletedSteps(){
-        
-    }
-
-
-
-
 
 }

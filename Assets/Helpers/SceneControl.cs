@@ -14,11 +14,9 @@ public class SceneControl : MonoBehaviour {
     public List<GameObject> prefabs;
     private List<GameObject> sceneAssets = new List<GameObject>();
 
-	public Text notification;
-    public GameObject addButton;
-
 	private MapSession mapSession;
 	private FocusSquare focusSquare;
+    private UX_Workflow ux_workflow;
 
     public GameObject progressPanel;
 
@@ -34,6 +32,7 @@ public class SceneControl : MonoBehaviour {
         //Set up references
         mapSession = GameObject.Find("MapSession").GetComponent<MapSession>();
         focusSquare = GameObject.Find("FocusSquare").GetComponent<FocusSquare>();
+        ux_workflow = GetComponent<UX_Workflow>();
 
         //Mapsession initialization
         bool isMappingMode = PlayerPrefs.GetInt("IsMappingMode") == 1;
@@ -61,41 +60,23 @@ public class SceneControl : MonoBehaviour {
 
         mapSession.ProgressIncrementedEvent += ProgressIncrement;
 
-        //Set up the UI of the scene
-        addButton.SetActive(false);
-
-        if (mapSession.Mode == MapMode.MapModeLocalization)
-        {
-            addButton.SetActive(false);
-        }
-
-        Toast("Look around to start!", 5.0f);
     }
 
 	void Update(){
 		if (!initialized && focusSquare.SquareState == FocusSquare.FocusState.Found) {
-			if (mapSession.Mode == MapMode.MapModeMapping) {
-                Toast ("Great job! Now place some animals in your scene.", 2.0f);
-                Invoke("ScanNotification", 4.0f);
-				addButton.SetActive (true);
-			} else {
-				Toast ("Look around your space until the scene is found...", 20.0f);
-			}
-
-
 			initialized = true;
 		}
 	}
 
     void ScanNotification(){
-        Toast("Look around your space to turn the bar green...", 5.0f);
+        ux_workflow.Toast("Look around your space to turn the bar green...", 5.0f);
     }
 
 	// Placing new assets in the scene
 	public void PlaceAsset(String assetName) { 
 		//Only place asset if focused on a plane
 		if (focusSquare.SquareState != FocusSquare.FocusState.Found) {
-			Toast ("Find a surface to place animals.", 2.0f);
+            ux_workflow.Toast ("Find a surface to place animals.", 2.0f);
 			return;
 		}
 
@@ -108,6 +89,8 @@ public class SceneControl : MonoBehaviour {
         asset.name = assetName + "(" + UnityEngine.Random.Range(0, 10000).ToString();
         sceneAssets.Add(asset);
         Animate(asset, "Failure");
+
+        ux_workflow.ObjectPlaced();
 
         SaveAssets();
 
@@ -148,11 +131,12 @@ public class SceneControl : MonoBehaviour {
 
         if(!found){
             found = true;
-            Toast("You found the scene!", 2.0f);
-            progressPanel.SetActive(false);
+            ux_workflow.Toast("Your scene has been found! Note that your result will continue to improve as your bar turns green.", 5.0f);
+            ux_workflow.objectReloaded = true;
+        } else {
+            ux_workflow.Toast("Your result was updated.", 3.0f);
         }
 
-        addButton.SetActive(true);
 
     }
 
@@ -167,12 +151,7 @@ public class SceneControl : MonoBehaviour {
         }
 
         progressPanel.GetComponent<ProgressBar>().AddProgress(progress);
-    }
-
-    public void Back()
-    {
-		mapSession.Dispose ();
-        SceneManager.LoadSceneAsync("LoginScene");
+        ux_workflow.IncrementProgress(progress);
     }
 
     private GameObject GetPrefab(string prefabName)
@@ -210,23 +189,4 @@ public class SceneControl : MonoBehaviour {
         character.GetComponentInChildren<Animator>().SetTrigger(triggerName);
     }
 
-	private void Toast(string message, float time) {
-		notification.text = message;
-		notification.gameObject.SetActive (true);
-		CancelInvoke ();
-		Invoke ("ToastOff", time);
-	}
-
-	private void ToastOff(){
-		notification.gameObject.SetActive (false);
-	}
-
-    //private void OnDisable()
-    //{
-    //    mapSession.Dispose();
-
-    //    Destroy(this);
-    //    print("destroy scenecontrol");
-    //    mapSession.Dispose();
-    //}
 }

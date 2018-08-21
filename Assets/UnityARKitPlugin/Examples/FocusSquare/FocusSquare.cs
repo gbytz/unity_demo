@@ -139,5 +139,11 @@ public class FocusSquare : MonoBehaviour {
 
 	}
 
+    //private void OnDisable()
+    //{
+    //    Destroy(this);
+    //    print("destroy focus square");
+    //}
+
 
 }

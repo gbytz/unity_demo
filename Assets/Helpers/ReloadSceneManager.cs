@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class ReloadSceneManager : MonoBehaviour {
 
     public GameObject ReloadPanel;
+    public Text sceneIDText;
 
     public InputField MapIDInput;
     private bool IsMappingMode;
@@ -23,6 +24,7 @@ public class ReloadSceneManager : MonoBehaviour {
         if (PlayerPrefs.HasKey(MapIDKey))
         {
             mapID = PlayerPrefs.GetString(MapIDKey);
+            sceneIDText.text = mapID;
         }
     }
 
