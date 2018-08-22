@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.XR.iOS;
 
 public class UX_Workflow : MonoBehaviour {
 
@@ -20,6 +21,7 @@ public class UX_Workflow : MonoBehaviour {
     public bool tutorialFinished = false;
 
     private Timer tipTimer;
+    private int tipCount;
 
     void Start(){
         mapSession = GameObject.Find("MapSession").GetComponent<MapSession>();
@@ -31,6 +33,8 @@ public class UX_Workflow : MonoBehaviour {
         }
 
         tutorial.StartTutorial(mapMode);
+
+        UnityARSessionNativeInterface.ARFrameUpdatedEvent += ARFrameUpdated;
 
     }
 
@@ -169,45 +173,89 @@ public class UX_Workflow : MonoBehaviour {
         tipTimer.ResetTimer();
     }
 
+    string[] ScanTipsMapping = {"Try scanning areas where there are objects or textured surfaces.",
+                         "You're doing great so far, try moving around your space more and scanning a new area.", 
+        "Try moving around your space more and scanning a new area.",
+        "Scanning a table or patterned wall in your area could improve things.",
+        "You can improve your scan by slowly turning around."};
+
+    string[] ScanTipsLocalization = {"Pretty good. make sure scanning the part of the space where you were originally.",
+        "You're doing great so far, show your phone the original objects or structures it saw the first time.",
+                         "Try moving around the space more and scanning a different part of the area.",
+        "Scanning a table or patterned wall in your area could improve things.",
+                         "You can improve your scan by slowly turning around."};
+
     public void GiveTip(){
         switch(mapMode){
             case MapMode.MapModeMapping:
                 if (!tutorialFinished)
                     return;
+                if(tipCount == 5){
+                    switch(progress){
+                        case 0:
+                        case 1:
+                        case 2:
+                        case 3:
+                            Toast("It seems like you are having some difficulty scanning. Maybe we can try to reload it anyways.", 3.0f);
+                            Invoke("LeaveScene", 3.0f);
+                            break;
+
+                        case 4:
+                        case 5:
+                            Toast("You've done a great job, let's go reload your scene.", 3.0f);
+                            Invoke("LeaveScene", 3.0f);
+                            break;
+                    }
+                }
                 switch (progress)
                 {
                     case 0:
                     case 1:
                     case 2:
-                        Toast("Try scanning areas where there are objects or structures.", 3.0f);
-                        break;
                     case 3:
-                        Toast("You're doing great so far, try moving around your space more and scanning a new area.", 3.0f);
+                    case 4:
+                        Toast(ScanTipsMapping[tipCount], 3.0f);
                         break;
                 }
+                tipCount++;
                 break;
 
             case MapMode.MapModeLocalization:
                 if (!tutorialFinished || objectReloaded)
                     return;
+
+                if (tipCount == 5)
+                {
+                    switch (progress)
+                    {
+                        case 0:
+                        case 1:
+                        case 2:
+                        case 3:
+                            Toast("It seems like you are having some difficulty scanning. Let's see try this again.", 3.0f);
+                            Invoke("LeaveScene", 3.0f);
+                            break;
+
+                        case 4:
+                        case 5:
+                            Toast("Hmm, we would have expected a result by now. Are you sure you are scanning the same space? Let's go back and try again.", 3.0f);
+                            Invoke("LeaveScene", 3.0f);
+                            break;
+                    }
+                }
+
                 switch (progress)
                 {
                     case 0:
-                        Toast("Hmm, seems like your AR tracking is having issues, let's try this again.", 3.0f);
-                        Invoke("LeaveScene", 3.0f);
-                        break;
                     case 1:
                     case 2:
-                        Toast("Almost there. Try scanning the part of the space where you were originally.", 3.0f);
-                        break;
                     case 3:
-                        Toast("You're doing great so far, make sure that you are showing your phone the same objects or structures around your space.", 3.0f);
-                        break;
+                    case 4:
                     case 5:
-                        Toast("Hmm, we would have expected a result by now. Are you sure you are scanning the same space? Let's go back and try again.", 3.0f);
-                        Invoke("LeaveScene", 3.0f);
+                        Toast(ScanTipsLocalization[tipCount], 3.0f);
                         break;
                 }
+                tipCount++;
                 break;
 
         }
@@ -247,6 +295,18 @@ public class UX_Workflow : MonoBehaviour {
                 break;
         }
     }
+
+    private void ARFrameUpdated(UnityARCamera cam)
+   {
+        //TODO: be smarter about this
+        if(!tutorialFinished){
+            return;
+        }
+
+        if (cam.trackingState == ARTrackingState.ARTrackingStateLimited) {
+          Toast("AR Tracking is limited. You need to be in a well lit area and minimize shaking your phone.", 3f);
+       }
+   }
 
     public void Toast(string message, float time)
     {

@@ -115,6 +115,7 @@ public class SceneControl : MonoBehaviour {
         {
             isLoaded.transform.position = mapAsset.Position;
 			isLoaded.transform.rotation = Quaternion.Euler(0, mapAsset.Orientation, 0);
+            ux_workflow.Toast("Your result was updated.", 3.0f);
             return;
         }
 
@@ -131,11 +132,9 @@ public class SceneControl : MonoBehaviour {
 
         if(!found){
             found = true;
-            ux_workflow.Toast("Your scene has been found! Note that your result will continue to improve as your bar turns green.", 5.0f);
+            ux_workflow.Toast("Your scene has been found! If you are happy with your result press the back button, otherwise your result will continue to improve as your bar turns green. ", 5.0f);
             ux_workflow.objectReloaded = true;
-        } else {
-            ux_workflow.Toast("Your result was updated.", 3.0f);
-        }
+        } 
 
 
     }

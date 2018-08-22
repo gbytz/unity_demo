@@ -17,12 +17,12 @@ public class StartSceneManager : MonoBehaviour
     private string defaultUserID = "demoUser";
     private string mapID = "";
 
-    private const string characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    private const string characters = "1234567890";
 
     void Start()
     {
         //Generate unique map ID
-        mapID = GenerateMapID(3, mapID);
+        mapID = GenerateMapID(4, mapID);
         print(mapID);
     }
 
