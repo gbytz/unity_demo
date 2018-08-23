@@ -152,15 +152,15 @@ public class UX_Workflow : MonoBehaviour {
                 switch (progress)
                 {
                     case 3:
-                        Toast("Great job so far, keep scanning to ensure you can reload your scene every time!", 3.0f);
+                        Toast("Great job so far, keep scanning to ensure you can reload your scene every time!", 4.0f);
                         break;
 
                     case 4:
-                        Toast("Just a little more and your scan will go from Good to Great!", 3.0f);
+                        Toast("Just a little more and your scan will go from Good to Great!", 4.0f);
                         break;
 
                     case 5:
-                        Toast("You did it! You can press the back button to learn how you can reload your scene.", 3.0f);
+                        Toast("You did it! You can press the back button to learn how you can reload your scene.", 4.0f);
                         break;
                 }
                 break;
@@ -196,14 +196,14 @@ public class UX_Workflow : MonoBehaviour {
                         case 1:
                         case 2:
                         case 3:
-                            Toast("It seems like you are having some difficulty scanning. Maybe we can try to reload it anyways.", 3.0f);
-                            Invoke("LeaveScene", 3.0f);
+                            Toast("It seems like you are having some difficulty scanning. Maybe we can try to reload it anyways.", 4.0f);
+                            Invoke("LeaveScene", 4.0f);
                             break;
 
                         case 4:
                         case 5:
-                            Toast("You've done a great job, let's go reload your scene.", 3.0f);
-                            Invoke("LeaveScene", 3.0f);
+                            Toast("You've done a great job, let's go reload your scene.", 4.0f);
+                            Invoke("LeaveScene",4.0f);
                             break;
                     }
                 }
@@ -232,14 +232,14 @@ public class UX_Workflow : MonoBehaviour {
                         case 1:
                         case 2:
                         case 3:
-                            Toast("It seems like you are having some difficulty scanning. Let's see try this again.", 3.0f);
-                            Invoke("LeaveScene", 3.0f);
+                            Toast("It seems like you are having some difficulty scanning. Let's see try this again.", 4.0f);
+                            Invoke("LeaveScene", 4.0f);
                             break;
 
                         case 4:
                         case 5:
-                            Toast("Hmm, we would have expected a result by now. Are you sure you are scanning the same space? Let's go back and try again.", 3.0f);
-                            Invoke("LeaveScene", 3.0f);
+                            Toast("Hmm, we would have expected a result by now. Are you sure you are scanning the same space? Let's go back and try again.", 4.0f);
+                            Invoke("LeaveScene", 4.0f);
                             break;
                     }
                 }
@@ -252,7 +252,7 @@ public class UX_Workflow : MonoBehaviour {
                     case 3:
                     case 4:
                     case 5:
-                        Toast(ScanTipsLocalization[tipCount], 3.0f);
+                        Toast(ScanTipsLocalization[tipCount], 4.0f);
                         break;
                 }
                 tipCount++;
@@ -304,7 +304,7 @@ public class UX_Workflow : MonoBehaviour {
         }
 
         if (cam.trackingState == ARTrackingState.ARTrackingStateLimited) {
-          Toast("AR Tracking is limited. You need to be in a well lit area and minimize shaking your phone.", 3f);
+            Toast("AR Tracking is limited. You need to be in a well lit area and minimize shaking your phone.", 4.0f);
        }
    }
 
