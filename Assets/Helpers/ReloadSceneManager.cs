@@ -6,7 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class ReloadSceneManager : MonoBehaviour {
 
-    public GameObject ReloadPanel;
+    public GameObject ReloadNewPanel;
+    public GameObject ReloadOldPanel;
+    public GameObject TutorialPanel;
     public Text sceneIDText;
 
     public InputField MapIDInput;
@@ -17,7 +19,7 @@ public class ReloadSceneManager : MonoBehaviour {
     private string defaultUserID = "demoUser";
     private string mapID = "";
 
-    private const string characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    private const string characters = "1234567890";
 
     void Start()
     {
@@ -26,6 +28,12 @@ public class ReloadSceneManager : MonoBehaviour {
             mapID = PlayerPrefs.GetString(MapIDKey);
             sceneIDText.text = mapID;
         }
+    }
+
+    public void StartNew(){
+        mapID = GenerateMapID(4, mapID);
+        IsMappingMode = true;
+        LoadNextScene();
     }
 
     public void Reload()
@@ -51,9 +59,23 @@ public class ReloadSceneManager : MonoBehaviour {
         LoadNextScene();
     }
 
-    public void ToggleReload()
+    public void ShowReloadPanel()
     {
-        ReloadPanel.SetActive(!ReloadPanel.activeSelf);
+        if(mapID != ""){
+            ReloadOldPanel.SetActive(true);
+        } else {
+            ReloadNewPanel.SetActive(true);
+        }
+
+    }
+
+    public void ShowReloadNewPanel(){
+        ReloadOldPanel.SetActive(false);
+        ReloadNewPanel.SetActive(true);
+    }
+
+    public void ShowTutorialPanel(){
+        TutorialPanel.SetActive(true);   
     }
 
     private void LoadNextScene()
@@ -65,7 +87,21 @@ public class ReloadSceneManager : MonoBehaviour {
         SceneManager.LoadSceneAsync("ARScene");
     }
 
-    public void LoadStartScene(){
-        SceneManager.LoadSceneAsync("StartScene");
+    public void LoadTutorial(){
+        PlayerPrefs.SetInt("TutorialCompleted", 0);
+        SceneManager.LoadSceneAsync("Tutorial");
+    }
+
+    private string GenerateMapID(int length, string ID)
+    {
+        if (ID.Length < length)
+        {
+            return (ID + characters[Random.Range(0, characters.Length - 1)] + GenerateMapID(length - 1, ID));
+        }
+        else
+        {
+            return "";
+        }
+
     }
 }
