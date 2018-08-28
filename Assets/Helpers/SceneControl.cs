@@ -17,6 +17,7 @@ public class SceneControl : MonoBehaviour {
 	private MapSession mapSession;
 	private FocusSquare focusSquare;
     private UX_Workflow ux_workflow;
+    public string mapID = "";
 
     public GameObject progressPanel;
 
@@ -36,7 +37,7 @@ public class SceneControl : MonoBehaviour {
 
         //Mapsession initialization
         bool isMappingMode = PlayerPrefs.GetInt("IsMappingMode") == 1;
-        string mapID = PlayerPrefs.GetString("MapID");
+        mapID = PlayerPrefs.GetString("MapID");
         string userID = PlayerPrefs.GetString("UserID");
 
         mapSession.Init(isMappingMode ? MapMode.MapModeMapping : MapMode.MapModeLocalization, userID, mapID);
@@ -132,7 +133,7 @@ public class SceneControl : MonoBehaviour {
 
         if(!found){
             found = true;
-            ux_workflow.Toast("Your scene has been found! If you are happy with your result press the back button, otherwise your result will continue to improve as your bar turns green. ", 5.0f);
+            ux_workflow.Toast("Your scene has been found! If you are happy with your result press the arrow below, otherwise your result will continue to improve as your bar turns green. ", 5.0f);
             ux_workflow.objectReloaded = true;
         } 
 

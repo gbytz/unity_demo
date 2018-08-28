@@ -12,13 +12,15 @@ public class UX_Workflow : MonoBehaviour {
     public Text exitPanelText;
     public GameObject notificationPanel;
     public Text notification;
+    public GameObject helpPanel;
     private MapSession mapSession;
+    private bool tutorialCompleted = false;
 
     public int progress = 0;
     private MapMode mapMode;
     public bool placedObject = false;
     public bool objectReloaded = false;
-    public bool tutorialFinished = false;
+    public bool tutorialWorkflowDone = false;
 
     private Timer tipTimer;
     private int tipCount;
@@ -32,7 +34,18 @@ public class UX_Workflow : MonoBehaviour {
             mapMode = MapMode.MapModeLocalization;
         }
 
-        tutorial.StartTutorial(mapMode);
+        if (PlayerPrefs.HasKey("TutorialCompleted"))
+        {
+            int tut = PlayerPrefs.GetInt("TutorialCompleted");
+            if (tut == 1)
+            {
+                tutorialCompleted = true;
+            } else {
+                tutorial.StartTutorial(mapMode);
+            }
+        } else {
+            tutorial.StartTutorial(mapMode);
+        }
 
         UnityARSessionNativeInterface.ARFrameUpdatedEvent += ARFrameUpdated;
 
@@ -43,7 +56,7 @@ public class UX_Workflow : MonoBehaviour {
         switch (mapMode)
         {
             case MapMode.MapModeMapping:
-                switch (tutorialFinished)
+                switch (tutorialWorkflowDone)
                 {
                     case false:
                         exitPanelText.text = "You still have not completed the tutorial. Are you sure you want to quit?";
@@ -75,7 +88,7 @@ public class UX_Workflow : MonoBehaviour {
                 break;
 
             case MapMode.MapModeLocalization:
-                switch (tutorialFinished)
+                switch (tutorialWorkflowDone)
                 {
                     case false:
                         break;
@@ -129,6 +142,26 @@ public class UX_Workflow : MonoBehaviour {
         exitPanel.SetActive(false);
     }
 
+    public void ToggleHelpPanel(){
+        helpPanel.SetActive(!helpPanel.activeSelf);
+    }
+
+    public void SendFeedback(){
+
+        string email = "info@jidomaps.com";
+        string subject = MyEscapeURL("Feedback for Persistence Demo");
+        string body = MyEscapeURL("I just ran the tutorial using map ID " +GetComponent<SceneControl>().mapID + ". My feedback is...");
+        Application.OpenURL("mailto:" + email + "?subject=" + subject + "&body=" + body);
+
+        helpPanel.SetActive(false);
+    }
+
+    public void RestartTutorial(){
+        PlayerPrefs.SetInt("TutorialCompleted", 0);
+        SceneManager.LoadSceneAsync("Tutorial");
+
+    }
+
     public void ObjectPlaced(){
         placedObject = true;
         tutorial.placedObjectFlag = true;
@@ -136,7 +169,7 @@ public class UX_Workflow : MonoBehaviour {
 
     public void CompleteTutorial()
     {
-        tutorialFinished = true;
+        tutorialWorkflowDone = true;
         tipTimer = gameObject.AddComponent<Timer>();
         tipTimer.SetAlarm(10f, true);
         tipTimer.alarm += GiveTip;
@@ -147,7 +180,7 @@ public class UX_Workflow : MonoBehaviour {
         this.progress = progress;
         switch(mapMode){
             case MapMode.MapModeMapping:
-                if (!tutorialFinished)
+                if (!tutorialWorkflowDone)
                     return;
                 switch (progress)
                 {
@@ -160,7 +193,7 @@ public class UX_Workflow : MonoBehaviour {
                         break;
 
                     case 5:
-                        Toast("You did it! You can press the back button to learn how you can reload your scene.", 4.0f);
+                        Toast("You did it! When you are ready, press the arrow below to learn how you can reload your scene.", 4.0f);
                         break;
                 }
                 break;
@@ -188,7 +221,7 @@ public class UX_Workflow : MonoBehaviour {
     public void GiveTip(){
         switch(mapMode){
             case MapMode.MapModeMapping:
-                if (!tutorialFinished)
+                if (!tutorialWorkflowDone)
                     return;
                 if(tipCount == 5){
                     switch(progress){
@@ -206,22 +239,23 @@ public class UX_Workflow : MonoBehaviour {
                             Invoke("LeaveScene",4.0f);
                             break;
                     }
+                } else {
+                    switch (progress)
+                    {
+                        case 0:
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 4:
+                            Toast(ScanTipsMapping[tipCount], 3.0f);
+                            break;
+                    }
+                    tipCount++;   
                 }
-                switch (progress)
-                {
-                    case 0:
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 4:
-                        Toast(ScanTipsMapping[tipCount], 3.0f);
-                        break;
-                }
-                tipCount++;
                 break;
 
             case MapMode.MapModeLocalization:
-                if (!tutorialFinished || objectReloaded)
+                if (!tutorialWorkflowDone || objectReloaded)
                     return;
 
                 if (tipCount == 5)
@@ -232,7 +266,7 @@ public class UX_Workflow : MonoBehaviour {
                         case 1:
                         case 2:
                         case 3:
-                            Toast("It seems like you are having some difficulty scanning. Let's see try this again.", 4.0f);
+                            Toast("It seems like you are having some difficulty scanning. Let's try this again.", 4.0f);
                             Invoke("LeaveScene", 4.0f);
                             break;
 
@@ -242,20 +276,20 @@ public class UX_Workflow : MonoBehaviour {
                             Invoke("LeaveScene", 4.0f);
                             break;
                     }
+                } else {
+                    switch (progress)
+                    {
+                        case 0:
+                        case 1:
+                        case 2:
+                        case 3:
+                        case 4:
+                        case 5:
+                            Toast(ScanTipsLocalization[tipCount], 4.0f);
+                            break;
+                    }
+                    tipCount++;   
                 }
-
-                switch (progress)
-                {
-                    case 0:
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                        Toast(ScanTipsLocalization[tipCount], 4.0f);
-                        break;
-                }
-                tipCount++;
                 break;
 
         }
@@ -265,33 +299,33 @@ public class UX_Workflow : MonoBehaviour {
     public void LeaveScene(){
         switch(mapMode){
             case MapMode.MapModeMapping:
-                switch(placedObject){
+                switch(tutorialCompleted){
                     case false:
                         mapSession.Dispose();
-                        SceneManager.LoadSceneAsync("StartScene");
+                        SceneManager.LoadSceneAsync("MidTutorial");
                         break;
 
                     case true:
                         mapSession.Dispose();
-                        SceneManager.LoadSceneAsync("ReloadScene");
+                        SceneManager.LoadSceneAsync("MainScene");
                         break;
                 }
                 break;
 
 
             case MapMode.MapModeLocalization:
-                switch(objectReloaded){
+                switch (objectReloaded)
+                {
                     case false:
                         mapSession.Dispose();
-                        SceneManager.LoadSceneAsync("ReloadScene");
+                        SceneManager.LoadSceneAsync("MidTutorial");
                         break;
 
                     case true:
                         mapSession.Dispose();
-                        SceneManager.LoadSceneAsync("FeedbackScene");
+                        SceneManager.LoadSceneAsync("MainScene");
                         break;
                 }
-
                 break;
         }
     }
@@ -299,7 +333,7 @@ public class UX_Workflow : MonoBehaviour {
     private void ARFrameUpdated(UnityARCamera cam)
    {
         //TODO: be smarter about this
-        if(!tutorialFinished){
+        if(!tutorialWorkflowDone){
             return;
         }
 
@@ -312,13 +346,17 @@ public class UX_Workflow : MonoBehaviour {
     {
         notification.text = message;
         notificationPanel.SetActive(true);
-        CancelInvoke();
         Invoke("ToastOff", time);
     }
 
     private void ToastOff()
     {
         notificationPanel.SetActive(false);
+    }
+
+    string MyEscapeURL(string url)
+    {
+        return WWW.EscapeURL(url).Replace("+", "%20");
     }
 
 }

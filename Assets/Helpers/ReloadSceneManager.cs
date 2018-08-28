@@ -9,6 +9,7 @@ public class ReloadSceneManager : MonoBehaviour {
     public GameObject ReloadNewPanel;
     public GameObject ReloadOldPanel;
     public GameObject TutorialPanel;
+    public GameObject FeedbackPanel;
     public Text sceneIDText;
 
     public InputField MapIDInput;
@@ -28,10 +29,21 @@ public class ReloadSceneManager : MonoBehaviour {
             mapID = PlayerPrefs.GetString(MapIDKey);
             sceneIDText.text = mapID;
         }
+
+        if (PlayerPrefs.HasKey("TutorialCompleted"))
+        {
+            int tutorialCompleted = PlayerPrefs.GetInt("TutorialCompleted");
+            if (tutorialCompleted == 0)
+            {
+                FeedbackPanel.SetActive(true);
+            }
+        } else {
+            FeedbackPanel.SetActive(true);
+        }
     }
 
     public void StartNew(){
-        mapID = GenerateMapID(4, mapID);
+        mapID = GenerateMapID(4, "");
         IsMappingMode = true;
         LoadNextScene();
     }
@@ -74,8 +86,25 @@ public class ReloadSceneManager : MonoBehaviour {
         ReloadNewPanel.SetActive(true);
     }
 
-    public void ShowTutorialPanel(){
-        TutorialPanel.SetActive(true);   
+    public void ToggleTutorialPanel(){
+        TutorialPanel.SetActive(!TutorialPanel.activeSelf);   
+    }
+
+    public void SendFeedback(){
+
+        string email = "info@jidomaps.com";
+        string subject = MyEscapeURL("Feedback for Persistence Demo");
+        string body = MyEscapeURL("I just ran the tutorial using map ID " + mapID + ". My feedback is...");
+        Application.OpenURL("mailto:" + email + "?subject=" + subject + "&body=" + body);
+
+        PlayerPrefs.SetInt("TutorialCompleted", 1);
+        FeedbackPanel.SetActive(false);
+
+    }
+
+    public void EndTutorial(){
+        PlayerPrefs.SetInt("TutorialCompleted", 1);
+        FeedbackPanel.SetActive(false);
     }
 
     private void LoadNextScene()
@@ -103,5 +132,10 @@ public class ReloadSceneManager : MonoBehaviour {
             return "";
         }
 
+    }
+
+    string MyEscapeURL(string url)
+    {
+        return WWW.EscapeURL(url).Replace("+", "%20");
     }
 }

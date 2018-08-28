@@ -8,21 +8,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tutorial.unity
     guid: 0b18b78e9a6084033a13b1a0f1bcb52a
-  - enabled: 1
-    path: Assets/Scenes/StartScene.unity
-    guid: 4ceadb0da4ef24ed38bc9c102f7da323
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
   - enabled: 1
+    path: Assets/Scenes/MidTutorial.unity
+    guid: 0c67c9d5766a9413d8a33eaffe734c04
+  - enabled: 1
     path: Assets/Scenes/ARScene.unity
     guid: 3c9ef824a7b95400bade362484e9b6af
   - enabled: 1
-    path: Assets/Scenes/ReloadScene.unity
+    path: Assets/Scenes/MainScene.unity
     guid: 2ec3e0c76ff374a16ae1202e226db947
-  - enabled: 1
-    path: Assets/Scenes/FeedbackScene.unity
-    guid: 80411e004cb644c408695467ef6d4494
   - enabled: 0
     path: Assets/Scenes/LoginScene.unity
     guid: d778e45576ab1420f8eaa2fbbb10687a

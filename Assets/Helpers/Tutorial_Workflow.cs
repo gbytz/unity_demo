@@ -20,7 +20,7 @@ public class Tutorial_Workflow : MonoBehaviour
     public bool placedObjectFlag = false;
     public int progress = 0;
 
-    public enum Step {FindSurfacePanel, FindingSurface, PlaceObjectPanel, PlacingObject, CompleteScanPanel, CompletedTutorial};
+    public enum Step {FindSurfacePanel, PlaceObjectPanel, CompleteScanPanel, CompletedTutorial};
     public Step currentStep = Step.FindSurfacePanel;
 
     void Start(){
@@ -31,14 +31,14 @@ public class Tutorial_Workflow : MonoBehaviour
     void Update()
     {
         switch(currentStep){
-            case Step.FindingSurface:
+            case Step.FindSurfacePanel:
                  if (!foundSurface && focusSquare.SquareState == FocusSquare.FocusState.Found){
                     foundSurface = true;
                     Invoke("NextStep", 2f);
                 }
                 break;
 
-            case Step.PlacingObject:
+            case Step.PlaceObjectPanel:
                 if(!placedObject && placedObjectFlag){
                     placedObject = true;
                     Invoke("NextStep", 2f);
@@ -54,6 +54,7 @@ public class Tutorial_Workflow : MonoBehaviour
                 currentStep = Step.FindSurfacePanel;
                 tutorialPanel.SetActive(true);
                 imagePanels[currentPanel].SetActive(true);
+                Invoke("ShowSurfaceTip", 8.0f);
                 break;
 
             case MapMode.MapModeLocalization:
@@ -72,23 +73,15 @@ public class Tutorial_Workflow : MonoBehaviour
         currentStep++;
 
         switch(currentStep){
-            case Step.FindingSurface:
-                imagePanels[currentPanel].SetActive(false);
-                Invoke("ShowSurfaceTip", 8.0f);
-                break;
 
             case Step.PlaceObjectPanel:
+                imagePanels[currentPanel].SetActive(false);
                 imagePanels[++currentPanel].SetActive(true);
                 addButton.SetActive(true);
-                addButton.GetComponent<Button>().enabled = false;
-                break;
-
-            case Step.PlacingObject:
-                imagePanels[currentPanel].SetActive(false);
-                addButton.GetComponent<Button>().enabled = true;
                 break;
 
             case Step.CompleteScanPanel:
+                imagePanels[currentPanel].SetActive(false);
                 imagePanels[++currentPanel].SetActive(true);
                 break;
 

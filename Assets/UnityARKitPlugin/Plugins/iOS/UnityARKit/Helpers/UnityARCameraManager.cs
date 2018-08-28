@@ -29,13 +29,13 @@ public class UnityARCameraManager : MonoBehaviour {
 		config.alignment = startAlignment;
 		config.getPointCloudData = getPointCloud;
 		config.enableLightEstimation = enableLightEstimation;
-		config.enableAutoFocus = enableAutoFocus;
+		//config.enableAutoFocus = enableAutoFocus;
 		if (detectionImages != null) {
 			config.arResourceGroupName = detectionImages.resourceGroupName;
 		}
 
 		if (config.IsSupported) {
-			m_session.RunWithConfig (config);
+            m_session.RunWithConfigAndOptions(config, UnityARSessionRunOption.ARSessionRunOptionRemoveExistingAnchors | UnityARSessionRunOption.ARSessionRunOptionResetTracking);
 			UnityARSessionNativeInterface.ARFrameUpdatedEvent += FirstFrameUpdate;
 		}
 
@@ -95,23 +95,21 @@ public class UnityARCameraManager : MonoBehaviour {
 
     //private void OnDisable()
     //{
-    //    ARKitWorldTrackingSessionConfiguration config = new ARKitWorldTrackingSessionConfiguration();
-    //    config.planeDetection = planeDetection;
-    //    config.alignment = startAlignment;
-    //    config.getPointCloudData = getPointCloud;
-    //    config.enableLightEstimation = enableLightEstimation;
-    //    config.enableAutoFocus = enableAutoFocus;
-    //    if (detectionImages != null)
-    //    {
-    //        config.arResourceGroupName = detectionImages.resourceGroupName;
+    //    MapSession mapSession = FindObjectOfType<MapSession>();
+
+    //    if(mapSession != null){
+    //        mapSession.Dispose();
     //    }
+
+    //    print("arcamera ondisable");
+    //    ARKitWorldTrackingSessionConfiguration config = new ARKitWorldTrackingSessionConfiguration();
 
     //    if (config.IsSupported)
     //    {
     //        m_session.RunWithConfigAndOptions(config, UnityARSessionRunOption.ARSessionRunOptionRemoveExistingAnchors | UnityARSessionRunOption.ARSessionRunOptionResetTracking);
-    //        UnityARSessionNativeInterface.ARFrameUpdatedEvent += FirstFrameUpdate;
+    //        //UnityARSessionNativeInterface.ARFrameUpdatedEvent += FirstFrameUpdate;
     //    }
-
+    //    print("arcamera ondisable complete");
 
     //}
 

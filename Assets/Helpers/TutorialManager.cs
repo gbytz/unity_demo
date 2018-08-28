@@ -9,6 +9,15 @@ public class TutorialManager : MonoBehaviour {
 
     private int currentImage = 0;
 
+    private bool IsMappingMode;
+
+    private const string UserIDKey = "UserID";
+    private const string MapIDKey = "MapID";
+    private string defaultUserID = "demoUser";
+    private string mapID = "";
+
+    private const string characters = "1234567890";
+
     private void Awake()
     {
         if (PlayerPrefs.HasKey("TutorialCompleted"))
@@ -18,6 +27,11 @@ public class TutorialManager : MonoBehaviour {
             {
                 SceneManager.LoadSceneAsync("MainScene");
             }
+        }
+
+        if (PlayerPrefs.HasKey(MapIDKey))
+        {
+            mapID = PlayerPrefs.GetString(MapIDKey);
         }
     }
 
@@ -56,8 +70,54 @@ public class TutorialManager : MonoBehaviour {
 
     }
 
-    public void CompletedSteps(){
+    public void StartNew(){
+        
+        mapID = GenerateMapID(4, "");
+
+        if (string.IsNullOrEmpty(mapID) || string.IsNullOrEmpty(defaultUserID))
+        {
+            print("error: "+ mapID + " " + defaultUserID);
+            return;
+        }
+
+        IsMappingMode = true;
+        LoadNextScene();    
+    }
+
+    public void Reload()
+    {
+        if (string.IsNullOrEmpty(mapID) || string.IsNullOrEmpty(defaultUserID))
+        {
+            print(mapID);
+            return;
+        }
+
+        IsMappingMode = false;
+        LoadNextScene();
+    }
+
+    private void LoadNextScene()
+    {
+        PlayerPrefs.SetInt("IsMappingMode", IsMappingMode ? 1 : 0);
+        PlayerPrefs.SetString(MapIDKey, mapID);
+        PlayerPrefs.SetString(UserIDKey, defaultUserID);
+
         SceneManager.LoadSceneAsync("ARScene");
     }
+
+    private string GenerateMapID(int length, string ID)
+    {
+        if (ID.Length < length)
+        {
+            return (ID + characters[Random.Range(0, characters.Length - 1)] + GenerateMapID(length - 1, ID));
+        }
+        else
+        {
+            print("empty: " + ID.Length.ToString());
+            return "";
+        }
+
+    }
+
 
 }

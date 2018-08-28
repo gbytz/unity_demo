@@ -25,7 +25,6 @@ public class Timer : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        print(timeElapsed.ToString());
         if(timerOn){
             timeElapsed += Time.deltaTime;
             if(alarmSet && timeElapsed > alarmTime){
