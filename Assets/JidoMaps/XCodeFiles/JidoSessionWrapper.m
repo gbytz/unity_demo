@@ -24,6 +24,7 @@ static NSString* statusUpdatedCallback = @"";
 static NSString* storePlacementCallback = @"";
 static NSString* progressCallback = @"";
 static NSString* objectDetectedCallback = @"";
+static bool canRemoveAnchors = true;
 
 + (void)setUnityCallbackGameObject:(NSString *)objectName {
     unityCallbackGameObject = objectName;
@@ -169,10 +170,13 @@ static NSString* objectDetectedCallback = @"";
 
 - (void) planeDetected:(ARAnchor*) anchor {
     [self.jidoSession planeDetectedWithAnchor:anchor];
+    [self canRemoveAnchors:true];
 }
 
 - (void) planeRemoved:(ARAnchor*) anchor {
-    [self.jidoSession planeRemovedWithAnchor:anchor];
+    if (canRemoveAnchors) {
+        [self.jidoSession planeRemovedWithAnchor:anchor];
+    }
 }
 
 - (void) planeUpdated:(ARAnchor*) anchor {
@@ -182,6 +186,12 @@ static NSString* objectDetectedCallback = @"";
 - (void)dispose {
     [self.jidoSession dispose];
     self.jidoSession = nil;
+}
+
+- (void) canRemoveAnchors:(BOOL) value {
+    if (!value) {
+        canRemoveAnchors = value;
+    }
 }
 
 @end

@@ -1084,6 +1084,8 @@ extern "C" void StartWorldTrackingSessionWithOptions(void* nativeSession, ARKitW
     
     [session->_session runWithConfiguration:config options:runOpts ];
     [session setupMetal];
+    
+    [[JidoSessionWrapper sharedInstance] canRemoveAnchors:false];
 }
 
 
