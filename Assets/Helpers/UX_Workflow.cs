@@ -212,9 +212,9 @@ public class UX_Workflow : MonoBehaviour {
         "Scanning a table or patterned wall in your area could improve things.",
         "You can improve your scan by slowly turning around."};
 
-    string[] ScanTipsLocalization = {"Pretty good. make sure scanning the part of the space where you were originally.",
+    string[] ScanTipsLocalization = {"Pretty good. Make sure to scan the area where you placed your original scene.",
         "You're doing great so far, show your phone the original objects or structures it saw the first time.",
-                         "Try moving around the space more and scanning a different part of the area.",
+                         "Try moving around and scan a different part of your area.",
         "Scanning a table or patterned wall in your area could improve things.",
                          "You can improve your scan by slowly turning around."};
 
@@ -229,13 +229,13 @@ public class UX_Workflow : MonoBehaviour {
                         case 1:
                         case 2:
                         case 3:
-                            Toast("It seems like you are having some difficulty scanning. Maybe we can try to reload it anyways.", 4.0f);
+                            Toast("It seems like you are having some difficulty scanning. We might be able to reload it anyways, let's give it a try!", 4.0f);
                             Invoke("LeaveScene", 4.0f);
                             break;
 
                         case 4:
                         case 5:
-                            Toast("You've done a great job, let's go reload your scene.", 4.0f);
+                            Toast("You've done a great job! Let's go reload your scene.", 4.0f);
                             Invoke("LeaveScene",4.0f);
                             break;
                     }

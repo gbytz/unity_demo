@@ -21,28 +21,28 @@ public class ProgressBar : MonoBehaviour {
     private void UpdateProgressText(int progress){
         switch(progress){
             case 1:
-                progressText.text = "POOR";
-                progressText.color = Color.red;
+                progressText.text = "DREADFUL";
+                progressText.color = colors[0];
                 break;
 
             case 2:
-                progressText.text = "INSUFFICIENT";
-                progressText.color = new Color(244f/ 256f, 143f/ 256f, 66f/ 256f, 1f);
+                progressText.text = "APPALLING";
+                progressText.color = colors[1];
                 break;
 
             case 3:
-                progressText.text = "NOT THERE YET";
-                progressText.color = Color.yellow;
+                progressText.text = "ALMOST THERE!";
+                progressText.color = colors[2];
                 break;
 
             case 4:
-                progressText.text = "OKAY";
-                progressText.color = new Color(166f/256f, 244f/ 256f, 65f/ 256f, 1f);
+                progressText.text = "GOOD";
+                progressText.color = colors[3];
                 break;
 
             case 5:
-                progressText.text = "GREAT";
-                progressText.color = Color.green;
+                progressText.text = "FANTASTIC!";
+                progressText.color = colors[4];
                 break;
         }
     }
