@@ -12,6 +12,12 @@ target 'Unity-iPhone' do
             config.build_settings['SWIFT_VERSION'] = '3.0'
 	    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '8.0'
         end
+	
+	plist_buddy = "/usr/libexec/PlistBuddy"
+        plist = "Pods/Target Support Files/#{target}/Info.plist"
+        `#{plist_buddy} -c "Add UIRequiredDeviceCapabilities array" "#{plist}"`
+        `#{plist_buddy} -c "Add UIRequiredDeviceCapabilities:0 string arm64" "#{plist}"`
+
     end
   end
 end
