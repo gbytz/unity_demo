@@ -36,7 +36,7 @@ public class UnityARCameraManager : MonoBehaviour {
 
 		if (config.IsSupported) {
             m_session.RunWithConfigAndOptions(config, UnityARSessionRunOption.ARSessionRunOptionRemoveExistingAnchors | UnityARSessionRunOption.ARSessionRunOptionResetTracking);
-			UnityARSessionNativeInterface.ARFrameUpdatedEvent += FirstFrameUpdate;
+            UnityARSessionNativeInterface.ARFrameUpdatedEvent += FirstFrameUpdate;
 		}
 
 		if (m_camera == null) {

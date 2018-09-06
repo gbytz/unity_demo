@@ -568,7 +568,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &66819657
 MonoBehaviour:
@@ -1199,7 +1199,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &299680727
 GameObject:
@@ -1613,6 +1613,7 @@ RectTransform:
   - {fileID: 741106275}
   - {fileID: 1671434337}
   - {fileID: 82217116}
+  - {fileID: 1646576409}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3757,10 +3758,9 @@ MonoBehaviour:
   notificationPanel: {fileID: 1689292724}
   notification: {fileID: 207826154}
   helpPanel: {fileID: 1671434336}
+  addButton: {fileID: 30735403}
   progress: 0
-  placedObject: 0
   objectReloaded: 0
-  tutorialWorkflowDone: 0
 --- !u!1 &1273988646
 GameObject:
   m_ObjectHideFlags: 0
@@ -3812,7 +3812,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1308259102
 GameObject:
@@ -4687,10 +4687,10 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1646576407}
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0.59, y: 2.21, z: -1.88}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -664.5405, y: -991.2871, z: -7.8372507}
+  m_LocalScale: {x: 4.1687503, y: 4.168751, z: 4.1687503}
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 383602616}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1001 &1657884802
@@ -4877,7 +4877,6 @@ MonoBehaviour:
   foundSurface: 0
   placedObjectFlag: 0
   progress: 0
-  currentStep: 0
 --- !u!114 &1684983682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5166,7 +5165,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4353996980735886, guid: b87515905381c4500bbe6e2e0a87d23e, type: 2}
       propertyPath: m_RootOrder
-      value: 12
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b87515905381c4500bbe6e2e0a87d23e, type: 2}

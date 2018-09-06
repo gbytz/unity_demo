@@ -13,14 +13,15 @@ public class UX_Workflow : MonoBehaviour {
     public GameObject notificationPanel;
     public Text notification;
     public GameObject helpPanel;
+    public GameObject addButton;
     private MapSession mapSession;
     private bool tutorialCompleted = false;
 
     public int progress = 0;
     private MapMode mapMode;
-    public bool placedObject = false;
+    private bool placedObject = false;
     public bool objectReloaded = false;
-    public bool tutorialWorkflowDone = false;
+    private bool tutorialWorkflowDone = false;
 
     private Timer tipTimer;
     private int tipCount;
@@ -39,7 +40,13 @@ public class UX_Workflow : MonoBehaviour {
             int tut = PlayerPrefs.GetInt("TutorialCompleted");
             if (tut == 1)
             {
+                tutorialWorkflowDone = true;
                 tutorialCompleted = true;
+
+                if(mapMode == MapMode.MapModeMapping){
+                    addButton.SetActive(true);
+                }
+
             } else {
                 tutorial.StartTutorial(mapMode);
             }
@@ -47,8 +54,8 @@ public class UX_Workflow : MonoBehaviour {
             tutorial.StartTutorial(mapMode);
         }
 
+        //TODO: In start this produces bug on reloaded ARScene
         UnityARSessionNativeInterface.ARFrameUpdatedEvent += ARFrameUpdated;
-
     }
 
     public void BackButton()
@@ -91,6 +98,8 @@ public class UX_Workflow : MonoBehaviour {
                 switch (tutorialWorkflowDone)
                 {
                     case false:
+                        exitPanelText.text = "You still need to scan the space to save your scene. Are you sure you want to quit?";
+                        exitPanel.SetActive(true);
                         break;
 
                     case true:
@@ -174,6 +183,7 @@ public class UX_Workflow : MonoBehaviour {
         tipTimer.SetAlarm(10f, true);
         tipTimer.alarm += GiveTip;
         print(tipTimer.TimeElapsed);
+
     }
 
     public void IncrementProgress(int progress){
@@ -338,6 +348,7 @@ public class UX_Workflow : MonoBehaviour {
         }
 
         if (cam.trackingState == ARTrackingState.ARTrackingStateLimited) {
+            print("AR Tracking limited");
             Toast("AR Tracking is limited. You need to be in a well lit area and minimize shaking your phone.", 4.0f);
        }
    }
@@ -357,6 +368,11 @@ public class UX_Workflow : MonoBehaviour {
     string MyEscapeURL(string url)
     {
         return WWW.EscapeURL(url).Replace("+", "%20");
+    }
+
+    private void OnDisable()
+    {
+        UnityARSessionNativeInterface.ARFrameUpdatedEvent -= ARFrameUpdated;
     }
 
 }

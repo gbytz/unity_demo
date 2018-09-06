@@ -133,6 +133,7 @@ public class SceneControl : MonoBehaviour {
 
         if(!found){
             found = true;
+            print("scene found");
             ux_workflow.Toast("Your scene has been found! If you are happy with your result press the arrow below, otherwise your result will continue to improve as your bar turns green. ", 5.0f);
             ux_workflow.objectReloaded = true;
         } 

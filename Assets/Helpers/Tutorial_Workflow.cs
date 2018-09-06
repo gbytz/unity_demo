@@ -21,7 +21,7 @@ public class Tutorial_Workflow : MonoBehaviour
     public int progress = 0;
 
     public enum Step {FindSurfacePanel, PlaceObjectPanel, CompleteScanPanel, CompletedTutorial};
-    public Step currentStep = Step.FindSurfacePanel;
+    private Step currentStep = Step.CompletedTutorial;
 
     void Start(){
         focusSquare = GameObject.Find("FocusSquare").GetComponent<FocusSquare>();
