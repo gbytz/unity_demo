@@ -18,6 +18,8 @@ public class TutorialManager : MonoBehaviour {
 
     private const string characters = "1234567890";
 
+    [SerializeField] private Animator _elipseAnimator = null;
+
     private void Awake()
     {
         if (PlayerPrefs.HasKey("TutorialCompleted"))
@@ -51,9 +53,12 @@ public class TutorialManager : MonoBehaviour {
     public void NextStep(){
                                  
         if(currentImage == imagePanels.Length - 1 ){
+            _elipseAnimator.SetTrigger("StopAnimating");
             //CompletedSteps();
-        } else {
+        }
+        else {
             imagePanels[++currentImage].SetActive(true);
+            _elipseAnimator.SetTrigger("Animate");
             Invoke("NextStep", 6.0f);
         }
     }
