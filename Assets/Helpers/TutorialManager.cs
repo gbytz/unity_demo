@@ -59,7 +59,7 @@ public class TutorialManager : MonoBehaviour {
         else {
             imagePanels[++currentImage].SetActive(true);
             _elipseAnimator.SetTrigger("Animate");
-            Invoke("NextStep", 6.0f);
+            Invoke("NextStep", 5.0f);
         }
     }
 
