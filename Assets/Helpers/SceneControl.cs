@@ -20,8 +20,9 @@ public class SceneControl : MonoBehaviour {
     public string mapID = "";
 
     public GameObject progressPanel;
+    public GameObject progressPanelAnimated;
 
-	private bool initialized = false;
+    private bool initialized = false;
     private bool found = false;
 
 	void Start(){
@@ -152,7 +153,14 @@ public class SceneControl : MonoBehaviour {
         }
 
         progressPanel.GetComponent<ProgressBar>().AddProgress(progress);
+        progressPanelAnimated.GetComponent<ProgressBarAnimated>().AddProgress(progress);
         ux_workflow.IncrementProgress(progress);
+    }
+
+    public void FakeProgressIncrement (int progressAmount){
+
+        progressPanelAnimated.GetComponent<ProgressBarAnimated>().AddProgress(progressAmount);
+
     }
 
     private GameObject GetPrefab(string prefabName)

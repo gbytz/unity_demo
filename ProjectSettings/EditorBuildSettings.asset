@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/TutorialV2.unity
+    guid: 4b52b56280c0a4d149cdb17293dcd1e5
+  - enabled: 1
     path: Assets/Scenes/Tutorial.unity
     guid: 0b18b78e9a6084033a13b1a0f1bcb52a
   - enabled: 0
@@ -18,10 +21,10 @@ EditorBuildSettings:
     path: Assets/Scenes/ARScene.unity
     guid: 3c9ef824a7b95400bade362484e9b6af
   - enabled: 1
-    path: Assets/Scenes/MainScene.unity
+    path: Assets/Scenes/Legacy/MainScene.unity
     guid: 2ec3e0c76ff374a16ae1202e226db947
   - enabled: 0
-    path: Assets/Scenes/LoginScene.unity
+    path: Assets/Scenes/Legacy/LoginScene.unity
     guid: d778e45576ab1420f8eaa2fbbb10687a
   - enabled: 0
     path: Assets/UnityARKitPlugin/Examples/UnityARKitScene/UnityARKitScene.unity
