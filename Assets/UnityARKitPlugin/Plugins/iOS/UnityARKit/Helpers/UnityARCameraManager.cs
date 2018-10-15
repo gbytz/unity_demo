@@ -17,6 +17,7 @@ public class UnityARCameraManager : MonoBehaviour {
 	public bool enableLightEstimation = true;
 	public bool enableAutoFocus = true;
 	private bool sessionStarted = false;
+	public ARKitWorldTrackingSessionConfiguration sessionConfiguration;
 
 	// Use this for initialization
 	void Start () {
@@ -29,10 +30,6 @@ public class UnityARCameraManager : MonoBehaviour {
 		config.alignment = startAlignment;
 		config.getPointCloudData = getPointCloud;
 		config.enableLightEstimation = enableLightEstimation;
-		//config.enableAutoFocus = enableAutoFocus;
-		if (detectionImages != null) {
-			config.arResourceGroupName = detectionImages.resourceGroupName;
-		}
 
 		if (config.IsSupported) {
             m_session.RunWithConfigAndOptions(config, UnityARSessionRunOption.ARSessionRunOptionRemoveExistingAnchors | UnityARSessionRunOption.ARSessionRunOptionResetTracking);
@@ -43,43 +40,6 @@ public class UnityARCameraManager : MonoBehaviour {
 			m_camera = Camera.main;
 		}
 	}
-
-	void FirstFrameUpdate(UnityARCamera cam)
-	{
-		sessionStarted = true;
-		UnityARSessionNativeInterface.ARFrameUpdatedEvent -= FirstFrameUpdate;
-	}
-
-	public void SetCamera(Camera newCamera)
-	{
-		if (m_camera != null) {
-			UnityARVideo oldARVideo = m_camera.gameObject.GetComponent<UnityARVideo> ();
-			if (oldARVideo != null) {
-				savedClearMaterial = oldARVideo.m_ClearMaterial;
-				Destroy (oldARVideo);
-			}
-
-            return config;
-        }
-    }
-
-    // Use this for initialization
-    void Start () {
-
-        m_session = UnityARSessionNativeInterface.GetARSessionNativeInterface();
-
-        Application.targetFrameRate = 60;
-        
-        var config = sessionConfiguration;
-        if (config.IsSupported) {
-            m_session.RunWithConfig (config);
-            UnityARSessionNativeInterface.ARFrameUpdatedEvent += FirstFrameUpdate;
-        }
-
-        if (m_camera == null) {
-            m_camera = Camera.main;
-        }
-    }
 
     void FirstFrameUpdate(UnityARCamera cam)
     {
@@ -115,9 +75,7 @@ public class UnityARCameraManager : MonoBehaviour {
     }
 
     // Update is called once per frame
-
     void Update () {
-        
         if (m_camera != null && sessionStarted)
         {
             // JUST WORKS!
@@ -127,7 +85,6 @@ public class UnityARCameraManager : MonoBehaviour {
 
             m_camera.projectionMatrix = m_session.GetCameraProjection ();
         }
-
     }
 
     //private void OnDisable()

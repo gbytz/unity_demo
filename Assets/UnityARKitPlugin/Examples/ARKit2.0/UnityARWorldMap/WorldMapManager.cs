@@ -67,7 +67,7 @@ public class WorldMapManager : MonoBehaviour
 
             UnityARSessionNativeInterface.ARSessionShouldAttemptRelocalization = true;
 
-            var config = m_ARCameraManager.sessionConfiguration;
+			ARKitWorldTrackingSessionConfiguration config = m_ARCameraManager.sessionConfiguration;
             config.worldMap = worldMap;
 			UnityARSessionRunOption runOption = UnityARSessionRunOption.ARSessionRunOptionRemoveExistingAnchors | UnityARSessionRunOption.ARSessionRunOptionResetTracking;
 
