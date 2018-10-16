@@ -7,10 +7,11 @@ public class ProgressBarAnimated : MonoBehaviour {
 
 
     private float maxWidth = 1;
-    private Color32[] colors = { new Color32(255, 0, 0, 255), new Color32(255, 183, 0, 255), new Color32(243, 238, 63, 255), new Color32(243, 238, 63, 255), new Color32(42, 255, 0, 255) };
+    private Color32[] colors = { new Color32(255, 0, 0, 255), new Color32(255, 183, 0, 255), new Color32(243, 238, 63, 255), new Color32(243, 238, 63, 255), new Color32(132, 241, 110, 255) };
     public GameObject progressBar;
     private Image _progressBarImage;
-    public Text progressText;
+    public Image BarCardBG;
+    //public Text progressText;
 
     public List<Image> ProgressionMarkers = new List<Image>();
 
@@ -26,7 +27,7 @@ public class ProgressBarAnimated : MonoBehaviour {
         float xSize = (float)progress * maxWidth / 5.0f;
         progressBar.GetComponent<RectTransform>().sizeDelta = new Vector2(xSize, progressBar.GetComponent<RectTransform>().sizeDelta.y);
 
-        UpdateProgressText(progress);
+        //UpdateProgressText(progress);
 
         _progressBarImage.fillAmount = DebugProgress/100;
 
@@ -35,6 +36,8 @@ public class ProgressBarAnimated : MonoBehaviour {
 
     private void Update()
     {
+
+        DebugProgress = DebugProgress + (10.0f * Time.deltaTime);
 
         //For Testing
         _progressBarImage.fillAmount = Mathf.Clamp (DebugProgress / 100, 0, 0.98f);
@@ -48,28 +51,29 @@ public class ProgressBarAnimated : MonoBehaviour {
         {
             ProgressionMarkers[0].gameObject.SetActive(true);
             ProgressionMarkers[0].color = colors[1];
-            _progressBarImage.color = colors[1];
+            //_progressBarImage.color = colors[1];
         }
         else if (currentProgress > 0.47f && currentProgress < 0.73f){
 
             ProgressionMarkers[1].gameObject.SetActive(true);
             ProgressionMarkers[1].color = colors[2];
-            _progressBarImage.color = colors[2];
+            //_progressBarImage.color = colors[2];
         }
         else if (currentProgress > 0.73f && currentProgress < 1.0f)
         {
             ProgressionMarkers[2].gameObject.SetActive(true);
             ProgressionMarkers[2].color = colors[3];
-            _progressBarImage.color = colors[3];
+            //_progressBarImage.color = colors[3];
         }
         else if(currentProgress >= 1.0f)
         {
             ProgressionMarkers[3].gameObject.SetActive(true);
             ProgressionMarkers[3].color = colors[4];
-            _progressBarImage.color = colors[4];
+            //_progressBarImage.color = colors[4];
         }
     }
 
+    /*
     private void UpdateProgressText(int progress){
         switch(progress){
             case 1:
@@ -97,6 +101,6 @@ public class ProgressBarAnimated : MonoBehaviour {
                 progressText.color = colors[4];
                 break;
         }
-    }
+    }*/
 
 }

@@ -14,14 +14,14 @@ public class Tutorial_Workflow : MonoBehaviour
     private FocusSquare focusSquare;
     private UX_Workflow ux_workflow;
 
-    private int currentPanel = 0;
+    [SerializeField]private int currentPanel = 0;
     public bool foundSurface = false;
     private bool placedObject = false;
     public bool placedObjectFlag = false;
     public int progress = 0;
 
     public enum Step {FindSurfacePanel, PlaceObjectPanel, CompleteScanPanel, CompletedTutorial};
-    private Step currentStep = Step.CompletedTutorial;
+    [SerializeField]private Step currentStep = Step.CompletedTutorial;
 
     void Start(){
         focusSquare = GameObject.Find("FocusSquare").GetComponent<FocusSquare>();
@@ -70,19 +70,21 @@ public class Tutorial_Workflow : MonoBehaviour
     public void NextStep()
     {
 
-        currentStep++;
+        currentStep = currentStep++;
 
         switch(currentStep){
 
             case Step.PlaceObjectPanel:
                 imagePanels[currentPanel].SetActive(false);
-                imagePanels[++currentPanel].SetActive(true);
+                currentPanel = currentPanel++;
+                imagePanels[currentPanel].SetActive(true);
                 addButton.SetActive(true);
                 break;
 
             case Step.CompleteScanPanel:
                 imagePanels[currentPanel].SetActive(false);
-                imagePanels[++currentPanel].SetActive(true);
+                currentPanel = currentPanel++;
+                imagePanels[currentPanel].SetActive(true);
                 break;
 
             case Step.CompletedTutorial:
@@ -99,6 +101,7 @@ public class Tutorial_Workflow : MonoBehaviour
         if(foundSurface){
             return;
         }
+        imagePanels[currentPanel].SetActive(false);
         surfaceTipPanel.SetActive(true);
         Invoke("HideSurfaceTip", 4.0f);
 
