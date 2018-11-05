@@ -9,19 +9,16 @@ EditorBuildSettings:
     path: Assets/Scenes/TutorialV2.unity
     guid: 4b52b56280c0a4d149cdb17293dcd1e5
   - enabled: 1
+    path: Assets/Scenes/ARScene_New.unity
+    guid: 3c9ef824a7b95400bade362484e9b6af
+  - enabled: 1
     path: Assets/Scenes/Tutorial.unity
     guid: 0b18b78e9a6084033a13b1a0f1bcb52a
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/MidTutorial.unity
     guid: 0c67c9d5766a9413d8a33eaffe734c04
   - enabled: 1
-    path: Assets/Scenes/ARScene.unity
-    guid: 3c9ef824a7b95400bade362484e9b6af
-  - enabled: 1
-    path: Assets/Scenes/Legacy/MainScene.unity
+    path: Assets/Scenes/MainScene.unity
     guid: 2ec3e0c76ff374a16ae1202e226db947
   - enabled: 0
     path: Assets/Scenes/Legacy/LoginScene.unity
@@ -56,7 +53,4 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/UnityARKitPlugin/Examples/FaceTracking/FaceDirectionalLightEstimate.unity
     guid: 360fd35caee4f4e069485021a27c0b06
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   m_configObjects: {}

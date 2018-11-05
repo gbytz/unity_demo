@@ -10,6 +10,8 @@ public class ReloadSceneManager : MonoBehaviour {
     public GameObject ReloadOldPanel;
     public GameObject TutorialPanel;
     public GameObject FeedbackPanel;
+    public GameObject DimmerPanel;
+    private Animator _dimmerAnimator;
     public Text sceneIDText;
 
     public InputField MapIDInput;
@@ -36,10 +38,14 @@ public class ReloadSceneManager : MonoBehaviour {
             if (tutorialCompleted == 0)
             {
                 FeedbackPanel.SetActive(true);
+                ShowDimmer();
             }
         } else {
             FeedbackPanel.SetActive(true);
+            ShowDimmer();
         }
+
+        _dimmerAnimator = DimmerPanel.GetComponent<Animator>();
     }
 
     public void StartNew(){
@@ -79,11 +85,14 @@ public class ReloadSceneManager : MonoBehaviour {
             ReloadNewPanel.SetActive(true);
         }
 
+        ShowDimmer();
     }
 
     public void ShowReloadNewPanel(){
         ReloadOldPanel.SetActive(false);
         ReloadNewPanel.SetActive(true);
+
+        ShowDimmer();
     }
 
     public void ToggleTutorialPanel(){
@@ -99,12 +108,13 @@ public class ReloadSceneManager : MonoBehaviour {
 
         PlayerPrefs.SetInt("TutorialCompleted", 1);
         FeedbackPanel.SetActive(false);
-
+        HideDimmer();
     }
 
     public void EndTutorial(){
         PlayerPrefs.SetInt("TutorialCompleted", 1);
         FeedbackPanel.SetActive(false);
+        HideDimmer();
     }
 
     private void LoadNextScene()
@@ -137,5 +147,18 @@ public class ReloadSceneManager : MonoBehaviour {
     string MyEscapeURL(string url)
     {
         return WWW.EscapeURL(url).Replace("+", "%20");
+    }
+
+    private void ShowDimmer ()
+    {
+        _dimmerAnimator.SetTrigger("FadeIn");
+
+    
+    }
+
+    private void HideDimmer ()
+    {
+        _dimmerAnimator.SetTrigger("FadeOut");
+
     }
 }

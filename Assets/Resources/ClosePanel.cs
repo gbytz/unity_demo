@@ -8,5 +8,9 @@ public class ClosePanel : MonoBehaviour {
 
     public void CloseThisPanel(){
         thisPanel.SetActive(false);
+
+        if(GameObject.Find("Dimmer")){
+            GameObject.Find("Dimmer").GetComponent<Animator>().SetTrigger("FadeOut");
+        }
     }
 }

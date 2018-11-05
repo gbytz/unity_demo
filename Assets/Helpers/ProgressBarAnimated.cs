@@ -7,7 +7,7 @@ public class ProgressBarAnimated : MonoBehaviour {
 
 
     private float maxWidth = 1;
-    private Color32[] colors = { new Color32(255, 0, 0, 255), new Color32(255, 183, 0, 255), new Color32(243, 238, 63, 255), new Color32(243, 238, 63, 255), new Color32(132, 241, 110, 255) };
+    private Color32[] colors = { new Color32(230, 80, 72, 255), new Color32(253, 112, 63, 255), new Color32(253, 166, 63, 255), new Color32(243, 238, 63, 255), new Color32(132, 241, 110, 255) };
     public GameObject progressBar;
     private Image _progressBarImage;
     public Image BarCardBG;
