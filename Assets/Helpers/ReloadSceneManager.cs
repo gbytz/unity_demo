@@ -26,6 +26,8 @@ public class ReloadSceneManager : MonoBehaviour {
 
     void Start()
     {
+        _dimmerAnimator = DimmerPanel.GetComponent<Animator>();
+
         if (PlayerPrefs.HasKey(MapIDKey))
         {
             mapID = PlayerPrefs.GetString(MapIDKey);
@@ -45,7 +47,6 @@ public class ReloadSceneManager : MonoBehaviour {
             ShowDimmer();
         }
 
-        _dimmerAnimator = DimmerPanel.GetComponent<Animator>();
     }
 
     public void StartNew(){
@@ -151,14 +152,13 @@ public class ReloadSceneManager : MonoBehaviour {
 
     private void ShowDimmer ()
     {
-        _dimmerAnimator.SetTrigger("FadeIn");
-
-    
+        if(_dimmerAnimator)
+            _dimmerAnimator.SetTrigger("FadeIn");
     }
 
     private void HideDimmer ()
     {
-        _dimmerAnimator.SetTrigger("FadeOut");
-
+        if(_dimmerAnimator)
+            _dimmerAnimator.SetTrigger("FadeOut");
     }
 }

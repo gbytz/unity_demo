@@ -53,12 +53,14 @@ public class TutorialManager : MonoBehaviour {
     public void NextStep(){
                                  
         if(currentImage == imagePanels.Length - 1 ){
-            _elipseAnimator.SetTrigger("StopAnimating");
+            if(_elipseAnimator)
+                _elipseAnimator.SetTrigger("StopAnimating");
             //CompletedSteps();
         }
         else {
             imagePanels[++currentImage].SetActive(true);
-            _elipseAnimator.SetTrigger("Animate");
+            if(_elipseAnimator)
+                _elipseAnimator.SetTrigger("Animate");
             Invoke("NextStep", 5.0f);
         }
     }
