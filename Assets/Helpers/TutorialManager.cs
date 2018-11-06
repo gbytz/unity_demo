@@ -110,7 +110,7 @@ public class TutorialManager : MonoBehaviour {
         PlayerPrefs.SetString(MapIDKey, mapID);
         PlayerPrefs.SetString(UserIDKey, defaultUserID);
 
-        SceneManager.LoadSceneAsync("ARScene_New");
+        SceneManager.LoadSceneAsync("ARScene");
     }
 
     private string GenerateMapID(int length, string ID)
