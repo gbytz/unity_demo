@@ -664,8 +664,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: -439.00006}
-  m_SizeDelta: {x: 500, y: 155}
+  m_AnchoredPosition: {x: 0, y: -324.00006}
+  m_SizeDelta: {x: 460, y: 150}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &29592305
 MonoBehaviour:
@@ -2707,7 +2707,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: b529309b49d4b46f5840ee903495971c, type: 3}
-    m_FontSize: 55
+    m_FontSize: 48
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -3058,8 +3058,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -19.989502, y: -439}
-  m_SizeDelta: {x: 500, y: 155}
+  m_AnchoredPosition: {x: -19.989502, y: -324}
+  m_SizeDelta: {x: 460, y: 150}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &490361938
 MonoBehaviour:
@@ -3675,7 +3675,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SOMETHING NOT WORKING?
+  m_Text: All Set?
 --- !u!222 &598934919
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4737,8 +4737,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -50.69995, y: -45.30005}
-  m_SizeDelta: {x: 120, y: 120}
+  m_AnchoredPosition: {x: -50, y: -50}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &741106276
 MonoBehaviour:
@@ -9635,7 +9635,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   progressBar: {fileID: 1892659619}
-  BarCardBG: {fileID: 0}
   ProgressionMarkers:
   - {fileID: 627544061}
   - {fileID: 1272413533}
@@ -11154,7 +11153,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   progressBar: {fileID: 839738632}
-  BarCardBG: {fileID: 1809251734}
   ProgressionMarkers:
   - {fileID: 1291432654}
   - {fileID: 1927959254}
@@ -11531,8 +11529,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: you can tap the button below to automagically send us a note and we will
-    help you out. Or you can just start the tutorial again.
+  m_Text: gets filled in automatically from a script
 --- !u!222 &1880064224
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11599,7 +11596,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0
+  m_FillAmount: 0.22
   m_FillClockwise: 1
   m_FillOrigin: 0
 --- !u!222 &1892659622

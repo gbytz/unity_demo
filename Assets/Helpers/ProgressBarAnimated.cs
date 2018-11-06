@@ -10,12 +10,12 @@ public class ProgressBarAnimated : MonoBehaviour {
     private Color32[] colors = { new Color32(230, 80, 72, 255), new Color32(253, 112, 63, 255), new Color32(253, 166, 63, 255), new Color32(243, 238, 63, 255), new Color32(132, 241, 110, 255) };
     public GameObject progressBar;
     private Image _progressBarImage;
-    public Image BarCardBG;
     //public Text progressText;
 
     public List<Image> ProgressionMarkers = new List<Image>();
 
     public float DebugProgress;
+    private float _targetFillAmount;
 
     private void Start()
     {
@@ -27,80 +27,63 @@ public class ProgressBarAnimated : MonoBehaviour {
         float xSize = (float)progress * maxWidth / 5.0f;
         progressBar.GetComponent<RectTransform>().sizeDelta = new Vector2(xSize, progressBar.GetComponent<RectTransform>().sizeDelta.y);
 
-        //UpdateProgressText(progress);
-
-        _progressBarImage.fillAmount = DebugProgress/100;
-
-        CheckForThreshold(_progressBarImage.fillAmount);
+        CheckForThreshold(0);
     }
 
     private void Update()
     {
+        //Update the progress bar
+        CheckForThreshold((int)(DebugProgress));
 
-        DebugProgress = DebugProgress + (10.0f * Time.deltaTime);
-
-        //For Testing
-        _progressBarImage.fillAmount = Mathf.Clamp (DebugProgress / 100, 0, 0.98f);
-
-        CheckForThreshold(Mathf.Clamp(DebugProgress / 100, 0, 1.0f));
     }
 
-    private void CheckForThreshold (float currentProgress)
+    private void CheckForThreshold (int currentProgress)
     {
-       if (currentProgress > 0.23f && currentProgress < 0.47f)
+        _progressBarImage.fillAmount = Mathf.Lerp(_progressBarImage.fillAmount, _targetFillAmount, 5.0f * Time.deltaTime);
+
+        if (currentProgress == 1)
         {
-            ProgressionMarkers[0].gameObject.SetActive(true);
-            ProgressionMarkers[0].color = colors[1];
+            _targetFillAmount = 0.235f;
+
+            if (_progressBarImage.fillAmount > _targetFillAmount * 0.95f)
+            {
+                ProgressionMarkers[0].gameObject.SetActive(true);
+                ProgressionMarkers[0].color = colors[1];
+            }
             //_progressBarImage.color = colors[1];
         }
-        else if (currentProgress > 0.47f && currentProgress < 0.73f){
+        else if (currentProgress == 2)
+        {
+            _targetFillAmount = 0.5f;
 
-            ProgressionMarkers[1].gameObject.SetActive(true);
-            ProgressionMarkers[1].color = colors[2];
+            if (_progressBarImage.fillAmount > _targetFillAmount * 0.95f)
+            {
+                ProgressionMarkers[1].gameObject.SetActive(true);
+                ProgressionMarkers[1].color = colors[2];
+            }
             //_progressBarImage.color = colors[2];
         }
-        else if (currentProgress > 0.73f && currentProgress < 1.0f)
+        else if (currentProgress == 3)
         {
-            ProgressionMarkers[2].gameObject.SetActive(true);
-            ProgressionMarkers[2].color = colors[3];
+            _targetFillAmount = 0.75f;
+
+            if (_progressBarImage.fillAmount > _targetFillAmount * 0.95f)
+            {
+                ProgressionMarkers[2].gameObject.SetActive(true);
+                ProgressionMarkers[2].color = colors[3];
+            }
             //_progressBarImage.color = colors[3];
         }
-        else if(currentProgress >= 1.0f)
+        else if(currentProgress == 4)
         {
-            ProgressionMarkers[3].gameObject.SetActive(true);
-            ProgressionMarkers[3].color = colors[4];
+            _targetFillAmount = 1.0f;
+
+            if (_progressBarImage.fillAmount > _targetFillAmount * 0.95f)
+            {
+                ProgressionMarkers[3].gameObject.SetActive(true);
+                ProgressionMarkers[3].color = colors[4];
+            }
             //_progressBarImage.color = colors[4];
         }
     }
-
-    /*
-    private void UpdateProgressText(int progress){
-        switch(progress){
-            case 1:
-                progressText.text = "DREADFUL";
-                progressText.color = colors[0];
-                break;
-
-            case 2:
-                progressText.text = "APPALLING";
-                progressText.color = colors[1];
-                break;
-
-            case 3:
-                progressText.text = "ALMOST THERE!";
-                progressText.color = colors[2];
-                break;
-
-            case 4:
-                progressText.text = "GOOD";
-                progressText.color = colors[3];
-                break;
-
-            case 5:
-                progressText.text = "FANTASTIC!";
-                progressText.color = colors[4];
-                break;
-        }
-    }*/
-
 }
