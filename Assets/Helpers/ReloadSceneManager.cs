@@ -97,7 +97,12 @@ public class ReloadSceneManager : MonoBehaviour {
     }
 
     public void ToggleTutorialPanel(){
-        TutorialPanel.SetActive(!TutorialPanel.activeSelf);   
+        TutorialPanel.SetActive(!TutorialPanel.activeSelf);
+
+        if (TutorialPanel.activeSelf)
+            ShowDimmer();
+        else
+            HideDimmer();
     }
 
     public void SendFeedback(){

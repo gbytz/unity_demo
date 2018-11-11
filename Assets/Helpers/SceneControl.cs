@@ -78,7 +78,7 @@ public class SceneControl : MonoBehaviour {
 	public void PlaceAsset(String assetName) { 
 		//Only place asset if focused on a plane
 		if (focusSquare.SquareState != FocusSquare.FocusState.Found) {
-            ux_workflow.Toast ("Find a surface to place animals.", 2.0f);
+            ux_workflow.Toast ("Find a surface to place objects.", 2.0f);
 			return;
 		}
 

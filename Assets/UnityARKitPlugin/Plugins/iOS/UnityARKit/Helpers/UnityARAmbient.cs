@@ -26,6 +26,8 @@ namespace UnityEngine.XR.iOS
 				//Unity Light has functionality to filter the light color to correct temperature
 				//https://docs.unity3d.com/ScriptReference/Light-colorTemperature.html
 				l.colorTemperature = camera.lightData.arLightEstimate.ambientColorTemperature;
+
+                RenderSettings.ambientLight = RenderSettings.ambientLight * (camera.lightData.arLightEstimate.ambientIntensity * 0.18f);
 			}
 		}
 

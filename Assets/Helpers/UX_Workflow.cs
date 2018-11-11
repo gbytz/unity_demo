@@ -358,6 +358,7 @@ public class UX_Workflow : MonoBehaviour {
     {
         notification.text = message;
         notificationPanel.SetActive(true);
+
         Invoke("ToastOff", time);
     }
 

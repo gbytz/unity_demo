@@ -55,7 +55,7 @@ public class FocusSquare : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void Update () {
+	void LateUpdate () {
 
 		//use center of screen for focusing
 		Vector3 center = new Vector3(Screen.width/2, Screen.height/2, findingSquareDist);

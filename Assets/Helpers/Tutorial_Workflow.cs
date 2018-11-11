@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Tutorial_Workflow : MonoBehaviour
 {
     public GameObject tutorialPanel;
+    public GameObject BackgroundPanel;
     public GameObject[] imagePanels;
     public GameObject surfaceTipPanel;
     public GameObject reloadTutorialPanel;
@@ -54,6 +55,7 @@ public class Tutorial_Workflow : MonoBehaviour
                 currentStep = Step.FindSurfacePanel;
                 tutorialPanel.SetActive(true);
                 imagePanels[currentPanel].SetActive(true);
+                BackgroundPanel.SetActive(true);
                 Invoke("ShowSurfaceTip", 8.0f);
                 break;
 
@@ -61,8 +63,8 @@ public class Tutorial_Workflow : MonoBehaviour
                 currentStep = Step.CompleteScanPanel;
                 tutorialPanel.SetActive(true);
                 reloadTutorialPanel.SetActive(true);
+                BackgroundPanel.SetActive(true);
                 break;
-
         }
         
     }
@@ -72,7 +74,7 @@ public class Tutorial_Workflow : MonoBehaviour
 
         currentStep = currentStep++;
 
-        switch(currentStep){
+        switch (currentStep){
 
             case Step.PlaceObjectPanel:
                 imagePanels[currentPanel].SetActive(false);
@@ -92,10 +94,10 @@ public class Tutorial_Workflow : MonoBehaviour
                 reloadTutorialPanel.SetActive(false);
                 ux_workflow.CompleteTutorial();
                 break;
-                
         }
 
-    }   
+        BackgroundPanel.SetActive(true);
+    }
 
     public void ShowSurfaceTip(){
         if(foundSurface){
@@ -103,6 +105,8 @@ public class Tutorial_Workflow : MonoBehaviour
         }
         imagePanels[currentPanel].SetActive(false);
         surfaceTipPanel.SetActive(true);
+        BackgroundPanel.SetActive(true);
+
         Invoke("HideSurfaceTip", 4.0f);
 
         Invoke("ShowSurfaceTip", 12.0f);
@@ -110,6 +114,6 @@ public class Tutorial_Workflow : MonoBehaviour
 
     public void HideSurfaceTip(){
         surfaceTipPanel.SetActive(false);
+        BackgroundPanel.SetActive(false);
     }
-
 }

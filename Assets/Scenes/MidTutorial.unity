@@ -295,7 +295,6 @@ GameObject:
   m_Component:
   - component: {fileID: 575673165}
   - component: {fileID: 575673164}
-  - component: {fileID: 575673163}
   - component: {fileID: 575673162}
   m_Layer: 0
   m_Name: Main Camera
@@ -311,13 +310,6 @@ AudioListener:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 575673161}
   m_Enabled: 1
---- !u!124 &575673163
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 575673161}
-  m_Enabled: 1
 --- !u!20 &575673164
 Camera:
   m_ObjectHideFlags: 0
@@ -326,7 +318,7 @@ Camera:
   m_GameObject: {fileID: 575673161}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 3
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
@@ -1845,12 +1837,12 @@ Prefab:
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 488
+      value: 550
       objectReference: {fileID: 0}
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 134
+      value: 160
       objectReference: {fileID: 0}
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
@@ -2277,12 +2269,12 @@ Prefab:
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 488
+      value: 550
       objectReference: {fileID: 0}
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 134
+      value: 160
       objectReference: {fileID: 0}
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}

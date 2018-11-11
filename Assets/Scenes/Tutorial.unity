@@ -24,7 +24,7 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
@@ -295,7 +295,6 @@ GameObject:
   m_Component:
   - component: {fileID: 575673165}
   - component: {fileID: 575673164}
-  - component: {fileID: 575673163}
   - component: {fileID: 575673162}
   m_Layer: 0
   m_Name: Main Camera
@@ -311,13 +310,6 @@ AudioListener:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 575673161}
   m_Enabled: 1
---- !u!124 &575673163
-Behaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 575673161}
-  m_Enabled: 1
 --- !u!20 &575673164
 Camera:
   m_ObjectHideFlags: 0
@@ -326,7 +318,7 @@ Camera:
   m_GameObject: {fileID: 575673161}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 3
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
@@ -352,7 +344,7 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
-  m_AllowMSAA: 1
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
@@ -1959,17 +1951,17 @@ Prefab:
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 176
+      value: 210
       objectReference: {fileID: 0}
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 488
+      value: 654.3
       objectReference: {fileID: 0}
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 134
+      value: 164.2
       objectReference: {fileID: 0}
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
@@ -2025,7 +2017,7 @@ Prefab:
     - target: {fileID: 114573280749259586, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
       propertyPath: m_FontData.m_FontSize
-      value: 53
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 114573280749259586, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}

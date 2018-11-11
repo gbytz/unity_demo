@@ -1,15 +1,36 @@
 fileFormatVersion: 2
-guid: f18dd2e366b2a4124b9e7788f944d205
+guid: 2aed7d43e76474471a50abae75f700d0
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2100000: phong1
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Trim_Text_Jido_6_2
-  externalObjects: {}
+    100000: BlobShadowPlane
+    100002: //RootNode
+    100004: WindMillBlades
+    400000: BlobShadowPlane
+    400002: //RootNode
+    400004: WindMillBlades
+    2100000: M_WindMill
+    2100002: M_BlobShadow
+    2300000: BlobShadowPlane
+    2300002: //RootNode
+    2300004: WindMillBlades
+    3300000: BlobShadowPlane
+    3300002: //RootNode
+    3300004: WindMillBlades
+    4300000: WindMillbase
+    4300002: WindMillBlades
+    4300004: BlobShadowPlane
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_BlobShadow
+    second: {fileID: 2100000, guid: a91b2c1e2fbd4514cbe021a20a2ec2ca, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_WindMill
+    second: {fileID: 2100000, guid: 80e1f6ae7a02642f78371aa02e8b610b, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -40,7 +61,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 2
+    globalScale: 0.0075
     meshCompression: 0
     addColliders: 0
     importVisibility: 1

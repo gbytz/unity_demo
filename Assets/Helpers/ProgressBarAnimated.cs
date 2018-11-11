@@ -14,7 +14,7 @@ public class ProgressBarAnimated : MonoBehaviour {
 
     public List<Image> ProgressionMarkers = new List<Image>();
 
-    public float DebugProgress;
+    public int TargetProgress;
     private float _targetFillAmount;
 
     private void Start()
@@ -23,25 +23,25 @@ public class ProgressBarAnimated : MonoBehaviour {
     }
 
     public void AddProgress(int progress){
-        progressBar.GetComponent<Image>().color = colors[progress-1];
-        float xSize = (float)progress * maxWidth / 5.0f;
-        progressBar.GetComponent<RectTransform>().sizeDelta = new Vector2(xSize, progressBar.GetComponent<RectTransform>().sizeDelta.y);
+        //progressBar.GetComponent<Image>().color = colors[progress-1];
+        //float xSize = (float)progress * maxWidth / 5.0f;
+        //progressBar.GetComponent<RectTransform>().sizeDelta = new Vector2(xSize, progressBar.GetComponent<RectTransform>().sizeDelta.y);
 
-        CheckForThreshold(0);
+        TargetProgress = progress;
     }
 
     private void Update()
     {
         //Update the progress bar
-        CheckForThreshold((int)(DebugProgress));
+        CheckForThreshold();
 
     }
 
-    private void CheckForThreshold (int currentProgress)
+    private void CheckForThreshold ()
     {
         _progressBarImage.fillAmount = Mathf.Lerp(_progressBarImage.fillAmount, _targetFillAmount, 5.0f * Time.deltaTime);
 
-        if (currentProgress == 1)
+        if (TargetProgress == 1)
         {
             _targetFillAmount = 0.235f;
 
@@ -52,7 +52,7 @@ public class ProgressBarAnimated : MonoBehaviour {
             }
             //_progressBarImage.color = colors[1];
         }
-        else if (currentProgress == 2)
+        else if (TargetProgress == 2)
         {
             _targetFillAmount = 0.5f;
 
@@ -63,7 +63,7 @@ public class ProgressBarAnimated : MonoBehaviour {
             }
             //_progressBarImage.color = colors[2];
         }
-        else if (currentProgress == 3)
+        else if (TargetProgress == 3)
         {
             _targetFillAmount = 0.75f;
 
@@ -74,7 +74,7 @@ public class ProgressBarAnimated : MonoBehaviour {
             }
             //_progressBarImage.color = colors[3];
         }
-        else if(currentProgress == 4)
+        else if(TargetProgress == 4)
         {
             _targetFillAmount = 1.0f;
 
