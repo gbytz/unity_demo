@@ -27,7 +27,7 @@ namespace UnityEngine.XR.iOS
 				//https://docs.unity3d.com/ScriptReference/Light-colorTemperature.html
 				l.colorTemperature = camera.lightData.arLightEstimate.ambientColorTemperature;
 
-                RenderSettings.ambientLight = RenderSettings.ambientLight * (camera.lightData.arLightEstimate.ambientIntensity * 0.18f);
+                RenderSettings.ambientLight = Color.gray * (camera.lightData.arLightEstimate.ambientIntensity * 0.15f);
 			}
 		}
 

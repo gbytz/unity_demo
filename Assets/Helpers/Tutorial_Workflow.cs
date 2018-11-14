@@ -74,7 +74,10 @@ public class Tutorial_Workflow : MonoBehaviour
 
         currentStep = currentStep++;
 
-        switch (currentStep){
+        BackgroundPanel.SetActive(true);
+
+        switch (currentStep)
+        {
 
             case Step.PlaceObjectPanel:
                 imagePanels[currentPanel].SetActive(false);
@@ -95,10 +98,7 @@ public class Tutorial_Workflow : MonoBehaviour
                 ux_workflow.CompleteTutorial();
                 break;
         }
-
-        BackgroundPanel.SetActive(true);
     }
-
     public void ShowSurfaceTip(){
         if(foundSurface){
             return;
