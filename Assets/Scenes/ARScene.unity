@@ -2159,7 +2159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9cc10b4974c74751aff4ba98b6d2473, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DeveloperKey: AKIAIYDZLJ4X3OKGWJYQqqmwa38QsEuNHFL2W9iWp6JdJmoWYLmiKzzinfCd
+  DeveloperKey: 
   Mode: 0
 --- !u!4 &383602615
 Transform:
