@@ -61,7 +61,7 @@ public class TutorialManager : MonoBehaviour {
             imagePanels[++currentImage].SetActive(true);
             if(_elipseAnimator)
                 _elipseAnimator.SetTrigger("Animate");
-            Invoke("NextStep", 5.0f);
+            Invoke("NextStep", 2.0f);
         }
     }
 

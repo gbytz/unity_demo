@@ -210,7 +210,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &503312904
 RectTransform:
   m_ObjectHideFlags: 0
@@ -432,6 +432,11 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 685030448}
   m_CullTransparentMesh: 0
+--- !u!1 &704065191 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1862776777579910, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
+    type: 2}
+  m_PrefabInternal: {fileID: 1731668818}
 --- !u!1 &743859880
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,7 +600,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &793114129
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1130,6 +1135,7 @@ MonoBehaviour:
   - {fileID: 503312903}
   - {fileID: 793114128}
   - {fileID: 1388786054}
+  - {fileID: 704065191}
   - {fileID: 1900906206}
   _elipseAnimator: {fileID: 743859882}
 --- !u!1 &1262504015
@@ -1379,7 +1385,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1388786055
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1551,6 +1557,10 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1489709014057554, guid: d73d1b2b4752d4477a8eb11ae38aaf82, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d73d1b2b4752d4477a8eb11ae38aaf82, type: 2}
@@ -1908,7 +1918,7 @@ Prefab:
         type: 3}
     - target: {fileID: 1862776777579910, guid: ef28c7e90bb1a4d17897cc9cc64b66eb, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
@@ -2340,7 +2350,7 @@ Prefab:
         type: 3}
     - target: {fileID: 1862776777579910, guid: ef28c7e90bb1a4d17897cc9cc64b66eb, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}

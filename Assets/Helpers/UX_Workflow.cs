@@ -153,7 +153,6 @@ public class UX_Workflow : MonoBehaviour {
 
     public void ToggleHelpPanel(){
         helpPanel.SetActive(!helpPanel.activeSelf);
-        tutorial.gameObject.SetActive(!helpPanel.activeSelf);
     }
 
     public void SendFeedback(){
@@ -358,7 +357,6 @@ public class UX_Workflow : MonoBehaviour {
     {
         notification.text = message;
         notificationPanel.SetActive(true);
-
         Invoke("ToastOff", time);
     }
 

@@ -41,6 +41,8 @@ public class ProgressBarAnimated : MonoBehaviour {
     {
         _progressBarImage.fillAmount = Mathf.Lerp(_progressBarImage.fillAmount, _targetFillAmount, 5.0f * Time.deltaTime);
 
+        DoubleCheckForLowerProgressDots();
+
         if (TargetProgress == 1)
         {
             _targetFillAmount = 0.235f;
@@ -84,6 +86,21 @@ public class ProgressBarAnimated : MonoBehaviour {
                 ProgressionMarkers[3].color = colors[4];
             }
             //_progressBarImage.color = colors[4];
+        }
+    }
+
+    void DoubleCheckForLowerProgressDots ()
+    {
+
+        for (int i = 0; i < ProgressionMarkers.Count; i++)
+        {
+            if (i < TargetProgress)
+            {
+                ProgressionMarkers[i].gameObject.SetActive(true);
+                ProgressionMarkers[i].color = colors[i + 1];
+            }
+
+
         }
     }
 }

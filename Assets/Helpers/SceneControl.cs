@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class SceneControl : MonoBehaviour {
 
-    public List<GameObject> prefabs;
+    public List<GameObject> ObjectToSpawn;
     private List<GameObject> sceneAssets = new List<GameObject>();
 
 	private MapSession mapSession;
@@ -19,7 +19,7 @@ public class SceneControl : MonoBehaviour {
     private UX_Workflow ux_workflow;
     public string mapID = "";
 
-    public GameObject progressPanel;
+    //public GameObject progressPanel; Replaced by the animated version
     public GameObject progressPanelAnimated;
 
     private bool initialized = false;
@@ -152,7 +152,7 @@ public class SceneControl : MonoBehaviour {
             progress = 4;
         }
 
-        progressPanel.GetComponent<ProgressBar>().AddProgress(progress);
+        //progressPanel.GetComponent<ProgressBar>().AddProgress(progress);
         progressPanelAnimated.GetComponent<ProgressBarAnimated>().AddProgress(progress);
         ux_workflow.IncrementProgress(progress);
     }
@@ -166,7 +166,7 @@ public class SceneControl : MonoBehaviour {
     private GameObject GetPrefab(string prefabName)
     {
         Debug.Log("Looking for a " + prefabName);
-        foreach (GameObject prefab in prefabs)
+        foreach (GameObject prefab in ObjectToSpawn)
         {
             string[] nameSplit = prefabName.Split('('); //prefabName = Type(Clone)#ID
             if (prefab.name == nameSplit[0])
@@ -176,7 +176,7 @@ public class SceneControl : MonoBehaviour {
         }
 
         Debug.Log("Could not find correct prefab");
-        return prefabs[0];
+        return ObjectToSpawn[0];
     }
 
     private GameObject IsThisALoadedAsset(MapAsset asset)
