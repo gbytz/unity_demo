@@ -83,7 +83,7 @@ public class ReloadSceneManager : MonoBehaviour {
         if(mapID != ""){
             ReloadOldPanel.SetActive(true);
         } else {
-            ReloadNewPanel.SetActive(true);
+            ShowReloadNewPanel();
         }
 
         ShowDimmer();
@@ -93,6 +93,7 @@ public class ReloadSceneManager : MonoBehaviour {
         ReloadOldPanel.SetActive(false);
         ReloadNewPanel.SetActive(true);
 
+        HideDimmer();
         ShowDimmer();
     }
 

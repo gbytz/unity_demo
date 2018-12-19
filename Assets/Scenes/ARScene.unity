@@ -381,7 +381,7 @@ MonoBehaviour:
     m_LineSpacing: 1.1
   m_Text: 'GREAT JOB!
 
-    now use the "+" button below to place a character in your scene'
+    Now use the "+" button below to place a character in your scene.'
 --- !u!222 &20377037
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5016,9 +5016,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.1
-  m_Text: "to reload your scene, scan your surroundings again \nNOTE: your result
-    will continue to update and improve as you get the progress bar to green, so keep
-    scanning!"
+  m_Text: 'To reload your scene, scan your surroundings again.
+
+
+    Your scene may adjust as your mapping improves, keep scanning until it''s stable!'
 --- !u!222 &1093167337
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6379,8 +6380,8 @@ MonoBehaviour:
     m_LineSpacing: 1.1
   m_Text: 'SOMETHING NOT WORKING?
 
-    you can tap the button below to automagically send us a note and we will help
-    you out. or you can just start the tutorial again.'
+    You can tap the button below to automagically send us a note and we will help
+    you out. Or you can just start the tutorial again.'
 --- !u!222 &1382655341
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6736,8 +6737,8 @@ MonoBehaviour:
     m_LineSpacing: 1.1
   m_Text: 'GETTING STARTED
 
-    start by pointing your phone to the floor and scanning side-to-side until the
-    dotted circle turns solid'
+    Point your phone to the floor and scan side-to-side until the dotted circle turns
+    solid.'
 --- !u!222 &1460404459
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9164,11 +9165,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.1
-  m_Text: 'PERFECT! continue scanning your surroundings (up, down, all around) until
-    the bar turns green.
-
-
-    you can add more characters around your space, too'
+  m_Text: "PERFECT! \nContinue to scan your surroundings (up, down, all around) until
+    the bar turns green.\n\nYou can add more objects around your space, too."
 --- !u!222 &1978185233
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9817,8 +9815,8 @@ MonoBehaviour:
     m_LineSpacing: 1.1
   m_Text: 'HAVING TROUBLE?
 
-    for best results make sure you are in a well-lit place and that you are moving
-    the phone slowly'
+    For best results make sure you are in a well-lit place and that you are moving
+    the phone slowly.'
 --- !u!222 &2120041001
 CanvasRenderer:
   m_ObjectHideFlags: 0

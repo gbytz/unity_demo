@@ -432,11 +432,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 685030448}
   m_CullTransparentMesh: 0
---- !u!1 &704065191 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1862776777579910, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
-    type: 2}
-  m_PrefabInternal: {fileID: 1731668818}
 --- !u!1 &743859880
 GameObject:
   m_ObjectHideFlags: 0
@@ -471,6 +466,7 @@ RectTransform:
   - {fileID: 48670637}
   - {fileID: 2002651562}
   - {fileID: 752883327}
+  - {fileID: 2059648231}
   m_Father: {fileID: 1792499766}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1135,8 +1131,7 @@ MonoBehaviour:
   - {fileID: 503312903}
   - {fileID: 793114128}
   - {fileID: 1388786054}
-  - {fileID: 704065191}
-  - {fileID: 1900906206}
+  - {fileID: 2059648230}
   _elipseAnimator: {fileID: 743859882}
 --- !u!1 &1262504015
 GameObject:
@@ -1357,8 +1352,8 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1.1
   m_Text: "Now it\u2019s time to reload your scene. Thoroughly scan your surroundings
-    to ensure your characters show up exactly where you left them. Note that your
-    result will continue to update as your scan improves.  "
+    to ensure your characters can reload. Note that your result will continue to update
+    as you scan. "
 --- !u!222 &1376852881
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1792,7 +1787,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1792499766}
+    m_TransformParent: {fileID: 2059648231}
     m_Modifications:
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
@@ -1832,17 +1827,17 @@ Prefab:
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: -310
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 176.00003
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
@@ -1918,22 +1913,22 @@ Prefab:
         type: 3}
     - target: {fileID: 1862776777579910, guid: ef28c7e90bb1a4d17897cc9cc64b66eb, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
       propertyPath: m_LocalScale.x
-      value: 1.000002
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
       propertyPath: m_LocalScale.y
-      value: 1.000002
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
       propertyPath: m_LocalScale.z
-      value: 1.000002
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114248375821233948, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
@@ -2053,8 +2048,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 743859881}
-  - {fileID: 1731668819}
-  - {fileID: 1900906207}
   m_Father: {fileID: 1153992954}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2143,11 +2136,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1892704305}
   m_CullTransparentMesh: 0
---- !u!1 &1900906206 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1862776777579910, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
-    type: 2}
-  m_PrefabInternal: {fileID: 1915849537}
 --- !u!224 &1900906207 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
@@ -2224,7 +2212,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1792499766}
+    m_TransformParent: {fileID: 2059648231}
     m_Modifications:
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
@@ -2264,17 +2252,17 @@ Prefab:
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 288
+      value: 598
       objectReference: {fileID: 0}
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 176
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
@@ -2350,7 +2338,7 @@ Prefab:
         type: 3}
     - target: {fileID: 1862776777579910, guid: ef28c7e90bb1a4d17897cc9cc64b66eb, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224377435925803106, guid: ef28c7e90bb1a4d17897cc9cc64b66eb,
         type: 2}
@@ -2524,3 +2512,38 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2002651561}
   m_CullTransparentMesh: 0
+--- !u!1 &2059648230
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2059648231}
+  m_Layer: 5
+  m_Name: Buttons
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &2059648231
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2059648230}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1731668819}
+  - {fileID: 1900906207}
+  m_Father: {fileID: 743859881}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -310, y: -824.4999}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}

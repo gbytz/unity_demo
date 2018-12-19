@@ -2794,7 +2794,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 'If you have already saved a scene, you should have received a 4 digit "scene
-    ID" like the one at the top of this screen.
+    ID" like the one at the bottom of this screen.
 
 
     If you are still confused, you can contact us or just restart the tutorial.
@@ -4036,9 +4036,15 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Hope you enjoyed the demo!\n\nWe would love to hear your thoughts on\nour
-    persistence capability.\n\nTap below to automagically share your \nfeedback or
-    email us at feedback@jidomaps.com"
+  m_Text: 'Hope you enjoyed the demo!
+
+
+    We would love to hear your thoughts on
+
+    our persistence capability.
+
+
+    Tap below to automagically share feedback or email us at info@jidomaps.com'
 --- !u!222 &2025125524
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -98,7 +98,7 @@ public class UX_Workflow : MonoBehaviour {
                 switch (tutorialWorkflowDone)
                 {
                     case false:
-                        exitPanelText.text = "You still need to scan the space to save your scene. Are you sure you want to quit?";
+                        exitPanelText.text = "You still need to scan the space to reload your scene. Are you sure you want to quit?";
                         exitPanel.SetActive(true);
                         break;
 
@@ -176,6 +176,15 @@ public class UX_Workflow : MonoBehaviour {
         tutorial.placedObjectFlag = true;
     }
 
+    public void ObjectReloaded()
+    {
+        objectReloaded = true;
+        if(!tutorialWorkflowDone){
+            tutorial.NextStep();
+        }
+        Toast("Your scene has been found! If you are happy with your result press the arrow below, otherwise keep scanning and your result will continue to improve. ", 5.0f);
+
+    }
     public void CompleteTutorial()
     {
         tutorialWorkflowDone = true;

@@ -115,9 +115,20 @@ public class SceneControl : MonoBehaviour {
 		
         if (isLoaded != null)
         {
+            if(mapSession.Mode == MapMode.MapModeLocalization){
+                print("Updated asset in :" + mapSession.Mode.ToString());
+                if (Vector3.Distance(isLoaded.transform.position, mapAsset.Position) > 1f)
+                {
+                    ux_workflow.Toast("Your scene was updated. This update should be an improvement, but you may need to keep scanning until your relocalization is completed.", 3.0f);
+                }
+                else
+                {
+                    ux_workflow.Toast("Your result was updated.", 3.0f);
+                }
+            }
+
             isLoaded.transform.position = mapAsset.Position;
 			isLoaded.transform.rotation = Quaternion.Euler(0, mapAsset.Orientation, 0);
-            ux_workflow.Toast("Your result was updated.", 3.0f);
             return;
         }
 
@@ -135,8 +146,7 @@ public class SceneControl : MonoBehaviour {
         if(!found){
             found = true;
             print("scene found");
-            ux_workflow.Toast("Your scene has been found! If you are happy with your result press the arrow below, otherwise your result will continue to improve as your bar turns green. ", 5.0f);
-            ux_workflow.objectReloaded = true;
+            ux_workflow.ObjectReloaded();
         } 
 
 

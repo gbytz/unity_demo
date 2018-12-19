@@ -1551,7 +1551,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.1
-  m_Text: "SCAN\nwhen prompted, you will need to map your space. Make sure that you
+  m_Text: "SCAN\nWhen prompted, you will need to map your space. Make sure that you
     slowly walk around and \u201Cshow\u201D your phone your surroundings by scanning
     your phone from the floor to eye height."
 --- !u!222 &1376852881
@@ -2086,7 +2086,7 @@ MonoBehaviour:
     m_LineSpacing: 1.1
   m_Text: 'FILL THE BAR
 
-    for best results, continue scanning until your progress bar fills all the way
+    For best results, continue scanning until your progress bar fills all the way
     up!'
 --- !u!222 &1892704308
 CanvasRenderer:
