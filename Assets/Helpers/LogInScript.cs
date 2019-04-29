@@ -9,7 +9,8 @@ using UnityEngine.UI;
 /// </summary>
 public class LogInScript : MonoBehaviour {
 	public InputField MapID;
-	public bool IsMappingMode;
+    public InputField UserID;
+    public bool IsMappingMode;
 
 	private const string UserIDKey = "UserID";
 	private const string MapIDKey = "MapID";
@@ -23,7 +24,12 @@ public class LogInScript : MonoBehaviour {
 		if (PlayerPrefs.HasKey (MapIDKey)) {
 			MapID.text = PlayerPrefs.GetString (MapIDKey);
 		}
-	}
+
+        if (PlayerPrefs.HasKey(UserIDKey))
+        {
+            UserID.text = PlayerPrefs.GetString(UserIDKey);
+        }
+    }
 
 	public void StartNew() {
 		if (string.IsNullOrEmpty (MapID.text)) {
@@ -45,9 +51,10 @@ public class LogInScript : MonoBehaviour {
 
 	private void LoadNextScene() {
 		PlayerPrefs.SetInt ("IsMappingMode", IsMappingMode ? 1 : 0);
-		PlayerPrefs.SetString (MapIDKey, MapID.text);
-        PlayerPrefs.SetString (UserIDKey, defaultUserID);
 
-		SceneManager.LoadSceneAsync ("ARScene");
+        PlayerPrefs.SetString(MapIDKey, MapID.text);
+        PlayerPrefs.SetString(UserIDKey, UserID.text);
+
+        SceneManager.LoadSceneAsync ("ARScene");
 	}
 }

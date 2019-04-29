@@ -125,22 +125,15 @@ public class SceneControl : MonoBehaviour {
 
 	}
 
-    public void LoadAsset(MapAsset mapAsset){
-        GameObject isLoaded = IsThisALoadedAsset(mapAsset);
-		
-        if (isLoaded != null)
-        {
-            isLoaded.transform.position = mapAsset.Position;
-			isLoaded.transform.rotation = Quaternion.Euler(0, mapAsset.Orientation, 0);
-            return;
-        }
+    private static int assetCounter = 0;
 
+    public void LoadAsset(MapAsset mapAsset) {
         Vector3 position = new Vector3(mapAsset.X, mapAsset.Y, mapAsset.Z);
 		Quaternion orientation = Quaternion.Euler(0, mapAsset.Orientation, 0);
 		Debug.Log (orientation.eulerAngles);
 		Debug.Log ("Asset loaded: " + mapAsset.Orientation);
         GameObject instantiatedAsset = Instantiate(GetPrefab(mapAsset.AssetId), position, orientation);
-        instantiatedAsset.name = mapAsset.AssetId;
+        instantiatedAsset.name = mapAsset.AssetId + assetCounter;
         sceneAssets.Add(instantiatedAsset);
 		Debug.Log ("Asset instantiated: " + instantiatedAsset.transform.rotation.eulerAngles);
 
@@ -149,11 +142,7 @@ public class SceneControl : MonoBehaviour {
         if(!found){
             found = true;
             Toast("You found the scene!", 2.0f);
-            progressPanel.SetActive(false);
         }
-
-        addButton.SetActive(true);
-
     }
 
     //TODO: shut off in at 5. move to 5 on reload.
@@ -165,8 +154,6 @@ public class SceneControl : MonoBehaviour {
         if(progress > 4 && mapSession.Mode == MapMode.MapModeLocalization && !found){
             progress = 4;
         }
-
-        progressPanel.GetComponent<ProgressBar>().AddProgress(progress);
     }
 
     public void Back()
@@ -188,7 +175,7 @@ public class SceneControl : MonoBehaviour {
         }
 
         Debug.Log("Could not find correct prefab");
-        return prefabs[0];
+        return prefabs[assetCounter++ % prefabs.Count];
     }
 
     private GameObject IsThisALoadedAsset(MapAsset asset)

@@ -81,19 +81,21 @@ static NSString* objectDetectedCallback = @"";
         self.mapId = mapId;
         self.userId = userId;
         
-        self.jidoSession = [[JidoSession alloc] initWithArSession:self.session mapMode:mode userID:self.userId mapID:self.mapId developerKey:developerKey screenHeight:screenHeight screenWidth:screenWidth assetsFoundCallback:^(NSArray<MapAsset *> * assets) {
+        JidoSession.USE_BETA_ALGO = true;
+        
+        self.jidoSession= [[JidoSession alloc] initWithArSession:self.session mapMode:mode userID:self.userId mapID:self.mapId developerKey:developerKey screenHeight:screenHeight screenWidth:screenWidth assetsFoundCallback:^(NSArray<MapAsset *> * assets, NSArray<NSString *> * toDelete) {
             
             NSMutableArray *assetData = [[NSMutableArray alloc] init];
             for (MapAsset *asset in assets)
             {
-                NSArray *parts = [asset.matrix componentsSeparatedByString:@","];
-                float theta = RADIANS_TO_DEGREES([parts[3] floatValue]);
+                
                 NSDictionary* dict = [NSMutableDictionary dictionary];
                 [dict setValue:asset.assetID forKey:@"AssetId"];
                 [dict setValue:@(asset.position.x) forKey:@"X"];
                 [dict setValue:@(asset.position.y) forKey:@"Y"];
                 [dict setValue:@(asset.position.z* -1) forKey:@"Z"];
-                [dict setValue:@(asset.orientation - theta) forKey:@"Orientation"];
+                [dict setValue:@(asset.orientation) forKey:@"Orientation"];
+                [dict setValue:@(asset.assetScale) forKey:@"Scale"];
                 
                 [assetData addObject:dict];
             }
@@ -110,6 +112,8 @@ static NSString* objectDetectedCallback = @"";
             
             NSLog(@"%@", json);
             UnitySendMessage([unityCallbackGameObject cStringUsingEncoding:NSASCIIStringEncoding], [assetLoadedCallback cStringUsingEncoding:NSASCIIStringEncoding], [json cStringUsingEncoding:NSASCIIStringEncoding]);
+        } waypointsFoundCallback:^(NSArray<Waypoint *> * waypoints) {
+            
         } progressCallback:^(NSInteger progressCount) {
             NSLog(@"progress: %li", progressCount);
             UnitySendMessage([unityCallbackGameObject cStringUsingEncoding:NSASCIIStringEncoding], [progressCallback cStringUsingEncoding:NSASCIIStringEncoding], [[NSString stringWithFormat:@"%ld", (long)progressCount] cStringUsingEncoding:NSASCIIStringEncoding]);

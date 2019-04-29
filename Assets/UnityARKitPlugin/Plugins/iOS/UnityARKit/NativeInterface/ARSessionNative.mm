@@ -403,6 +403,8 @@ inline void UnityLightDataFromARFrame(UnityLightData& lightData, ARFrame *arFram
     UnityARImageAnchorData data;
     UnityARImageAnchorDataFromARImageAnchorPtr(data, (ARImageAnchor*)anchor);
     _anchorAddedCallback(data);
+    
+    [[JidoSessionWrapper sharedInstance] planeDetected:anchor];
 }
 
 -(void)sendAnchorRemovedEvent:(ARAnchor*)anchor
@@ -1246,7 +1248,7 @@ extern "C" void _SaveAssets(char* json)
         SCNVector3 position = SCNVector3Make([object[@"X"] floatValue], [object[@"Y"] floatValue], [object[@"Z"] floatValue]);
         CGFloat orientation = [object[@"Orientation"] floatValue];
         
-        MapAsset* asset = [[MapAsset alloc] init:assetId :position :orientation];
+        MapAsset* asset = [[MapAsset alloc] init:assetId :position :orientation: 1.0: assetId];
         [assets addObject:asset];
     }
     
