@@ -412,6 +412,8 @@ inline void UnityLightDataFromARFrame(UnityLightData& lightData, ARFrame *arFram
     UnityARImageAnchorData data;
     UnityARImageAnchorDataFromARImageAnchorPtr(data, (ARImageAnchor*)anchor);
     _anchorRemovedCallback(data);
+
+    [[JidoSessionWrapper sharedInstance] planeRemoved:anchor];
 }
 
 -(void)sendAnchorUpdatedEvent:(ARAnchor*)anchor
@@ -419,6 +421,8 @@ inline void UnityLightDataFromARFrame(UnityLightData& lightData, ARFrame *arFram
     UnityARImageAnchorData data;
     UnityARImageAnchorDataFromARImageAnchorPtr(data, (ARImageAnchor*)anchor);
     _anchorUpdatedCallback(data);
+
+    [[JidoSessionWrapper sharedInstance] planeUpdated:anchor];
 }
 
 @end

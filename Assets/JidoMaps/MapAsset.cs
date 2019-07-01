@@ -5,6 +5,7 @@ using System.Collections.Generic;
 [Serializable]
 public class MapAssets {
 	public List<MapAsset> Assets;
+	public string AnchorId;
 }
 
 [Serializable]

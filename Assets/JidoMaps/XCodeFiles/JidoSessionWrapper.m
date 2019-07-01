@@ -83,8 +83,8 @@ static NSString* objectDetectedCallback = @"";
         
         JidoSession.USE_BETA_ALGO = true;
         
-        self.jidoSession= [[JidoSession alloc] initWithArSession:self.session mapMode:mode userID:self.userId mapID:self.mapId developerKey:developerKey screenHeight:screenHeight screenWidth:screenWidth assetsFoundCallback:^(NSArray<MapAsset *> * assets, NSArray<NSString *> * toDelete) {
             
+        self.jidoSession= [[JidoSession alloc] initWithArSession:self.session mapMode:mode userID:self.userId mapID:self.mapId developerKey:developerKey screenHeight:screenHeight screenWidth:screenWidth assetsFoundCallback:^(NSArray<MapAsset *> * assets, NSArray<NSString *> * toDelete, NSString * anchorId) {
             NSMutableArray *assetData = [[NSMutableArray alloc] init];
             for (MapAsset *asset in assets)
             {
