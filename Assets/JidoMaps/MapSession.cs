@@ -14,7 +14,7 @@ public class MapSession : MonoBehaviour
     public delegate void StatusDelegate(MapStatus status);
     public StatusDelegate StatusChangedEvent;
 
-    public delegate void AssetDelegate(MapAsset asset);
+    public delegate void AssetDelegate(MapAssets asset);
     public AssetDelegate AssetLoadedEvent;
 
     public delegate void BoolDelegate(bool value);
@@ -58,10 +58,7 @@ public class MapSession : MonoBehaviour
     private void AssetReloaded(string assetJson)
     {
         MapAssets assets = JsonUtility.FromJson<MapAssets>(assetJson);
-        foreach (MapAsset asset in assets.Assets)
-        {
-            AssetLoadedEvent(asset);
-        }
+        AssetLoadedEvent(assets);
     }
 
     private void ObjectDetected(string objectJson)

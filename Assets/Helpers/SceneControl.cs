@@ -91,28 +91,6 @@ public class SceneControl : MonoBehaviour {
         Toast("Look around your space to turn the bar green...", 5.0f);
     }
 
-	// Placing new assets in the scene
-	public void PlaceAsset(String assetName) { 
-		//Only place asset if focused on a plane
-		if (focusSquare.SquareState != FocusSquare.FocusState.Found) {
-			Toast ("Find a surface to place animals.", 2.0f);
-			return;
-		}
-
-		//Instantiate prefab on focus square
-		Vector3 position = focusSquare.foundSquare.transform.position;
-        Vector3 targetPos = GameObject.Find("Main Camera").transform.position;
-		GameObject asset = Instantiate(GetPrefab(assetName), position, Quaternion.identity);
-        targetPos.y = asset.transform.position.y;
-        asset.transform.LookAt(targetPos);
-        asset.name = assetName + "(" + UnityEngine.Random.Range(0, 10000).ToString();
-        sceneAssets.Add(asset);
-        Animate(asset, "Failure");
-
-        SaveAssets();
-
-	}
-
 	//Saving assets using the MapSession
     public void SaveAssets() {
         List<MapAsset> mapAssets = new List<MapAsset>();
@@ -127,21 +105,32 @@ public class SceneControl : MonoBehaviour {
 
     private static int assetCounter = 0;
 
-    public void LoadAsset(MapAsset mapAsset) {
-        Vector3 position = new Vector3(mapAsset.X, mapAsset.Y, mapAsset.Z);
-		Quaternion orientation = Quaternion.Euler(0, mapAsset.Orientation, 0);
-		Debug.Log (orientation.eulerAngles);
-		Debug.Log ("Asset loaded: " + mapAsset.Orientation);
-        GameObject instantiatedAsset = Instantiate(GetPrefab(mapAsset.AssetId), position, orientation);
-        instantiatedAsset.name = mapAsset.AssetId + assetCounter;
-        sceneAssets.Add(instantiatedAsset);
-		Debug.Log ("Asset instantiated: " + instantiatedAsset.transform.rotation.eulerAngles);
+    public void LoadAsset(MapAssets mapAssets) {
+        foreach(GameObject gameObject in this.sceneAssets)
+        {
+            Destroy(gameObject);
+        }
 
-        Animate(instantiatedAsset, "Success");
+        this.sceneAssets.Clear();
 
-        if(!found){
-            found = true;
-            Toast("You found the scene!", 2.0f);
+        foreach (MapAsset mapAsset in mapAssets.Assets)
+        {
+            Vector3 position = new Vector3(mapAsset.X, mapAsset.Y, mapAsset.Z);
+            Quaternion orientation = Quaternion.Euler(0, mapAsset.Orientation, 0);
+            Debug.Log(orientation.eulerAngles);
+            Debug.Log("Asset loaded: " + mapAsset.Orientation);
+            GameObject instantiatedAsset = Instantiate(GetPrefab(mapAsset.AssetId), position, orientation);
+            instantiatedAsset.name = mapAsset.AssetId + assetCounter;
+            sceneAssets.Add(instantiatedAsset);
+            Debug.Log("Asset instantiated: " + instantiatedAsset.transform.rotation.eulerAngles);
+
+            Animate(instantiatedAsset, "Success");
+
+            if (!found)
+            {
+                found = true;
+                Toast("You found the scene!", 2.0f);
+            }
         }
     }
 
@@ -176,19 +165,6 @@ public class SceneControl : MonoBehaviour {
 
         Debug.Log("Could not find correct prefab");
         return prefabs[assetCounter++ % prefabs.Count];
-    }
-
-    private GameObject IsThisALoadedAsset(MapAsset asset)
-    {
-        foreach (var sceneAsset in sceneAssets)
-        {
-            if (asset.AssetId == sceneAsset.name)
-            {
-                return sceneAsset;
-            }
-        }
-
-        return null;
     }
 
     private void Animate(GameObject character, string triggerName)

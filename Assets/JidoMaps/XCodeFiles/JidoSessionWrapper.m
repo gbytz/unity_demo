@@ -52,7 +52,7 @@ static NSString* objectDetectedCallback = @"";
 + (instancetype)sharedInstanceWithARSession:(ARSession *)session mapMode:(Mode)mode mapId: (NSString*) mapId userId:(NSString*) userId developerKey: (NSString*) developerKey screenHeight: (float)screenHeight screenWidth: (float)screenWidth;
 {
     instance = [[self alloc] initWithARSession:session mapMode:mode mapId:mapId userId:userId developerKey:developerKey screenHeight:screenHeight screenWidth:screenWidth];
-    
+
     return instance;
 }
 
@@ -62,7 +62,7 @@ static NSString* objectDetectedCallback = @"";
     {
         NSLog(@"error: shared called before setup");
     }
-    
+
     return instance;
 }
 
@@ -80,15 +80,15 @@ static NSString* objectDetectedCallback = @"";
         self.mode = mode;
         self.mapId = mapId;
         self.userId = userId;
-        
+
         JidoSession.USE_BETA_ALGO = true;
-        
-            
+
+
         self.jidoSession= [[JidoSession alloc] initWithArSession:self.session mapMode:mode userID:self.userId mapID:self.mapId developerKey:developerKey screenHeight:screenHeight screenWidth:screenWidth assetsFoundCallback:^(NSArray<MapAsset *> * assets, NSArray<NSString *> * toDelete, NSString * anchorId) {
             NSMutableArray *assetData = [[NSMutableArray alloc] init];
             for (MapAsset *asset in assets)
             {
-                
+
                 NSDictionary* dict = [NSMutableDictionary dictionary];
                 [dict setValue:asset.assetID forKey:@"AssetId"];
                 [dict setValue:@(asset.position.x) forKey:@"X"];
@@ -96,24 +96,25 @@ static NSString* objectDetectedCallback = @"";
                 [dict setValue:@(asset.position.z* -1) forKey:@"Z"];
                 [dict setValue:@(asset.orientation) forKey:@"Orientation"];
                 [dict setValue:@(asset.assetScale) forKey:@"Scale"];
-                
+
                 [assetData addObject:dict];
             }
-            
+
             NSDictionary* assetsDict = [NSMutableDictionary dictionary];
             [assetsDict setValue:assetData forKey:@"Assets"];
-            
+            [assetsDict setValue:anchorId forKey:@"AnchorId"];
+
             NSError* error;
-            
+
             NSData* jsonData = [NSJSONSerialization dataWithJSONObject:assetsDict
                                                                options:NSJSONWritingPrettyPrinted error:&error];
-            
+
             NSString* json = [[NSString alloc] initWithData:jsonData encoding:NSASCIIStringEncoding];
-            
+
             NSLog(@"%@", json);
             UnitySendMessage([unityCallbackGameObject cStringUsingEncoding:NSASCIIStringEncoding], [assetLoadedCallback cStringUsingEncoding:NSASCIIStringEncoding], [json cStringUsingEncoding:NSASCIIStringEncoding]);
         } waypointsFoundCallback:^(NSArray<Waypoint *> * waypoints) {
-            
+
         } progressCallback:^(NSInteger progressCount) {
             NSLog(@"progress: %li", progressCount);
             UnitySendMessage([unityCallbackGameObject cStringUsingEncoding:NSASCIIStringEncoding], [progressCallback cStringUsingEncoding:NSASCIIStringEncoding], [[NSString stringWithFormat:@"%ld", (long)progressCount] cStringUsingEncoding:NSASCIIStringEncoding]);
@@ -139,27 +140,27 @@ static NSString* objectDetectedCallback = @"";
                 [dict setValue:@(detectedObject.confidence) forKey:@"Confidence"];
                 [detectedObjectData addObject:dict];
             }
-            
+
             if([detectedObjectData count] == 0) {
                 return;
             }
-            
+
             NSDictionary* objectsDict = [NSMutableDictionary dictionary];
             [objectsDict setValue:detectedObjectData forKey:@"Objects"];
-            
+
             NSError* error;
             NSData* jsonData = [NSJSONSerialization dataWithJSONObject:objectsDict options:NSJSONWritingPrettyPrinted error:&error];
             NSString* json = [[NSString alloc] initWithData:jsonData encoding:NSASCIIStringEncoding];
-            
+
             UnitySendMessage([unityCallbackGameObject cStringUsingEncoding:NSASCIIStringEncoding], [objectDetectedCallback cStringUsingEncoding:NSASCIIStringEncoding], [json cStringUsingEncoding:NSASCIIStringEncoding]);
         }];
     }
-    
+
     return self;
 }
 
 - (void)uploadAssets:(NSArray*)array {
-    
+
     BOOL result = [self.jidoSession storePlacementWithAssets:array callback:^(BOOL stored)
                    {
                        NSLog(@"model stored: %i", stored);

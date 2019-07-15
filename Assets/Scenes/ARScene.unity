@@ -1066,7 +1066,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DeveloperKey: 
-  Mode: 0
+  Mode: 1
 --- !u!4 &383602615
 Transform:
   m_ObjectHideFlags: 0
