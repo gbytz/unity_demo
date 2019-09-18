@@ -63,6 +63,7 @@ public class MapSession : MonoBehaviour
 
     private void ObjectDetected(string objectJson)
     {
+        print($"Object detected1 {objectJson}");
         DetectedObjects detectedObjects = JsonUtility.FromJson<DetectedObjects>(objectJson);
         foreach (DetectedObject obj in detectedObjects.Objects)
         {

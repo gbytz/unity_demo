@@ -14,6 +14,11 @@ public class SceneControl : MonoBehaviour {
     public List<GameObject> prefabs;
     private List<GameObject> sceneAssets = new List<GameObject>();
 
+    public GameObject BoundsPrefab;
+
+    private Dictionary<int, GameObject> addedGameObjects = new Dictionary<int, GameObject>();
+    
+
 	public Text notification;
     public GameObject addButton;
 
@@ -56,7 +61,30 @@ public class SceneControl : MonoBehaviour {
         mapSession.AssetLoadedEvent += LoadAsset;
 
         mapSession.ObjectDetectedEvent += detectedObject => {
-            Debug.Log("Detected " + detectedObject.Name);
+
+            Debug.Log($"Detected {detectedObject.Name} {detectedObject.Confidence}");
+
+            var position = detectedObject.Position;
+
+
+            if (detectedObject.Confidence > 0.6)
+            {
+
+                this.BoundsPrefab.transform.position = position;
+                this.BoundsPrefab.transform.transform.localScale = new Vector3(detectedObject.Width, detectedObject.Height, detectedObject.Depth);
+                this.BoundsPrefab.transform.rotation = Quaternion.Euler(0.0f, (float)(detectedObject.Orientation * 180.0f/Math.PI), 0.0f);
+
+                GameObject resolvedGO;
+                if(this.addedGameObjects.TryGetValue(detectedObject.Id, out resolvedGO))
+                {
+                    Destroy(resolvedGO);
+                }
+
+                this.addedGameObjects[detectedObject.Id] = Instantiate(this.BoundsPrefab);
+                
+
+                Debug.Log("Setting the position!!");
+            }
         };
 
         mapSession.ProgressIncrementedEvent += ProgressIncrement;
