@@ -14,12 +14,14 @@ public class SceneControl : MonoBehaviour {
     public List<GameObject> prefabs;
     private List<GameObject> sceneAssets = new List<GameObject>();
 
-    public GameObject BoundsPrefab;
+    public GameObject boundsPrefab;
+    public GameObject bubblePrefab;
 
-    private Dictionary<int, GameObject> addedGameObjects = new Dictionary<int, GameObject>();
-    
+    private Dictionary<int, GameObject> objectBounds = new Dictionary<int, GameObject>();
+    private Dictionary<int, GameObject> objectBubbles = new Dictionary<int, GameObject>();
 
-	public Text notification;
+
+    public Text notification;
     public GameObject addButton;
 
 	private MapSession mapSession;
@@ -64,24 +66,39 @@ public class SceneControl : MonoBehaviour {
 
             Debug.Log($"Detected {detectedObject.Name} {detectedObject.Confidence}");
 
-            var position = detectedObject.Position;
+            var detectedObjectPosition = detectedObject.Position;
 
 
             if (detectedObject.Confidence > 0.6)
             {
 
-                this.BoundsPrefab.transform.position = position;
-                this.BoundsPrefab.transform.transform.localScale = new Vector3(detectedObject.Width, detectedObject.Height, detectedObject.Depth);
-                this.BoundsPrefab.transform.rotation = Quaternion.Euler(0.0f, (float)(detectedObject.Orientation * 180.0f/Math.PI), 0.0f);
+                this.boundsPrefab.transform.position = detectedObjectPosition + new Vector3(0f, detectedObject.Height / 2.0f, 0f);
+                this.boundsPrefab.transform.transform.localScale = new Vector3(detectedObject.Width, detectedObject.Height, detectedObject.Depth);
+                this.boundsPrefab.transform.rotation = Quaternion.Euler(0.0f, (float)(detectedObject.Orientation * 180.0f/Math.PI), 0.0f);
 
                 GameObject resolvedGO;
-                if(this.addedGameObjects.TryGetValue(detectedObject.Id, out resolvedGO))
+                if(this.objectBounds.TryGetValue(detectedObject.Id, out resolvedGO))
                 {
                     Destroy(resolvedGO);
                 }
 
-                this.addedGameObjects[detectedObject.Id] = Instantiate(this.BoundsPrefab);
+                var boundingBox = Instantiate(this.boundsPrefab);
+                this.objectBounds[detectedObject.Id] = boundingBox;
+
+
+                var myBubble = Instantiate(bubblePrefab);
+                myBubble.GetComponent<BubblePhysics>().Setup(boundingBox);
+
+                myBubble.transform.position = boundingBox.transform.position + new Vector3(0f, boundingBox.transform.localScale.y / 2.0f, 0f);
+
+
+                if (this.objectBubbles.TryGetValue(detectedObject.Id, out resolvedGO))
+                {
+                    Destroy(resolvedGO);
+                }
+
                 
+                this.objectBubbles[detectedObject.Id] = boundingBox;
 
                 Debug.Log("Setting the position!!");
             }
