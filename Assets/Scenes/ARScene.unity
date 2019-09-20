@@ -1089,7 +1089,9 @@ MonoBehaviour:
   - {fileID: 1375146643985954, guid: d14d9b7f4677449dbadd2b236d0e50eb, type: 3}
   - {fileID: 1998017496582780, guid: f6bc94168479f4c79a80a5a0d3450ed2, type: 3}
   - {fileID: 1772545238970760, guid: 9db95ebec1729470f91b79d149973c46, type: 3}
-  BoundsPrefab: {fileID: 0}
+  boundsPrefab: {fileID: 195948981}
+  bubblePrefab: {fileID: 7498087883574572199, guid: 6c24a28a00f234de8a647dd9d31110b9,
+    type: 3}
   notification: {fileID: 207826154}
   addButton: {fileID: 30735403}
   progressPanel: {fileID: 0}
